@@ -16,6 +16,45 @@ on the `old-yaprnn` branch in this repository.
 * Have a Java 21+ distribution installed, e.g. [Eclipse Adoptium](https://adoptium.net/).
 * Exec `gradlew run` on a terminal to run the java application.
 
+###                           
+
+### Load samples
+
+### Create training set
+
+### Create network template
+
+### Create network
+
+### Train network
+
+### Classify
+
+## Organization of the Code
+
+The app is divided into two sets of packages. Most of it is for the GUI, found
+in `gui`, `events`, `model`, and `support`. If you're interested in the MLN code, check out
+the `networks` package and the related `functions`, `samples`, and `training` packages.
+
+```mermaid
+C4Component
+    title edu.yaprnn
+
+    Container_Boundary(yaprnn_mln, "edu.yaprnn Multilayer Networks") {
+        Component(networks, "Networks", "edu.yaprnn.networks", "Creates and trains multilayer networks.")
+        Component(functions, "Activation Functions", "edu.yaprnn.functions", "Provides activation functions.")
+        Component(samples, "Samples", "edu.yaprnn.samples", "Provides samples and labels for classification.")
+        Component(training, "Training", "edu.yaprnn.training", "Organizes samples into training and test lists.")
+    }
+
+    Container_Boundary(yaprnn_gui, "edu.yaprnn GUI") {
+        Component(gui, "GUI", "edu.yaprnn.gui", "The editor and training tool for multilayer networks.")
+        Component(events, "Events", "edu.yaprnn.events", "Handles app events for the GUI.")
+        Component(model, "Model", "edu.yaprnn.model", "Manages samples, training lists, network templates, and networks.")
+        Component(support, "Support", "edu.yaprnn.support", "Includes configuration and utility tools.")
+    }
+```
+
 ## License and attributions
 
 `edu.yaprnn` is published
