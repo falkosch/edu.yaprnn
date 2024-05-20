@@ -19,6 +19,7 @@ ext {
 }
 dependencies {
     implementation "com.github.wendykierp:JTransforms:${jtransformsVersion}"
+    implementation 'org.jfree:jcommon:1.0.24'
     implementation "org.jfree:jfreechart:${jfreeChartVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -36,6 +37,7 @@ dependencies {
 
 application {
     applicationDefaultJvmArgs = ['-XX:+UseZGC']
+    mainClass = 'yaprnn.Main'
 }
 sourceSets {
     main {
