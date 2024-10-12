@@ -16,7 +16,7 @@ on the `old-yaprnn` branch in this repository.
 * Have a Java 21+ distribution installed, e.g. [Eclipse Adoptium](https://adoptium.net/).
 * Exec `gradlew run` on a terminal to run the java application.
 
-###                           
+###                                
 
 ### Load samples
 
