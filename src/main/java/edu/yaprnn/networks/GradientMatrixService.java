@@ -8,6 +8,7 @@ import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 @Singleton
 public class GradientMatrixService {
@@ -25,48 +26,26 @@ public class GradientMatrixService {
     assert layerSizes.length == activationFunctions.length;
 
     var newLayerWeights = zeroMatrices(layerSizes);
-    for (var lw = 0; lw < newLayerWeights.length; lw++) {
-      newLayerWeights[lw] = activationFunctions[lw].randomWeights(random,
-          newLayerWeights[lw].length, layerSizes[lw + 1]);
-    }
+    Arrays.setAll(newLayerWeights,
+        i -> activationFunctions[i].randomWeights(random, newLayerWeights[i].length,
+            layerSizes[i + 1]));
     return newLayerWeights;
   }
 
   public float[][] zeroMatrices(int[] layerSizes) {
-    var matrices = new float[layerSizes.length - 1][];
-    for (var lw = 0; lw < matrices.length; lw++) {
-      matrices[lw] = zeroMatrix(layerSizes[lw], layerSizes[lw + 1]);
-    }
-    return matrices;
+    // layerSizes[i] + 1 -> adding bias weights to input size
+    return IntStream.range(0, layerSizes.length - 1)
+        .mapToObj(i -> new float[(layerSizes[i] + 1) * layerSizes[i + 1]]).toArray(float[][]::new);
   }
 
-  private float[] zeroMatrix(int inputSize, int outputSize) {
-    // adding bias weights to input size
-    return new float[(inputSize + 1) * outputSize];
+  public float[][] copyMatrices(float[][] source) {
+    return Arrays.stream(source).map(float[]::clone).toArray(float[][]::new);
   }
 
-  public float[][] sumGradients(float[][] left, float[][] right) {
-    assert left.length == right.length;
-
-    var leftResult = copyMatrices(left);
-    for (var lw = 0; lw < leftResult.length; lw++) {
-      var leftGradients = leftResult[lw];
-      var rightGradients = right[lw];
-
-      assert leftGradients.length == rightGradients.length;
-      for (var i = 0; i < leftGradients.length; i++) {
-        leftGradients[i] += rightGradients[i];
-      }
-    }
-    return leftResult;
-  }
-
-  public float[][] copyMatrices(float[][] layerWeights) {
-    var copy = new float[layerWeights.length][];
-    for (var lw = 0; lw < layerWeights.length; lw++) {
-      var weights = layerWeights[lw];
-      copy[lw] = Arrays.copyOf(weights, weights.length);
-    }
-    return copy;
+  public float[][] addGradients(float[][] leftLayers, float[][] rightLayers) {
+    assert leftLayers.length == rightLayers.length;
+    return IntStream.range(0, leftLayers.length)
+        .mapToObj(i -> SimdSupport.addElementWise(leftLayers[i], rightLayers[i]))
+        .toArray(float[][]::new);
   }
 }
