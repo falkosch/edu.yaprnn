@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'org.graalvm.buildtools.native' version '0.10.2'
 }
 
 repositories {
@@ -66,4 +67,14 @@ sourceSets {
 
 test {
     useJUnitPlatform()
+}
+
+graalvmNative {
+    binaries {
+        main {
+            mainClass = 'org.jboss.weld.environment.se.StartMain'
+            buildArgs.addAll("-O4", "-march=native")
+            resources.autodetect()
+        }
+    }
 }
