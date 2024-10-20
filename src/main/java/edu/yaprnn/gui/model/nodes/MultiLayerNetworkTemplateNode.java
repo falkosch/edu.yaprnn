@@ -36,8 +36,9 @@ public class MultiLayerNetworkTemplateNode extends DefaultNode {
       MultiLayerNetworkTemplate multiLayerNetworkTemplate) {
     var multiLayerNetworkTemplateSupplier = Providers.constant(multiLayerNetworkTemplate);
     return IntStream.range(0, multiLayerNetworkTemplate.getLayers().size())
-        .mapToObj(Providers::constant).map(
-            layerIndexSupplier -> new LayerTemplateNode(multiLayerNetworkTemplateSupplier,
-                layerIndexSupplier)).toList();
+        .mapToObj(Providers::constant)
+        .map(layerIndexSupplier -> new LayerTemplateNode(multiLayerNetworkTemplateSupplier,
+            layerIndexSupplier))
+        .toList();
   }
 }

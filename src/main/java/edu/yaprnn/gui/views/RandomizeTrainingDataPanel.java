@@ -55,7 +55,8 @@ public class RandomizeTrainingDataPanel extends JPanel {
     var dataSelectorComboBox = new JComboBox<>(dataSelectorsComboBoxModel);
 
     var groupLayout = new GroupLayout(this);
-    groupLayout.setHorizontalGroup(groupLayout.createParallelGroup().addComponent(nameLabel)
+    groupLayout.setHorizontalGroup(groupLayout.createParallelGroup()
+        .addComponent(nameLabel)
         .addComponent(nameTextField, PREFERRED_SIZE, DEFAULT_SIZE, 200)
         .addComponent(trainingSizeLabel)
         .addComponent(trainingSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
@@ -63,7 +64,8 @@ public class RandomizeTrainingDataPanel extends JPanel {
         .addComponent(devTestSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
         .addComponent(dataSelectorLabel)
         .addComponent(dataSelectorComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 200));
-    groupLayout.setVerticalGroup(groupLayout.createSequentialGroup().addComponent(nameLabel)
+    groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
+        .addComponent(nameLabel)
         .addComponent(nameTextField, PREFERRED_SIZE, DEFAULT_SIZE, 28)
         .addComponent(trainingSizeLabel)
         .addComponent(trainingSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)

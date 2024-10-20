@@ -84,7 +84,8 @@ public class SamplePreprocessingFrame extends JFrame {
 
     var originalSamples = List.copyOf(repository.getSamples());
     var processedSamples = originalSamples.stream()
-        .map(sample -> samplesService.subSample(sample, resolution, overlap)).toList();
+        .map(sample -> samplesService.subSample(sample, resolution, overlap))
+        .toList();
 
     networksTreeModel.removeSamples(originalSamples);
     networksTreeModel.addSamples(processedSamples);

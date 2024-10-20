@@ -6,7 +6,6 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
-import java.util.Arrays;
 import java.util.Random;
 
 @Singleton
@@ -25,19 +24,20 @@ public class GradientMatrixService {
     assert layerSizes.length == activationFunctions.length;
 
     var newLayerWeights = zeroMatrices(layerSizes);
-    for (var lw = 0; lw < newLayerWeights.length; lw++) {
-      newLayerWeights[lw] = activationFunctions[lw].randomWeights(random,
-          newLayerWeights[lw].length, layerSizes[lw + 1]);
+    for (int w = 0, l = 1; w < newLayerWeights.length; w++, l++) {
+      newLayerWeights[w] = activationFunctions[l].randomWeights(random, newLayerWeights[w].length,
+          layerSizes[l]);
     }
     return newLayerWeights;
   }
 
   public float[][] zeroMatrices(int[] layerSizes) {
-    var matrices = new float[layerSizes.length - 1][];
-    for (var lw = 0; lw < matrices.length; lw++) {
-      matrices[lw] = zeroMatrix(layerSizes[lw], layerSizes[lw + 1]);
+    // layerSizes[i] + 1 -> adding bias weights to input size
+    var result = new float[layerSizes.length - 1][];
+    for (var i = 0; i < result.length; i++) {
+      result[i] = new float[(layerSizes[i] + 1) * layerSizes[i + 1]];
     }
-    return matrices;
+    return result;
   }
 
   private float[] zeroMatrix(int inputSize, int outputSize) {
@@ -61,12 +61,11 @@ public class GradientMatrixService {
     return leftResult;
   }
 
-  public float[][] copyMatrices(float[][] layerWeights) {
-    var copy = new float[layerWeights.length][];
-    for (var lw = 0; lw < layerWeights.length; lw++) {
-      var weights = layerWeights[lw];
-      copy[lw] = Arrays.copyOf(weights, weights.length);
+  public float[][] copyMatrices(float[][] source) {
+    var result = new float[source.length][];
+    for (var i = 0; i < source.length; i++) {
+      result[i] = source[i].clone();
     }
-    return copy;
+    return result;
   }
 }

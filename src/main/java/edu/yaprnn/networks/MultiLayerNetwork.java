@@ -8,6 +8,7 @@ import edu.yaprnn.training.DataSelector;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,9 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class MultiLayerNetwork {
 
+  @Deprecated
   private final MultiLayerNetworkTemplate template;
+
   private final int[] layerSizes;
   private final ActivationFunction[] activationFunctions;
   private final float bias;
@@ -52,8 +55,9 @@ public class MultiLayerNetwork {
     trainingSamples.parallelStream().forEach(sample -> {
       var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
       var layerWeights = gradientMatrixService.copyMatrices(this.layerWeights);
-      computeGradients(layerGradients, layerWeights, dataSelector.input(sample),
-          dataSelector.target(sample));
+      var input = dataSelector.input(sample);
+      var target = dataSelector.target(sample);
+      computeGradients(layerGradients, layerWeights, input, target);
       applyGradients(layerGradients, layerWeights, learningRate, momentum, decayL1, decayL2);
     });
   }
@@ -87,7 +91,6 @@ public class MultiLayerNetwork {
     var v = Arrays.copyOf(input, layerSizes[0]);
     var layers = new Layer[layerSizes.length];
     layers[0] = new Layer(v, activationFunctions[0].apply(v));
-    // must iterate from first layer to last layer
     for (int i = 1, k = 0; i < layers.length; i++, k++) {
       layers[i] = feedForward(layers[k], layerWeights[k], i);
     }
@@ -161,15 +164,17 @@ public class MultiLayerNetwork {
   public void learnMiniBatch(GradientMatrixService gradientMatrixService,
       List<? extends Sample> trainingSamples, DataSelector dataSelector, int batchSize,
       float learningRate, float momentum, float decayL1, float decayL2) {
-
     Lists.partition(trainingSamples, batchSize).forEach(batch -> {
-      var batchLayerGradients = batch.parallelStream().map(sample -> {
-        var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
-        computeGradients(layerGradients, layerWeights, dataSelector.input(sample),
-            dataSelector.target(sample));
-        return layerGradients;
-      }).reduce(gradientMatrixService.zeroMatrices(layerSizes),
-          gradientMatrixService::sumGradients);
+      var batchLayerGradients = batch.parallelStream()
+          .map(sample -> {
+            var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
+            var input = dataSelector.input(sample);
+            var target = dataSelector.target(sample);
+            computeGradients(layerGradients, layerWeights, input, target);
+            return layerGradients;
+          })
+          .reduce(gradientMatrixService.zeroMatrices(layerSizes),
+              gradientMatrixService::sumGradients);
 
       applyGradients(batchLayerGradients, layerWeights, learningRate, momentum, decayL1, decayL2);
     });
@@ -199,21 +204,13 @@ public class MultiLayerNetwork {
     return 0.5f * error;
   }
 
-  public float computeNetworkError(Collection<? extends Sample> samples,
-      DataSelector dataSelector) {
-    var errorSum = samples.parallelStream().map(sample -> {
-      var layers = feedForward(dataSelector.input(sample), layerWeights);
-      return computeNetworkError(Layer.output(layers), dataSelector.target(sample));
-    }).reduce(0f, Float::sum);
-    return errorSum / samples.size();
-  }
-
   public Layer[] feedForward(Sample sample, DataSelector dataSelector) {
     return feedForward(dataSelector.input(sample), layerWeights);
   }
 
   @Override
   public String toString() {
-    return "%s (%d)".formatted(name, layerWeights.length);
+    return "%s (%s)".formatted(name,
+        Arrays.toString(Objects.requireNonNullElseGet(layerSizes, () -> new int[0])));
   }
 }

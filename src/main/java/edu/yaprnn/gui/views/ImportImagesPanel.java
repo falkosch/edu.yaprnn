@@ -45,24 +45,26 @@ public class ImportImagesPanel extends JPanel {
         filesService.imagesIdx3UByteFileExtension());
 
     var groupLayout = new GroupLayout(this);
-    groupLayout.setHorizontalGroup(
-        groupLayout.createParallelGroup().addComponent(labelsPackageLabel).addGroup(
-            groupLayout.createSequentialGroup()
-                .addComponent(labelsPackageTextField, PREFERRED_SIZE, DEFAULT_SIZE, 200)
-                .addComponent(labelsPackageChooseFileButton, PREFERRED_SIZE, PREFERRED_SIZE,
-                    PREFERRED_SIZE)).addComponent(imagesPackageLabel).addGroup(
-            groupLayout.createSequentialGroup()
-                .addComponent(imagesPackageTextField, PREFERRED_SIZE, DEFAULT_SIZE, 200)
-                .addComponent(imagesPackageChooseFileButton, PREFERRED_SIZE, PREFERRED_SIZE,
-                    PREFERRED_SIZE)));
-    groupLayout.setVerticalGroup(
-        groupLayout.createSequentialGroup().addComponent(labelsPackageLabel).addGroup(
-                groupLayout.createParallelGroup()
-                    .addComponent(labelsPackageTextField, PREFERRED_SIZE, DEFAULT_SIZE, 28)
-                    .addComponent(labelsPackageChooseFileButton, PREFERRED_SIZE, DEFAULT_SIZE, 28))
-            .addComponent(imagesPackageLabel).addGroup(groupLayout.createParallelGroup()
-                .addComponent(imagesPackageTextField, PREFERRED_SIZE, DEFAULT_SIZE, 28)
-                .addComponent(imagesPackageChooseFileButton, PREFERRED_SIZE, DEFAULT_SIZE, 28)));
+    groupLayout.setHorizontalGroup(groupLayout.createParallelGroup()
+        .addComponent(labelsPackageLabel)
+        .addGroup(groupLayout.createSequentialGroup()
+            .addComponent(labelsPackageTextField, PREFERRED_SIZE, DEFAULT_SIZE, 200)
+            .addComponent(labelsPackageChooseFileButton, PREFERRED_SIZE, PREFERRED_SIZE,
+                PREFERRED_SIZE))
+        .addComponent(imagesPackageLabel)
+        .addGroup(groupLayout.createSequentialGroup()
+            .addComponent(imagesPackageTextField, PREFERRED_SIZE, DEFAULT_SIZE, 200)
+            .addComponent(imagesPackageChooseFileButton, PREFERRED_SIZE, PREFERRED_SIZE,
+                PREFERRED_SIZE)));
+    groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
+        .addComponent(labelsPackageLabel)
+        .addGroup(groupLayout.createParallelGroup()
+            .addComponent(labelsPackageTextField, PREFERRED_SIZE, DEFAULT_SIZE, 28)
+            .addComponent(labelsPackageChooseFileButton, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+        .addComponent(imagesPackageLabel)
+        .addGroup(groupLayout.createParallelGroup()
+            .addComponent(imagesPackageTextField, PREFERRED_SIZE, DEFAULT_SIZE, 28)
+            .addComponent(imagesPackageChooseFileButton, PREFERRED_SIZE, DEFAULT_SIZE, 28)));
     groupLayout.setAutoCreateContainerGaps(true);
     groupLayout.setAutoCreateGaps(true);
     setLayout(groupLayout);

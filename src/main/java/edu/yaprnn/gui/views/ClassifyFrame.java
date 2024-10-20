@@ -123,17 +123,21 @@ public class ClassifyFrame extends JFrame {
     var outputReconstructionPanel = new JPanel();
     var outputReconstructionLayout = new GroupLayout(outputReconstructionPanel);
     outputReconstructionLayout.setHorizontalGroup(outputReconstructionLayout.createParallelGroup()
-        .addGroup(outputReconstructionLayout.createSequentialGroup().addGroup(
-            outputReconstructionLayout.createParallelGroup().addComponent(zoomWeightsLabel)
-                .addComponent(zoomWeightsComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 100)).addGroup(
-            outputReconstructionLayout.createParallelGroup().addComponent(gammaLabel)
+        .addGroup(outputReconstructionLayout.createSequentialGroup()
+            .addGroup(outputReconstructionLayout.createParallelGroup()
+                .addComponent(zoomWeightsLabel)
+                .addComponent(zoomWeightsComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 100))
+            .addGroup(outputReconstructionLayout.createParallelGroup()
+                .addComponent(gammaLabel)
                 .addComponent(gammaSlider, PREFERRED_SIZE, DEFAULT_SIZE, 300)))
         .addComponent(outputReconstructionScrollPane));
     outputReconstructionLayout.setVerticalGroup(outputReconstructionLayout.createParallelGroup()
-        .addGroup(outputReconstructionLayout.createParallelGroup().addGroup(
-            outputReconstructionLayout.createSequentialGroup().addComponent(zoomWeightsLabel)
-                .addComponent(zoomWeightsComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28)).addGroup(
-            outputReconstructionLayout.createSequentialGroup().addComponent(gammaLabel)
+        .addGroup(outputReconstructionLayout.createParallelGroup()
+            .addGroup(outputReconstructionLayout.createSequentialGroup()
+                .addComponent(zoomWeightsLabel)
+                .addComponent(zoomWeightsComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+            .addGroup(outputReconstructionLayout.createSequentialGroup()
+                .addComponent(gammaLabel)
                 .addComponent(gammaSlider, PREFERRED_SIZE, DEFAULT_SIZE, 28)))
         .addComponent(outputReconstructionScrollPane));
     outputReconstructionLayout.setAutoCreateContainerGaps(true);

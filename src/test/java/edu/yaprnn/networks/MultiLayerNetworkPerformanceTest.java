@@ -16,31 +16,37 @@ import org.junit.jupiter.api.Test;
 
 class MultiLayerNetworkPerformanceTest {
 
+  final ClassifierDataSelector dataSelector = new ClassifierDataSelector();
   final ActivationFunction tanh = new TangentHyperbolicActivationFunction();
-  MultiLayerNetwork network;
-  List<SimpleSample> samples;
+  final MultiLayerNetworkTemplate model = MultiLayerNetworkTemplate.builder()
+      .layers(List.of(LayerTemplate.builder().size(999).activationFunction(tanh).build(),
+          LayerTemplate.builder().size(999).activationFunction(tanh).build()))
+      .build();
+  final TestGradientMatrixService gradientMatrixService = new TestGradientMatrixService();
+
   Random random;
+  List<SimpleSample> samples;
+  MultiLayerNetwork network;
 
   @BeforeEach
   void createNetwork() {
     random = new SecureRandom(new byte[42]);
-
-    samples = IntStream.range(0, 1000).mapToObj(
-            i -> SimpleSample.builder().input(generateFloats(i)).target(generateFloats(999)).build())
+    samples = IntStream.range(0, 1000)
+        .mapToObj(i -> SimpleSample.builder()
+            .input(generateFloats(i))
+            .target(generateFloats(999))
+            .build())
         .toList();
-
-    var template = new MultiLayerNetworkTemplate();
-    template.addLayer(LayerTemplate.builder().size(999).activationFunction(tanh).build());
-    template.addLayer(LayerTemplate.builder().size(999).activationFunction(tanh).build());
-
-    network = MultiLayerNetwork.builder().template(template).bias(1f)
-        .activationFunctions(template.collectActivationFunctions())
-        .layerSizes(template.collectLayerSizes()).build();
+    network = MultiLayerNetwork.builder()
+        .bias(-1f)
+        .activationFunctions(model.collectActivationFunctions())
+        .layerSizes(model.collectLayerSizes())
+        .build();
     network.resetLayerWeights(new TestGradientMatrixService());
   }
 
   float[] generateFloats(int count) {
-    return Floats.toArray(random.doubles(count).mapToObj(x -> (float) x).toList());
+    return Floats.toArray(random.doubles(count).boxed().toList());
   }
 
   @Test
@@ -61,7 +67,7 @@ class MultiLayerNetworkPerformanceTest {
   }
 
   Layer[] feedForward(SimpleSample sample) {
-    return network.feedForward(sample, new ClassifierDataSelector());
+    return network.feedForward(sample, dataSelector);
   }
 
   @Test
@@ -77,8 +83,8 @@ class MultiLayerNetworkPerformanceTest {
   }
 
   void learnOnline() {
-    network.learnOnlineParallelized(new TestGradientMatrixService(), samples,
-        new ClassifierDataSelector(), 0.001f, 0.5f, 0.001f, 0.001f);
+    network.learnMiniBatch(gradientMatrixService, samples, dataSelector, 1, 0.001f, 0.5f, 0.001f,
+        0.001f);
   }
 
   class TestGradientMatrixService extends GradientMatrixService {

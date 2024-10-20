@@ -332,8 +332,9 @@ public class MainFrame extends JFrame {
   }
 
   private void addRandomizedTrainingData() {
-    randomizeTrainingDataPanelInstance.get().show(this, (parameters) -> networksTreeModel.add(
-        trainingDataMapper.from(parameters, repository.getSamples())));
+    randomizeTrainingDataPanelInstance.get()
+        .show(this, (parameters) -> networksTreeModel.add(
+            trainingDataMapper.from(parameters, repository.getSamples())));
   }
 
   private void showClassifyFrame() {
@@ -424,8 +425,9 @@ public class MainFrame extends JFrame {
   }
 
   private void addMultiLayerNetworkTemplate() {
-    newMultiLayerNetworkTemplatePanelInstance.get().show(this,
-        (parameters) -> networksTreeModel.add(multiLayerNetworkTemplateMapper.from(parameters)));
+    newMultiLayerNetworkTemplatePanelInstance.get()
+        .show(this, (parameters) -> networksTreeModel.add(
+            multiLayerNetworkTemplateMapper.from(parameters)));
   }
 
   private void addLayerTemplateTo(MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode) {

@@ -213,16 +213,19 @@ public class TrainingFrame extends JFrame {
 
     var preferencesPanel = new JPanel();
     var preferencesGroupLayout = new GroupLayout(preferencesPanel);
-    preferencesGroupLayout.setHorizontalGroup(preferencesGroupLayout.createParallelGroup().addGroup(
-        preferencesGroupLayout.createParallelGroup().addComponent(maxIterationsLabel)
+    preferencesGroupLayout.setHorizontalGroup(preferencesGroupLayout.createParallelGroup()
+        .addGroup(preferencesGroupLayout.createParallelGroup()
+            .addComponent(maxIterationsLabel)
             .addComponent(maxIterationsSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
             .addComponent(maxTrainingErrorLabel)
-            .addComponent(maxTrainingErrorSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)).addGroup(
-        preferencesGroupLayout.createParallelGroup().addComponent(trainingMethodLabel)
+            .addComponent(maxTrainingErrorSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100))
+        .addGroup(preferencesGroupLayout.createParallelGroup()
+            .addComponent(trainingMethodLabel)
             .addComponent(trainingMethodComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 200)
             .addComponent(batchSizeLabel)
-            .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)).addGroup(
-        preferencesGroupLayout.createParallelGroup().addComponent(learningRateLabel)
+            .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100))
+        .addGroup(preferencesGroupLayout.createParallelGroup()
+            .addComponent(learningRateLabel)
             .addComponent(learningRateSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
             .addComponent(learningRateModifierLabel)
             .addComponent(learningRateModifierComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 200)
@@ -231,23 +234,27 @@ public class TrainingFrame extends JFrame {
             .addComponent(learningRateAscendLabel)
             .addComponent(learningRateAscendSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
             .addComponent(learningRateDescendLabel)
-            .addComponent(learningRateDescendSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)).addGroup(
-        preferencesGroupLayout.createParallelGroup().addComponent(momentumLabel)
+            .addComponent(learningRateDescendSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100))
+        .addGroup(preferencesGroupLayout.createParallelGroup()
+            .addComponent(momentumLabel)
             .addComponent(momentumSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
             .addComponent(decayL1Label)
             .addComponent(decayL1Spinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
             .addComponent(decayL2Label)
             .addComponent(decayL2Spinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)));
-    preferencesGroupLayout.setVerticalGroup(preferencesGroupLayout.createSequentialGroup().addGroup(
-        preferencesGroupLayout.createSequentialGroup().addComponent(maxIterationsLabel)
+    preferencesGroupLayout.setVerticalGroup(preferencesGroupLayout.createSequentialGroup()
+        .addGroup(preferencesGroupLayout.createSequentialGroup()
+            .addComponent(maxIterationsLabel)
             .addComponent(maxIterationsSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
             .addComponent(maxTrainingErrorLabel)
-            .addComponent(maxTrainingErrorSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)).addGroup(
-        preferencesGroupLayout.createSequentialGroup().addComponent(trainingMethodLabel)
+            .addComponent(maxTrainingErrorSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+        .addGroup(preferencesGroupLayout.createSequentialGroup()
+            .addComponent(trainingMethodLabel)
             .addComponent(trainingMethodComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28)
             .addComponent(batchSizeLabel)
-            .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)).addGroup(
-        preferencesGroupLayout.createSequentialGroup().addComponent(learningRateLabel)
+            .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+        .addGroup(preferencesGroupLayout.createSequentialGroup()
+            .addComponent(learningRateLabel)
             .addComponent(learningRateSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
             .addComponent(learningRateModifierLabel)
             .addComponent(learningRateModifierComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28)
@@ -256,8 +263,9 @@ public class TrainingFrame extends JFrame {
             .addComponent(learningRateAscendLabel)
             .addComponent(learningRateAscendSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
             .addComponent(learningRateDescendLabel)
-            .addComponent(learningRateDescendSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)).addGroup(
-        preferencesGroupLayout.createSequentialGroup().addComponent(momentumLabel)
+            .addComponent(learningRateDescendSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+        .addGroup(preferencesGroupLayout.createSequentialGroup()
+            .addComponent(momentumLabel)
             .addComponent(momentumSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
             .addComponent(decayL1Label)
             .addComponent(decayL1Spinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)

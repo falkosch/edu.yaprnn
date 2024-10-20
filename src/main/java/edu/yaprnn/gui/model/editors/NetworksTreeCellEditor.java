@@ -37,7 +37,9 @@ public class NetworksTreeCellEditor implements TreeCellEditor {
   public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected,
       boolean expanded, boolean leaf, int row) {
     selectedTreeCellEditor = selectableTreeCellEditorInstance.stream()
-        .filter(x -> x.isEditorOf(value)).map(SelectableTreeCellEditor.class::cast).findAny()
+        .filter(x -> x.isEditorOf(value))
+        .map(SelectableTreeCellEditor.class::cast)
+        .findAny()
         .orElse(defaultSelectedTreeCellEditor);
 
     return selectedTreeCellEditor.getTreeCellEditorComponent(tree, value, isSelected, expanded,

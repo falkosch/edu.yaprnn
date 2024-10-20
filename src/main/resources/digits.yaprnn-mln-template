@@ -1,5 +1,5 @@
 {
-  "name": "digits 10x10 tanh",
+  "name": "digits tanh 3x25x25",
   "layers": [
     {
       "size": 768,
@@ -8,49 +8,19 @@
       }
     },
     {
-      "size": 10,
+      "size": 25,
       "activationFunction": {
         "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
       }
     },
     {
-      "size": 10,
+      "size": 25,
       "activationFunction": {
         "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
       }
     },
     {
-      "size": 10,
-      "activationFunction": {
-        "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
-      }
-    },
-    {
-      "size": 10,
-      "activationFunction": {
-        "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
-      }
-    },
-    {
-      "size": 10,
-      "activationFunction": {
-        "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
-      }
-    },
-    {
-      "size": 10,
-      "activationFunction": {
-        "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
-      }
-    },
-    {
-      "size": 10,
-      "activationFunction": {
-        "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
-      }
-    },
-    {
-      "size": 10,
+      "size": 25,
       "activationFunction": {
         "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
       }
