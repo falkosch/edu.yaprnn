@@ -40,25 +40,22 @@ public class GradientMatrixService {
     return result;
   }
 
-  private float[] zeroMatrix(int inputSize, int outputSize) {
-    // adding bias weights to input size
-    return new float[(inputSize + 1) * outputSize];
-  }
+  public float[][] accumulateGradients(float[][] accumulator, float[][] layersGradients) {
+    assert accumulator.length == layersGradients.length;
 
-  public float[][] sumGradients(float[][] left, float[][] right) {
-    assert left.length == right.length;
+    var result = new float[accumulator.length][];
+    for (var i = 0; i < accumulator.length; i++) {
+      var accumulatorGradients = accumulator[i];
+      var layerGradients = layersGradients[i];
+      assert accumulatorGradients.length == layerGradients.length;
 
-    var leftResult = copyMatrices(left);
-    for (var lw = 0; lw < leftResult.length; lw++) {
-      var leftGradients = leftResult[lw];
-      var rightGradients = right[lw];
-
-      assert leftGradients.length == rightGradients.length;
-      for (var i = 0; i < leftGradients.length; i++) {
-        leftGradients[i] += rightGradients[i];
+      var resultGradients = new float[accumulatorGradients.length];
+      for (var w = 0; w < resultGradients.length; w++) {
+        resultGradients[w] = accumulatorGradients[w] + layerGradients[w];
       }
+      result[i] = resultGradients;
     }
-    return leftResult;
+    return result;
   }
 
   public float[][] copyMatrices(float[][] source) {

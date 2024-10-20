@@ -2,7 +2,6 @@ package edu.yaprnn.networks;
 
 import com.google.common.collect.Lists;
 import edu.yaprnn.functions.ActivationFunction;
-import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.training.DataSelector;
 import java.util.Arrays;
@@ -20,9 +19,6 @@ import lombok.Setter;
 @Getter
 @RequiredArgsConstructor
 public class MultiLayerNetwork {
-
-  @Deprecated
-  private final MultiLayerNetworkTemplate template;
 
   private final int[] layerSizes;
   private final ActivationFunction[] activationFunctions;
@@ -65,9 +61,31 @@ public class MultiLayerNetwork {
   private void computeGradients(float[][] layerGradients, float[][] layerWeights, float[] input,
       float[] target) {
     var layers = feedForward(input, layerWeights);
-    var last = Layer.outputIndex(layers);
-    var outputError = computeOutputError(target, layers[last], activationFunctions[last]);
-    backPropagate(layerGradients, layerWeights, layers, outputError);
+    var layerIndex = Layer.outputIndex(layers);
+    var outputError = computeOutputError(target, layers[layerIndex],
+        activationFunctions[layerIndex]);
+
+    for (layerIndex -= 1; layerIndex >= 0; layerIndex--) {
+      var gradients = layerGradients[layerIndex];
+      var inputLayer = layers[layerIndex];
+      var h = inputLayer.h();
+      var w = 0;
+
+      for (var j = 0; j < h.length; j++) {
+        var value = h[j];
+        for (var i = 0; i < outputError.length; i++, w++) {
+          gradients[w] += outputError[i] * value;
+        }
+      }
+      for (var i = 0; i < outputError.length; i++, w++) {
+        gradients[w] += outputError[i] * bias;
+      }
+
+      if (layerIndex > 0) {
+        outputError = computeLayerError(inputLayer, outputError, layerWeights[layerIndex],
+            activationFunctions[layerIndex]);
+      }
+    }
   }
 
   private void applyGradients(float[][] learnedLayerGradients, float[][] layerWeights,
@@ -91,74 +109,60 @@ public class MultiLayerNetwork {
     var v = Arrays.copyOf(input, layerSizes[0]);
     var layers = new Layer[layerSizes.length];
     layers[0] = new Layer(v, activationFunctions[0].apply(v));
+
     for (int i = 1, k = 0; i < layers.length; i++, k++) {
       layers[i] = feedForward(layers[k], layerWeights[k], i);
     }
+
     return layers;
   }
 
-  private float[] computeOutputError(float[] target, Layer output,
-      ActivationFunction activationFunction) {
-    var h = output.h();
+  private float[] computeOutputError(float[] target, Layer outputLayer,
+      ActivationFunction outputActivationFunction) {
+    var h = outputLayer.h();
+    var v = outputLayer.v();
     var t = Arrays.copyOf(target, h.length);
-    var error = activationFunction.derivative(h, output.v());
+    var error = outputActivationFunction.derivative(h, v);
+
     for (var i = 0; i < h.length; i++) {
       error[i] *= h[i] - t[i];
     }
+
     return error;
   }
 
-  private void backPropagate(float[][] layerGradients, float[][] layerWeights, Layer[] layers,
-      float[] outputError) {
-    for (var in = layers.length - 2; in >= 0; in--) {
-      var gradients = layerGradients[in];
-      var inH = layers[in].h();
-
-      var w = 0;
-      for (var row = 0; row < inH.length; row++) {
-        var inHRow = inH[row];
-        for (var col = 0; col < outputError.length; col++, w++) {
-          gradients[w] += inHRow * outputError[col];
-        }
-      }
-      for (var biasCol = 0; biasCol < outputError.length; biasCol++, w++) {
-        gradients[w] += outputError[biasCol];
-      }
-
-      if (in > 0) {
-        outputError = computeLayerError(layers[in], outputError, layerWeights[in],
-            activationFunctions[in]);
-      }
-    }
-  }
-
-  private Layer feedForward(Layer inLayer, float[] weights, int outLayer) {
-    var inH = inLayer.h();
-    var outV = new float[layerSizes[outLayer]];
+  private Layer feedForward(Layer inputLayer, float[] weights, int outputLayerIndex) {
+    var inputH = inputLayer.h();
+    var outputV = new float[layerSizes[outputLayerIndex]];
     var w = 0;
-    for (var row = 0; row < inH.length; row++) {
-      var in = inH[row];
-      for (var col = 0; col < outV.length; col++, w++) {
-        outV[col] += in * weights[w];
+
+    for (var row = 0; row < inputH.length; row++) {
+      var value = inputH[row];
+      for (var i = 0; i < outputV.length; i++, w++) {
+        outputV[i] += weights[w] * value;
       }
     }
-    for (var biasCol = 0; biasCol < outV.length; biasCol++, w++) {
-      outV[biasCol] += weights[w];
+
+    for (var i = 0; i < outputV.length; i++, w++) {
+      outputV[i] += weights[w] * bias;
     }
-    return new Layer(outV, activationFunctions[outLayer].apply(outV));
+
+    return new Layer(outputV, activationFunctions[outputLayerIndex].apply(outputV));
   }
 
-  private float[] computeLayerError(Layer inLayer, float[] outError, float[] weights,
-      ActivationFunction activationFunction) {
-    var inError = activationFunction.derivative(inLayer.h(), inLayer.v());
-    for (int row = 0, w = 0; row < inError.length; row++) {
-      var error = 0f;
-      for (var col = 0; col < outError.length; col++, w++) {
-        error += weights[w] * outError[col];
+  private float[] computeLayerError(Layer inputLayer, float[] outputError, float[] weights,
+      ActivationFunction inputActivationFunction) {
+    var layerError = inputActivationFunction.derivative(inputLayer.h(), inputLayer.v());
+
+    for (int j = 0, w = 0; j < layerError.length; j++) {
+      var weightedErrorSum = 0f;
+      for (var i = 0; i < outputError.length; i++, w++) {
+        weightedErrorSum += weights[w] * outputError[i];
       }
-      inError[row] *= error;
+      layerError[j] *= weightedErrorSum;
     }
-    return inError;
+
+    return layerError;
   }
 
   public void learnMiniBatch(GradientMatrixService gradientMatrixService,
@@ -174,7 +178,7 @@ public class MultiLayerNetwork {
             return layerGradients;
           })
           .reduce(gradientMatrixService.zeroMatrices(layerSizes),
-              gradientMatrixService::sumGradients);
+              gradientMatrixService::accumulateGradients);
 
       applyGradients(batchLayerGradients, layerWeights, learningRate, momentum, decayL1, decayL2);
     });
@@ -184,24 +188,25 @@ public class MultiLayerNetwork {
       DataSelector dataSelector) {
     return samples.parallelStream().map(sample -> {
       var layers = feedForward(dataSelector.input(sample), layerWeights);
-      var output = Layer.output(layers);
+      var outputLayer = Layer.output(layers);
       var target = dataSelector.target(sample);
-      var error = computeNetworkError(output, target);
-      return AccuracyResult.from(output.h(), target, error);
+      var error = computeNetworkError(outputLayer, target);
+      return AccuracyResult.from(outputLayer.h(), target, error);
     }).reduce(AccuracyResult::sum).map(AccuracyResult::average).orElseThrow();
   }
 
   private float computeNetworkError(Layer outputLayer, float[] target) {
-    var output = outputLayer.h();
-    var maxLength = Math.max(output.length, target.length);
-    var outH = Arrays.copyOf(output, maxLength);
-    var t = Arrays.copyOf(target, maxLength);
-    var error = 0f;
+    var h = outputLayer.h();
+    var maxLength = Math.max(h.length, target.length);
+    var safeH = Arrays.copyOf(h, maxLength);
+    var safeT = Arrays.copyOf(target, maxLength);
+
+    var sumSquaredError = 0f;
     for (var i = 0; i < maxLength; i++) {
-      var d = t[i] - outH[i];
-      error += d * d;
+      var residual = safeT[i] - safeH[i];
+      sumSquaredError += residual * residual;
     }
-    return 0.5f * error;
+    return 0.5f * sumSquaredError;
   }
 
   public Layer[] feedForward(Sample sample, DataSelector dataSelector) {

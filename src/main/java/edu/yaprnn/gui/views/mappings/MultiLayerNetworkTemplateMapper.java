@@ -20,7 +20,7 @@ public interface MultiLayerNetworkTemplateMapper {
   @Named("toLayerTemplates")
   default List<LayerTemplate> toLayerTemplates(Parameters parameters) {
     var layerTemplates = IntStream.range(0, parameters.layersCount())
-        .mapToObj(i -> toLayerTemplate(parameters))
+        .mapToObj(_ -> toLayerTemplate(parameters))
         .toList();
     return new ArrayList<>(layerTemplates);
   }

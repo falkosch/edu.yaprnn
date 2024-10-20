@@ -12,7 +12,6 @@ import org.mapstruct.MappingConstants.ComponentModel;
 @Mapper(componentModel = ComponentModel.CDI)
 public interface MultiLayerNetworkMapper {
 
-  @Mapping(target = "template", source = "multiLayerNetworkTemplate")
   @Mapping(target = "activationFunctions", expression = "java(parameters.multiLayerNetworkTemplate().collectActivationFunctions())")
   @Mapping(target = "layerSizes", expression = "java(parameters.multiLayerNetworkTemplate().collectLayerSizes())")
   @Mapping(target = "layerWeights", ignore = true)

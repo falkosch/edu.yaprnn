@@ -41,7 +41,7 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
 
     if (Objects.nonNull(multiLayerNetwork) && weightsIndex >= 0) {
       var weights = multiLayerNetwork.getLayerWeights()[weightsIndex];
-      var outputSize = multiLayerNetwork.getTemplate().getLayerSize(weightsIndex + 1);
+      var outputSize = multiLayerNetwork.getLayerSizes()[weightsIndex + 1];
 
       weightsImagePanel.setImage(weightsService.from(weights, outputSize, zoom, gamma));
 
