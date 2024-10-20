@@ -71,37 +71,31 @@ public class MultiLayerNetwork {
       var h = inputLayer.h();
       var w = 0;
 
-      for (var j = 0; j < h.length; j++) {
-        var value = h[j];
-        for (var i = 0; i < outputError.length; i++, w++) {
-          gradients[w] += outputError[i] * value;
-        }
+      for (var j = 0; j < h.length; j++, w += outputError.length) {
+        SimdSupport.sumScalarMultiplicationLaneWise(gradients, outputError, h[j], w, 0, outputError.length);
       }
-      for (var i = 0; i < outputError.length; i++, w++) {
-        gradients[w] += outputError[i] * bias;
-      }
+      SimdSupport.sumScalarMultiplicationLaneWise(gradients, outputError, bias, w, 0, outputError.length);
 
       if (layerIndex > 0) {
-        outputError = computeLayerError(inputLayer, outputError, layerWeights[layerIndex],
-            activationFunctions[layerIndex]);
+        outputError = SimdSupport.computeLayerError(inputLayer, outputError, layerWeights[layerIndex], activationFunctions[layerIndex]);
       }
     }
   }
 
   private void applyGradients(float[][] learnedLayerGradients, float[][] layerWeights,
       float learningRate, float momentum, float decayL1, float decayL2) {
-    for (var lw = 0; lw < layerWeights.length; lw++) {
-      var weights = layerWeights[lw];
-      var gradients = learnedLayerGradients[lw];
-      var thisWeights = this.layerWeights[lw];
-      var previousGradients = previousLayerGradients[lw];
+    assert layerWeights.length == learnedLayerGradients.length;
+    assert layerWeights.length == this.layerWeights.length;
+    assert layerWeights.length == this.previousLayerGradients.length;
 
-      for (var w = 0; w < weights.length; w++) {
-        var decay = decayL1 * Math.signum(weights[w]) + decayL2 * 2f * weights[w];
-        var gradient = momentum * previousGradients[w] - learningRate * (gradients[w] + decay);
-        thisWeights[w] += (1f + momentum) * gradient - momentum * previousGradients[w];
-        previousGradients[w] = gradient;
-      }
+    for (var i = 0; i < layerWeights.length; i++) {
+      var weights = layerWeights[i];
+      var gradients = learnedLayerGradients[i];
+      var thisWeights = this.layerWeights[i];
+      var thisPreviousGradients = this.previousLayerGradients[i];
+
+      SimdSupport.applyGradients(weights, learningRate, momentum, decayL1, decayL2, gradients,
+          thisWeights, thisPreviousGradients);
     }
   }
 
@@ -117,52 +111,27 @@ public class MultiLayerNetwork {
     return layers;
   }
 
-  private float[] computeOutputError(float[] target, Layer outputLayer,
-      ActivationFunction outputActivationFunction) {
-    var h = outputLayer.h();
-    var v = outputLayer.v();
+  private float[] computeOutputError(float[] target, Layer output,
+      ActivationFunction activationFunction) {
+    var h = output.h();
+    var v = output.v();
     var t = Arrays.copyOf(target, h.length);
-    var error = outputActivationFunction.derivative(h, v);
 
-    for (var i = 0; i < h.length; i++) {
-      error[i] *= h[i] - t[i];
-    }
-
-    return error;
+    return SimdSupport.computeMeanSquaredErrorGradient(t, h, v, activationFunction);
   }
 
   private Layer feedForward(Layer inputLayer, float[] weights, int outputLayerIndex) {
-    var inputH = inputLayer.h();
-    var outputV = new float[layerSizes[outputLayerIndex]];
+    var inputs = inputLayer.h();
+    var outputs = new float[layerSizes[outputLayerIndex]];
+
     var w = 0;
-
-    for (var row = 0; row < inputH.length; row++) {
-      var value = inputH[row];
-      for (var i = 0; i < outputV.length; i++, w++) {
-        outputV[i] += weights[w] * value;
-      }
+    for (var i = 0; i < inputs.length; i++, w += outputs.length) {
+      SimdSupport.sumScalarMultiplicationLaneWise(outputs, weights, inputs[i], 0, w,
+          outputs.length);
     }
+    SimdSupport.sumScalarMultiplicationLaneWise(outputs, weights, bias, 0, w, outputs.length);
 
-    for (var i = 0; i < outputV.length; i++, w++) {
-      outputV[i] += weights[w] * bias;
-    }
-
-    return new Layer(outputV, activationFunctions[outputLayerIndex].apply(outputV));
-  }
-
-  private float[] computeLayerError(Layer inputLayer, float[] outputError, float[] weights,
-      ActivationFunction inputActivationFunction) {
-    var layerError = inputActivationFunction.derivative(inputLayer.h(), inputLayer.v());
-
-    for (int j = 0, w = 0; j < layerError.length; j++) {
-      var weightedErrorSum = 0f;
-      for (var i = 0; i < outputError.length; i++, w++) {
-        weightedErrorSum += weights[w] * outputError[i];
-      }
-      layerError[j] *= weightedErrorSum;
-    }
-
-    return layerError;
+    return new Layer(outputs, activationFunctions[outputLayerIndex].apply(outputs));
   }
 
   public void learnMiniBatch(GradientMatrixService gradientMatrixService,
@@ -196,17 +165,11 @@ public class MultiLayerNetwork {
   }
 
   private float computeNetworkError(Layer outputLayer, float[] target) {
-    var h = outputLayer.h();
-    var maxLength = Math.max(h.length, target.length);
-    var safeH = Arrays.copyOf(h, maxLength);
-    var safeT = Arrays.copyOf(target, maxLength);
-
-    var sumSquaredError = 0f;
-    for (var i = 0; i < maxLength; i++) {
-      var residual = safeT[i] - safeH[i];
-      sumSquaredError += residual * residual;
-    }
-    return 0.5f * sumSquaredError;
+    var output = outputLayer.h();
+    var compareLength = Math.max(output.length, target.length);
+    var prediction = Arrays.copyOf(output, compareLength);
+    var actual = Arrays.copyOf(target, compareLength);
+    return 0.5f * SimdSupport.sumSquaredError(actual, prediction);
   }
 
   public Layer[] feedForward(Sample sample, DataSelector dataSelector) {

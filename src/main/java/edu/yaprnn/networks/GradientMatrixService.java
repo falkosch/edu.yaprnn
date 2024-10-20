@@ -40,20 +40,10 @@ public class GradientMatrixService {
     return result;
   }
 
-  public float[][] accumulateGradients(float[][] accumulator, float[][] layersGradients) {
-    assert accumulator.length == layersGradients.length;
-
+  public float[][] accumulateGradients(float[][] accumulator, float[][] layerGradients) {
     var result = new float[accumulator.length][];
     for (var i = 0; i < accumulator.length; i++) {
-      var accumulatorGradients = accumulator[i];
-      var layerGradients = layersGradients[i];
-      assert accumulatorGradients.length == layerGradients.length;
-
-      var resultGradients = new float[accumulatorGradients.length];
-      for (var w = 0; w < resultGradients.length; w++) {
-        resultGradients[w] = accumulatorGradients[w] + layerGradients[w];
-      }
-      result[i] = resultGradients;
+      result[i] = SimdSupport.addLaneWise(accumulator[i], layerGradients[i]);
     }
     return result;
   }
