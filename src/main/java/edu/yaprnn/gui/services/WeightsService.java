@@ -22,8 +22,8 @@ public class WeightsService {
     try {
       for (int y = 0, w = 0; y < height; y++) {
         for (var x = 0; x < outputSize; x++, w++) {
-          var value = (float) (16.0 * (Math.pow(weights[w], gamma) + 1.0));
-          var pixelValue = (int) Functions.clamp(value, 0, 255);
+          var value = 127.5f + 4f * (float) Math.pow(weights[w], gamma);
+          var pixelValue = (int) Functions.clamp(value, 0f, 255f);
           image.setRGB(x, y, pixelValue | (pixelValue << 8) | (pixelValue << 16));
         }
       }

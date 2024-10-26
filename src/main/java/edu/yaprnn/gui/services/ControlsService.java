@@ -54,8 +54,6 @@ import javax.swing.tree.TreeSelectionModel;
 @Singleton
 public class ControlsService {
 
-  public static final float GAMMA_RANGE = 0.1f;
-
   @Inject
   DialogsService dialogsService;
   @Inject
@@ -176,7 +174,7 @@ public class ControlsService {
 
   public JSlider gammaSlider(BoundedRangeModel model, DoubleConsumer consumer) {
     var slider = new JSlider(model);
-    slider.addChangeListener(event -> consumer.accept(toGammaValue(model, slider.getValue())));
+    slider.addChangeListener(_ -> consumer.accept(toGammaValue(model, slider.getValue())));
     slider.setMajorTickSpacing(model.getExtent());
     slider.setOpaque(false);
     slider.setPaintTicks(true);
@@ -184,7 +182,7 @@ public class ControlsService {
   }
 
   public BoundedRangeModel gammaBoundedRangeModel() {
-    var model = new DefaultBoundedRangeModel(600, 0, -1000, 1000);
+    var model = new DefaultBoundedRangeModel(-1, 0, -1000, 0);
     model.setValue(
         fromGammaValue(model, onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma()));
     return model;
@@ -199,7 +197,7 @@ public class ControlsService {
   }
 
   private float gammaRange(BoundedRangeModel model) {
-    return GAMMA_RANGE * (model.getMaximum() - model.getMinimum());
+    return 0.5f * (model.getMaximum() - model.getMinimum());
   }
 
   public JComboBox<ActivationFunction> activationFunctionsComboBox(
