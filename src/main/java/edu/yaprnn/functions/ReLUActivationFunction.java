@@ -5,7 +5,7 @@ import java.util.Random;
 import org.apache.commons.math3.random.GaussianRandomGenerator;
 import org.apache.commons.math3.random.RandomGeneratorFactory;
 
-public class ReLUActivationFunction implements ActivationFunction {
+public final class ReLUActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
@@ -14,11 +14,6 @@ public class ReLUActivationFunction implements ActivationFunction {
       h[i] = Math.max(v[i], 0f);
     }
     return h;
-  }
-
-  @Override
-  public float[] derivative(float[] h, float[] v) {
-    return derivative(v);
   }
 
   @Override
@@ -36,7 +31,7 @@ public class ReLUActivationFunction implements ActivationFunction {
         RandomGeneratorFactory.createRandomGenerator(random));
     var weights = new float[count];
     var inputSize = WeightsDimension.from(weights, outputSize).inputSize();
-    var deviation = Math.sqrt(2.0 / (inputSize + outputSize));
+    var deviation = Math.sqrt(2d / (inputSize + outputSize));
 
     // from-bias weights are zeroed/excluded
     for (int row = 0, w = 0; row < inputSize; row++) {

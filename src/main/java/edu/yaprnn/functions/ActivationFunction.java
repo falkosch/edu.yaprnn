@@ -32,18 +32,26 @@ public interface ActivationFunction {
    * @param v outputs before activation
    * @return derivative of outputs
    */
-  float[] derivative(float[] h, float[] v);
+  default float[] derivative(float[] h, float[] v) {
+    return derivative(v);
+  }
 
   /**
    * @param v outputs before activation
    * @return derivative of outputs
    */
-  float[] derivative(float[] v);
+  default float[] derivative(float[] v) {
+    var d = new float[v.length];
+    for (var i = 0; i < v.length; i++) {
+      d[i] = 1f;
+    }
+    return d;
+  }
 
   default float[] randomWeights(Random random, int count, int outputSize) {
     var weights = new float[count];
     var inputSize = WeightsDimension.from(weights, outputSize).inputSize();
-    var xavier = (float) Math.sqrt(6.0 / (inputSize + outputSize));
+    var xavier = (float) Math.sqrt(6d / (inputSize + outputSize));
 
     // from-bias weights are zeroed/excluded
     for (int row = 0, w = 0; row < inputSize; row++) {

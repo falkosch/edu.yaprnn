@@ -1,6 +1,6 @@
 package edu.yaprnn.functions;
 
-public class SignumActivationFunction implements ActivationFunction {
+public final class SignumActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
@@ -9,17 +9,6 @@ public class SignumActivationFunction implements ActivationFunction {
       h[i] = Math.signum(v[i]);
     }
     return h;
-  }
-
-  @Override
-  public float[] derivative(float[] h, float[] v) {
-    return derivative(v);
-  }
-
-  @Override
-  public float[] derivative(float[] v) {
-    // all 0
-    return new float[v.length];
   }
 
   @Override

@@ -1,6 +1,6 @@
 package edu.yaprnn.functions;
 
-public class TangentHyperbolicActivationFunction implements ActivationFunction {
+public final class TangentHyperbolicActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {

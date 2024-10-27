@@ -1,6 +1,6 @@
 package edu.yaprnn.functions;
 
-public class GeLUActivationFunction implements ActivationFunction {
+public final class GeLUActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
@@ -10,11 +10,6 @@ public class GeLUActivationFunction implements ActivationFunction {
       h[i] = 0.5f * x * (1f + Erf.ofXDividedBySqrt2(x));
     }
     return h;
-  }
-
-  @Override
-  public float[] derivative(float[] h, float[] v) {
-    return derivative(v);
   }
 
   @Override

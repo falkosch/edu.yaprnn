@@ -54,7 +54,6 @@ public class TrainingFrame extends JFrame {
   public static final String TITLE = "Training";
 
   private static TrainingWorker trainingWorker;
-
   @Inject
   ControlsService controlsService;
   @Inject
@@ -69,28 +68,22 @@ public class TrainingFrame extends JFrame {
   ShuffleService shuffleService;
   @Inject
   OnMultiLayerNetworkWeightsPreviewModifiedRouter onMultiLayerNetworkWeightsPreviewModifiedRouter;
-
   private JButton startTrainingButton;
   private JButton stopTrainingButton;
   private DefaultComboBoxModel<TrainingData> trainingDataComboBoxModel;
   private DefaultComboBoxModel<MultiLayerNetwork> multiLayerNetworksComboBoxModel;
-
   private SpinnerNumberModel maxIterationsSpinnerNumberModel;
   private SpinnerNumberModel maxTrainingErrorSpinnerNumberModel;
-
   private JComboBox<TrainingMethod> trainingMethodComboBox;
   private SpinnerNumberModel batchSizeSpinnerNumberModel;
-
   private SpinnerNumberModel learningRateSpinnerNumberModel;
   private SpinnerNumberModel momentumSpinnerNumberModel;
   private SpinnerNumberModel decayL1SpinnerNumberModel;
   private SpinnerNumberModel decayL2SpinnerNumberModel;
-
   private JComboBox<LearningRateModifier> learningRateModifierComboBox;
   private SpinnerNumberModel learningRateChangeIntervalSpinnerNumberModel;
   private SpinnerNumberModel learningRateAscendSpinnerNumberModel;
   private SpinnerNumberModel learningRateDescendSpinnerNumberModel;
-
   private XYSeries devTestError;
   private XYSeries devTestHitRate;
   private XYSeries trainingError;
@@ -178,23 +171,25 @@ public class TrainingFrame extends JFrame {
     var maxIterationsSpinner = new JSpinner(maxIterationsSpinnerNumberModel);
 
     trainingMethodComboBox = new JComboBox<>(TrainingMethod.values());
-    batchSizeSpinnerNumberModel = new SpinnerNumberModel(20, 1, null, 1);
+    var cores = Runtime.getRuntime().availableProcessors();
+    var preferredCores = Math.max(2, Math.min(cores * 3 / 4, cores - 2));
+    batchSizeSpinnerNumberModel = new SpinnerNumberModel(preferredCores, 1, null, 1);
     var batchSizeSpinner = new JSpinner(batchSizeSpinnerNumberModel);
 
-    learningRateSpinnerNumberModel = new SpinnerNumberModel(0.001, -1.0, 2.0, 0.001);
+    learningRateSpinnerNumberModel = new SpinnerNumberModel(0.005, 0.0, 1.0, 0.001);
     var learningRateSpinner = new JSpinner(learningRateSpinnerNumberModel);
     learningRateModifierComboBox = new JComboBox<>(LearningRateModifier.values());
     learningRateModifierComboBox.setSelectedItem(LearningRateModifier.ADAPTIVE);
-    learningRateChangeIntervalSpinnerNumberModel = new SpinnerNumberModel(20, 1, null, 1);
+    learningRateChangeIntervalSpinnerNumberModel = new SpinnerNumberModel(5, 1, null, 1);
     var learningRateChangeIntervalSpinner = new JSpinner(
         learningRateChangeIntervalSpinnerNumberModel);
     learningRateAscendSpinnerNumberModel = new SpinnerNumberModel(1.01, 0.0, 2.0, 0.001);
     var learningRateAscendSpinner = new JSpinner(learningRateAscendSpinnerNumberModel);
     learningRateDescendSpinnerNumberModel = new SpinnerNumberModel(0.98, 0.0, 1.0, 0.001);
     var learningRateDescendSpinner = new JSpinner(learningRateDescendSpinnerNumberModel);
-    momentumSpinnerNumberModel = new SpinnerNumberModel(0.1, -1.0, 1.0, 0.001);
+    momentumSpinnerNumberModel = new SpinnerNumberModel(0.5, -1.0, 1.0, 0.001);
     var momentumSpinner = new JSpinner(momentumSpinnerNumberModel);
-    decayL1SpinnerNumberModel = new SpinnerNumberModel(0.0, -1.0, 1.0, 0.001);
+    decayL1SpinnerNumberModel = new SpinnerNumberModel(0.001, -1.0, 1.0, 0.001);
     var decayL1Spinner = new JSpinner(decayL1SpinnerNumberModel);
     decayL2SpinnerNumberModel = new SpinnerNumberModel(0.001, -1.0, 1.0, 0.001);
     var decayL2Spinner = new JSpinner(decayL2SpinnerNumberModel);
@@ -210,6 +205,7 @@ public class TrainingFrame extends JFrame {
     errorXYSeriesCollection.addSeries(trainingHitRate);
     var xyLineChart = ChartFactory.createXYLineChart("Training progress", "Iteration", "Value",
         errorXYSeriesCollection, PlotOrientation.VERTICAL, true, false, false);
+    xyLineChart.getXYPlot().getRangeAxis().setRange(0d, 1d);
 
     var preferencesPanel = new JPanel();
     var preferencesGroupLayout = new GroupLayout(preferencesPanel);

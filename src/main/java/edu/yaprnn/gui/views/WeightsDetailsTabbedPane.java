@@ -36,29 +36,30 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
 
   public void setWeightsPreview(MultiLayerNetwork multiLayerNetwork, int weightsIndex, float zoom,
       float gamma) {
-    weightsTable.setModel(controlsService.emptyTableModel());
-    weightsImagePanel.setImage(null);
-
-    if (Objects.nonNull(multiLayerNetwork) && weightsIndex >= 0) {
-      var weights = multiLayerNetwork.getLayerWeights()[weightsIndex];
-      var outputSize = multiLayerNetwork.getLayerSizes()[weightsIndex + 1];
-
-      weightsImagePanel.setImage(weightsService.from(weights, outputSize, zoom, gamma));
-
-      var inputSizeWithBias = weightsService.inputSizeWithBias(weights, outputSize);
-      var columnNames = IntStream.range(0, 1 + outputSize)
-          .mapToObj(i -> i > 0 ? "out[%d]".formatted(i - 1) : "")
-          .toArray();
-      var tableData = new Object[inputSizeWithBias][columnNames.length];
-      for (int row = 0, w = 0; row < inputSizeWithBias; row++) {
-        tableData[row][0] = "in[%d]".formatted(row);
-        for (var col = 1; col <= outputSize; col++, w++) {
-          tableData[row][col] = weightsService.roundFractions(weights[w]);
-        }
-      }
-
-      weightsTable.setModel(new DefaultTableModel(tableData, columnNames));
+    if (!Objects.nonNull(multiLayerNetwork) || weightsIndex < 0) {
+      weightsTable.setModel(controlsService.emptyTableModel());
+      weightsImagePanel.setImage(null);
+      return;
     }
+
+    var weights = multiLayerNetwork.getLayerWeights()[weightsIndex];
+    var outputSize = multiLayerNetwork.getLayerSizes()[weightsIndex + 1];
+
+    weightsImagePanel.setImage(weightsService.from(weights, outputSize, zoom, gamma));
+
+    var inputSizeWithBias = weightsService.inputSizeWithBias(weights, outputSize);
+    var columnNames = IntStream.range(0, 1 + outputSize)
+        .mapToObj(i -> i > 0 ? "out[%d]".formatted(i - 1) : "")
+        .toArray();
+    var tableData = new Object[inputSizeWithBias][columnNames.length];
+    for (int row = 0, w = 0; row < inputSizeWithBias; row++) {
+      tableData[row][0] = "in[%d]".formatted(row);
+      for (var col = 1; col <= outputSize; col++, w++) {
+        tableData[row][col] = weightsService.formatTableValue(weights[w]);
+      }
+    }
+
+    weightsTable.setModel(new DefaultTableModel(tableData, columnNames));
   }
 
   @PostConstruct
