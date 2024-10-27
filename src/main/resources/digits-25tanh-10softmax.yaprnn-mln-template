@@ -1,0 +1,23 @@
+{
+  "name": "digits 768,25,10",
+  "layers": [
+    {
+      "size": 768,
+      "activationFunction": {
+        "@class": "edu.yaprnn.functions.LinearActivationFunction"
+      }
+    },
+    {
+      "size": 25,
+      "activationFunction": {
+        "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
+      }
+    },
+    {
+      "size": 10,
+      "activationFunction": {
+        "@class": "edu.yaprnn.functions.SoftMaxActivationFunction"
+      }
+    }
+  ]
+}

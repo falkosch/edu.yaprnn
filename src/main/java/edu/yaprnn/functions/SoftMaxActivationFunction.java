@@ -3,11 +3,6 @@ package edu.yaprnn.functions;
 public class SoftMaxActivationFunction implements ActivationFunction {
 
   @Override
-  public String toString() {
-    return "SoftMax: exp(v[i])/sum(exp(v))";
-  }
-
-  @Override
   public float[] apply(float[] v) {
     var s = 0f;
     var h = new float[v.length];
@@ -36,5 +31,10 @@ public class SoftMaxActivationFunction implements ActivationFunction {
       d[i] *= (1f - d[i]);
     }
     return d;
+  }
+
+  @Override
+  public String toString() {
+    return "SoftMax: exp(v[i]) / sum(exp[v])";
   }
 }

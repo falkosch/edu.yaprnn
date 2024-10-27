@@ -228,7 +228,9 @@ public class ControlsService {
   }
 
   public ActivationFunction[] activationFunctions() {
-    return activationFunctionInstance.stream().toArray(ActivationFunction[]::new);
+    return activationFunctionInstance.stream()
+        .sorted(ActivationFunction.COMPARATOR)
+        .toArray(ActivationFunction[]::new);
   }
 
   public JComboBox<DataSelector> dataSelectorsComboBox(Consumer<DataSelector> consumer) {

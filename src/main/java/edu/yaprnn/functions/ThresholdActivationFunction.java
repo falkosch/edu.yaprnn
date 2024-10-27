@@ -1,12 +1,21 @@
 package edu.yaprnn.functions;
 
-public class HardTangentHyperbolicActivationFunction implements ActivationFunction {
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class ThresholdActivationFunction implements ActivationFunction {
+
+  private float threshold = 0.1f;
+  private float value = 0f;
 
   @Override
   public float[] apply(float[] v) {
     var h = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      h[i] = Functions.clamp(v[i], -1f, 1f);
+      var x = v[i];
+      h[i] = x > threshold ? x : value;
     }
     return h;
   }
@@ -20,13 +29,13 @@ public class HardTangentHyperbolicActivationFunction implements ActivationFuncti
   public float[] derivative(float[] v) {
     var d = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      d[i] = -1f < v[i] && v[i] < 1f ? 1f : 0f;
+      d[i] = v[i] > threshold ? 1f : 0f;
     }
     return d;
   }
 
   @Override
   public String toString() {
-    return "Hard tanh: max{min[v,1],-1}";
+    return "Threshold: v > T ? v : C";
   }
 }

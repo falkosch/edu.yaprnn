@@ -1,12 +1,14 @@
 package edu.yaprnn.functions;
 
-import java.util.Arrays;
-
-public class IdentityActivationFunction implements ActivationFunction {
+public class BinaryStepActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
-    return Arrays.copyOf(v, v.length);
+    var h = new float[v.length];
+    for (var i = 0; i < v.length; i++) {
+      h[i] = v[i] < 0 ? 0 : 1;
+    }
+    return h;
   }
 
   @Override
@@ -16,13 +18,12 @@ public class IdentityActivationFunction implements ActivationFunction {
 
   @Override
   public float[] derivative(float[] v) {
-    var d = new float[v.length];
-    Arrays.fill(d, 1f);
-    return d;
+    // all 0
+    return new float[v.length];
   }
 
   @Override
   public String toString() {
-    return "Identity: v";
+    return "BinaryStep: v < 0 ? 0 : 1";
   }
 }

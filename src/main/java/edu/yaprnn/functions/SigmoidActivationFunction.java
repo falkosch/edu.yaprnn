@@ -32,6 +32,6 @@ public class SigmoidActivationFunction implements ActivationFunction {
 
   @Override
   public String toString() {
-    return "Sigmoid: 1/(1+exp(-v))";
+    return "Sigmoid: 1 / (1 + exp[-v])";
   }
 }

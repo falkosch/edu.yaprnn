@@ -1,10 +1,10 @@
 {
-  "name": "digits tanh 3x25x25",
+  "name": "digits 768,25,25,25,10",
   "layers": [
     {
       "size": 768,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.IdentityActivationFunction"
+        "@class": "edu.yaprnn.functions.LinearActivationFunction"
       }
     },
     {

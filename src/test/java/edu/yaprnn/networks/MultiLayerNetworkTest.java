@@ -1,7 +1,7 @@
 package edu.yaprnn.networks;
 
 import edu.yaprnn.functions.ActivationFunction;
-import edu.yaprnn.functions.IdentityActivationFunction;
+import edu.yaprnn.functions.LinearActivationFunction;
 import edu.yaprnn.functions.SigmoidActivationFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 class MultiLayerNetworkTest {
 
   final ActivationFunction sigmoid = new SigmoidActivationFunction();
-  final ActivationFunction linear = new IdentityActivationFunction();
+  final ActivationFunction linear = new LinearActivationFunction();
   final DataSelector dataSelector = new ClassifierDataSelector();
 
   final TestGradientMatrixService gradientMatrixService = new TestGradientMatrixService();
