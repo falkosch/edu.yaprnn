@@ -1,7 +1,6 @@
 package edu.yaprnn.gui.model.editors;
 
 import edu.yaprnn.functions.ActivationFunction;
-import edu.yaprnn.functions.Functions;
 import edu.yaprnn.gui.model.NetworksTreeCellRenderer;
 import edu.yaprnn.gui.model.nodes.ActivationFunctionNode;
 import edu.yaprnn.gui.services.ControlsService;
@@ -20,7 +19,7 @@ public class ActivationFunctionTreeCellEditor extends
   public ActivationFunctionTreeCellEditor(@NetworksTree JTree networksTree,
       NetworksTreeCellRenderer networksTreeCellRenderer, ControlsService controlsService) {
     this(networksTree, networksTreeCellRenderer,
-        controlsService.activationFunctionsComboBox(Functions::noop));
+        controlsService.activationFunctionsComboBox(_ -> {/*NOOP*/}));
   }
 
   private ActivationFunctionTreeCellEditor(JTree networksTree,
