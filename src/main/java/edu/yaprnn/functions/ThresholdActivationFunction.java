@@ -21,6 +21,11 @@ public final class ThresholdActivationFunction implements ActivationFunction {
   }
 
   @Override
+  public float[] derivative(float[] h, float[] v) {
+    return derivative(v);
+  }
+
+  @Override
   public float[] derivative(float[] v) {
     var d = new float[v.length];
     for (var i = 0; i < v.length; i++) {

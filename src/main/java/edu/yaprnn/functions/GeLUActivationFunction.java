@@ -7,9 +7,14 @@ public final class GeLUActivationFunction implements ActivationFunction {
     var h = new float[v.length];
     for (var i = 0; i < v.length; i++) {
       var x = v[i];
-      h[i] = 0.5f * x * (1f + Erf.ofXDividedBySqrt2(x));
+      h[i] = 0.5f * x * (1f + ErfApproximation.of(x));
     }
     return h;
+  }
+
+  @Override
+  public float[] derivative(float[] h, float[] v) {
+    return derivative(v);
   }
 
   @Override
@@ -17,8 +22,8 @@ public final class GeLUActivationFunction implements ActivationFunction {
     var d = new float[v.length];
     for (var i = 0; i < v.length; i++) {
       var x = v[i];
-      var expTerm = 0.398942f * x * (float) Math.exp(-0.5f * x * x);
-      d[i] = 0.5f + 0.5f * x * Erf.ofXDividedBySqrt2(x) + expTerm;
+      var erf = ErfApproximation.of(x);
+      d[i] = 0.5f * (1f + erf + (x - x * erf * erf) * ErfApproximation.transformDerivative(x));
     }
     return d;
   }
@@ -31,13 +36,23 @@ public final class GeLUActivationFunction implements ActivationFunction {
   /**
    * Approximation of the error function as proposed in https://arxiv.org/pdf/1606.08415
    */
-  private static class Erf {
+  private static final class ErfApproximation {
 
-    private static final float SQRT_PI_HALF = 0.7978845608028654f;
-    private static final float SQRT_PI_HALF2 = 0.044715f * SQRT_PI_HALF;
+    private static final float SQRT_2_DIVIDED_BY_PI = 0.7978845608028654f;
 
-    private static float ofXDividedBySqrt2(float x) {
-      return (float) Math.tanh(x * (SQRT_PI_HALF + SQRT_PI_HALF2 * x * x));
+    private static final float ALPHA = 0.044715f;
+    private static final float DERIVATIVE_ALPHA = SQRT_2_DIVIDED_BY_PI * 3f * ALPHA;
+
+    private static float of(float x) {
+      return (float) Math.tanh(transform(x));
+    }
+
+    private static float transform(float x) {
+      return SQRT_2_DIVIDED_BY_PI * (x + ALPHA * x * x * x);
+    }
+
+    private static float transformDerivative(float x) {
+      return SQRT_2_DIVIDED_BY_PI + DERIVATIVE_ALPHA * x * x;
     }
   }
 }

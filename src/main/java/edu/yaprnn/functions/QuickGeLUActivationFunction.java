@@ -1,12 +1,13 @@
 package edu.yaprnn.functions;
 
-public final class SigmoidActivationFunction implements ActivationFunction {
+public final class QuickGeLUActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
     var h = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      h[i] = Sigmoid.of(v[i]);
+      var x = v[i];
+      h[i] = x * Sigmoid.of(Sigmoid.ALPHA * x);
     }
     return h;
   }
@@ -15,8 +16,8 @@ public final class SigmoidActivationFunction implements ActivationFunction {
   public float[] derivative(float[] h, float[] v) {
     var d = new float[h.length];
     for (var i = 0; i < h.length; i++) {
-      var y = h[i];
-      d[i] = y * (1f - y);
+      var s = Sigmoid.of(Sigmoid.ALPHA * v[i]);
+      d[i] = s + Sigmoid.ALPHA * h[i] * (1f - s);
     }
     return d;
   }
@@ -25,18 +26,21 @@ public final class SigmoidActivationFunction implements ActivationFunction {
   public float[] derivative(float[] v) {
     var d = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      var y = Sigmoid.of(v[i]);
-      d[i] = y * (1f - y);
+      var x = v[i];
+      var s = Sigmoid.of(Sigmoid.ALPHA * x);
+      d[i] = s + Sigmoid.ALPHA * x * s * (1f - s);
     }
     return d;
   }
 
   @Override
   public String toString() {
-    return "Sigmoid: 1 / (1 + exp[-v])";
+    return "QuickGeLU: x * Sigmoid(x)";
   }
 
   private static final class Sigmoid {
+
+    private static final float ALPHA = 1.702f;
 
     private static float of(float x) {
       return 1f / (1f + (float) Math.exp(-x));

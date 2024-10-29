@@ -12,6 +12,21 @@ public final class BinaryStepActivationFunction implements ActivationFunction {
   }
 
   @Override
+  public float[] derivative(float[] h, float[] v) {
+    return derivative(v);
+  }
+
+  @Override
+  public float[] derivative(float[] v) {
+    var d = new float[v.length];
+    for (var i = 0; i < v.length; i++) {
+      // good enough as a surrogate derivative
+      d[i] = 1f;
+    }
+    return d;
+  }
+
+  @Override
   public String toString() {
     return "BinaryStep: v < 0 ? 0 : 1";
   }
