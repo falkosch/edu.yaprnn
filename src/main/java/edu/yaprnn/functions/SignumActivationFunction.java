@@ -1,5 +1,7 @@
 package edu.yaprnn.functions;
 
+import java.util.Random;
+
 public final class SignumActivationFunction implements ActivationFunction {
 
   @Override
@@ -24,6 +26,11 @@ public final class SignumActivationFunction implements ActivationFunction {
       d[i] = 1f;
     }
     return d;
+  }
+
+  @Override
+  public float[] initialize(Random random, int count, int outputSize) {
+    return Initialization.shell(random, count, outputSize, Initialization::uniform);
   }
 
   @Override

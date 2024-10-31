@@ -1,6 +1,7 @@
 package edu.yaprnn.functions;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public final class LinearActivationFunction implements ActivationFunction {
 
@@ -23,6 +24,10 @@ public final class LinearActivationFunction implements ActivationFunction {
     return d;
   }
 
+  @Override
+  public float[] initialize(Random random, int count, int outputSize) {
+    return Initialization.shell(random, count, outputSize, Initialization::heNormal);
+  }
 
   @Override
   public String toString() {

@@ -168,15 +168,16 @@ public class TrainingFrame extends JFrame {
 
     maxTrainingErrorSpinnerNumberModel = new SpinnerNumberModel(0.001, 0.001, null, 0.001);
     var maxTrainingErrorSpinner = new JSpinner(maxTrainingErrorSpinnerNumberModel);
-    maxIterationsSpinnerNumberModel = new SpinnerNumberModel(10000, 1, null, 1000);
+    maxIterationsSpinnerNumberModel = new SpinnerNumberModel(100, 1, null, 1000);
     var maxIterationsSpinner = new JSpinner(maxIterationsSpinnerNumberModel);
 
     trainingMethodComboBox = new JComboBox<>(TrainingMethod.values());
+    trainingMethodComboBox.getModel().setSelectedItem(TrainingMethod.BATCH);
     batchSizeSpinnerNumberModel = new SpinnerNumberModel(ForkJoinPool.getCommonPoolParallelism(), 1,
         null, 1);
     var batchSizeSpinner = new JSpinner(batchSizeSpinnerNumberModel);
 
-    learningRateSpinnerNumberModel = new SpinnerNumberModel(0.005, 0.0, 1.0, 0.001);
+    learningRateSpinnerNumberModel = new SpinnerNumberModel(0.02, 0.0, 1.0, 0.001);
     var learningRateSpinner = new JSpinner(learningRateSpinnerNumberModel);
     learningRateModifierComboBox = new JComboBox<>(LearningRateModifier.values());
     learningRateModifierComboBox.setSelectedItem(LearningRateModifier.ADAPTIVE);

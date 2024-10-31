@@ -1,5 +1,7 @@
 package edu.yaprnn.functions;
 
+import java.util.Random;
+
 public final class TangentHyperbolicHardActivationFunction implements ActivationFunction {
 
   @Override
@@ -23,6 +25,11 @@ public final class TangentHyperbolicHardActivationFunction implements Activation
       d[i] = -1f < v[i] && v[i] < 1f ? 1f : 0f;
     }
     return d;
+  }
+
+  @Override
+  public float[] initialize(Random random, int count, int outputSize) {
+    return Initialization.shell(random, count, outputSize, Initialization::xavierUniform);
   }
 
   @Override

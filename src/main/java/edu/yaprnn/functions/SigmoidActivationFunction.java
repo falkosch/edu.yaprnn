@@ -1,5 +1,7 @@
 package edu.yaprnn.functions;
 
+import java.util.Random;
+
 public final class SigmoidActivationFunction implements ActivationFunction {
 
   @Override
@@ -29,6 +31,11 @@ public final class SigmoidActivationFunction implements ActivationFunction {
       d[i] = y * (1f - y);
     }
     return d;
+  }
+
+  @Override
+  public float[] initialize(Random random, int count, int outputSize) {
+    return Initialization.shell(random, count, outputSize, Initialization::heUniform);
   }
 
   @Override

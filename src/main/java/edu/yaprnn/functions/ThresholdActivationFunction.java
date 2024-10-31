@@ -1,5 +1,6 @@
 package edu.yaprnn.functions;
 
+import java.util.Random;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +33,11 @@ public final class ThresholdActivationFunction implements ActivationFunction {
       d[i] = v[i] > threshold ? 1f : 0f;
     }
     return d;
+  }
+
+  @Override
+  public float[] initialize(Random random, int count, int outputSize) {
+    return Initialization.shell(random, count, outputSize, Initialization::heUniform);
   }
 
   @Override

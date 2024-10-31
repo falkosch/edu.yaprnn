@@ -1,5 +1,7 @@
 package edu.yaprnn.functions;
 
+import java.util.Random;
+
 public final class GeLUActivationFunction implements ActivationFunction {
 
   @Override
@@ -26,6 +28,11 @@ public final class GeLUActivationFunction implements ActivationFunction {
       d[i] = 0.5f * (1f + erf + (x - x * erf * erf) * ErfApproximation.transformDerivative(x));
     }
     return d;
+  }
+
+  @Override
+  public float[] initialize(Random random, int count, int outputSize) {
+    return Initialization.shell(random, count, outputSize, Initialization::xavierUniform);
   }
 
   @Override

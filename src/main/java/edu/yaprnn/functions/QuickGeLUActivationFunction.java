@@ -1,5 +1,7 @@
 package edu.yaprnn.functions;
 
+import java.util.Random;
+
 public final class QuickGeLUActivationFunction implements ActivationFunction {
 
   @Override
@@ -31,6 +33,11 @@ public final class QuickGeLUActivationFunction implements ActivationFunction {
       d[i] = s + Sigmoid.ALPHA * x * s * (1f - s);
     }
     return d;
+  }
+
+  @Override
+  public float[] initialize(Random random, int count, int outputSize) {
+    return Initialization.shell(random, count, outputSize, Initialization::heUniform);
   }
 
   @Override
