@@ -10,36 +10,36 @@ repositories {
 ext {
     javaVersion = 22
 
-    guavaVersion = '33.2.1-jre'
-    jacksonVersion = '2.17.0'
-    jfreeChartVersion = '1.0.19'
-    jtransformsVersion = '3.1'
-    weldVersion = '6.0.0.Beta1'
-
-    lombokMapStructBindingVersion = '0.2.0'
     lombokVersion = '1.18.34'
     mapStructVersion = '1.6.0.Beta1'
-
-    assertjVersion = '3.26.3'
-    junitVersion = '5.11.0-M1'
 }
 
 dependencies {
-    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-    implementation "com.github.wendykierp:JTransforms:${jtransformsVersion}"
-    implementation "com.google.guava:guava:${guavaVersion}"
-    implementation "org.jboss.weld.se:weld-se-core:${weldVersion}"
-    implementation "org.jfree:jfreechart:${jfreeChartVersion}"
+    implementation platform('com.fasterxml.jackson:jackson-bom:2.17.2')
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    implementation platform('org.jboss.weld:weld-core-bom:6.0.0.Beta4')
+    implementation 'org.jboss.weld.se:weld-se-core'
+
+    implementation platform('com.google.guava:guava-bom:33.3.1-jre')
+    implementation 'com.google.guava:guava'
+
+    implementation 'com.github.wendykierp:JTransforms:3.1'
+    implementation 'org.jfree:jfreechart:1.0.19'
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "org.mapstruct:mapstruct:${mapStructVersion}"
-    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapStructBindingVersion}"
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
-    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testImplementation platform('org.junit:junit-bom:5.11.3')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
-    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+
+    testImplementation platform('org.assertj:assertj-bom:3.26.3')
+    testImplementation 'org.assertj:assertj-core'
+
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
