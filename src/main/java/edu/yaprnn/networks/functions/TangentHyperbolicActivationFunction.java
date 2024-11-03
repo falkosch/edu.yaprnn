@@ -1,5 +1,7 @@
 package edu.yaprnn.networks.functions;
 
+import edu.yaprnn.networks.weights.Initialization;
+import edu.yaprnn.networks.weights.UniformInitializer;
 import java.util.Random;
 
 public final class TangentHyperbolicActivationFunction implements ActivationFunction {
@@ -34,7 +36,7 @@ public final class TangentHyperbolicActivationFunction implements ActivationFunc
 
   @Override
   public float[] initialize(Random random, int count, int outputSize) {
-    return Initialization.shell(random, count, outputSize, Initialization::xavierUniform);
+    return Initialization.shell(random, count, outputSize, UniformInitializer::xavier);
   }
 
   @Override

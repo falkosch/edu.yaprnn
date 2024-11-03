@@ -1,5 +1,7 @@
 package edu.yaprnn.networks.functions;
 
+import edu.yaprnn.networks.weights.GaussianInitializer;
+import edu.yaprnn.networks.weights.Initialization;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -26,7 +28,7 @@ public final class LinearActivationFunction implements ActivationFunction {
 
   @Override
   public float[] initialize(Random random, int count, int outputSize) {
-    return Initialization.shell(random, count, outputSize, Initialization::heNormal);
+    return Initialization.shell(random, count, outputSize, GaussianInitializer::he);
   }
 
   @Override
