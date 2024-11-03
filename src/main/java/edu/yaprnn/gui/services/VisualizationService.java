@@ -34,9 +34,8 @@ public class VisualizationService {
         }
       }
 
-      var clampedZoom = Math.clamp(zoom, 0.5f, 100f);
-      var newWidth = (int) (outputSize * clampedZoom);
-      var newHeight = (int) (height * clampedZoom);
+      var newWidth = (int) (outputSize * zoom);
+      var newHeight = (int) (height * zoom);
       return Images.resize(image, newWidth, newHeight, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
     } finally {
       image.flush();
