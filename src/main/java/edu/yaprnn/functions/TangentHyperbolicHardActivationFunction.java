@@ -8,7 +8,7 @@ public final class TangentHyperbolicHardActivationFunction implements Activation
   public float[] apply(float[] v) {
     var h = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      h[i] = Functions.clamp(v[i], -1f, 1f);
+      h[i] = Math.clamp(v[i], -1f, 1f);
     }
     return h;
   }

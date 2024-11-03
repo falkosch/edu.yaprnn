@@ -1,8 +1,8 @@
 package edu.yaprnn.gui.model.nodes;
 
-import edu.yaprnn.functions.Providers;
 import edu.yaprnn.gui.services.IconsService;
 import edu.yaprnn.networks.MultiLayerNetwork;
+import edu.yaprnn.support.Providers;
 import java.util.Collections;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;

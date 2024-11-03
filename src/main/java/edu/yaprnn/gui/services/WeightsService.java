@@ -1,6 +1,5 @@
 package edu.yaprnn.gui.services;
 
-import edu.yaprnn.functions.Functions;
 import edu.yaprnn.gui.images.Images;
 import edu.yaprnn.networks.Layer;
 import edu.yaprnn.networks.WeightsDimension;
@@ -30,12 +29,12 @@ public class WeightsService {
           var weight = weights[w];
           var sign = Math.signum(weight);
           var positiveGammaAdjusted = Math.pow(sign * weight, gammaAsDouble);
-          var intensity = (int) Functions.clamp(255d - positiveGammaAdjusted, 0d, 255d);
+          var intensity = (int) Math.clamp(255d - positiveGammaAdjusted, 0d, 255d);
           image.setRGB(x, y, intensity << (sign < 0 ? 0 : 8) | intensity << (sign > 0 ? 16 : 8));
         }
       }
 
-      var clampedZoom = Functions.clamp(zoom, 0.5f, 100f);
+      var clampedZoom = Math.clamp(zoom, 0.5f, 100f);
       var newWidth = (int) (outputSize * clampedZoom);
       var newHeight = (int) (height * clampedZoom);
       return Images.resize(image, newWidth, newHeight, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);

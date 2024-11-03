@@ -1,10 +1,10 @@
 package edu.yaprnn.gui.model.nodes;
 
-import edu.yaprnn.functions.Providers;
 import edu.yaprnn.gui.model.NetworksTreeModel;
 import edu.yaprnn.gui.services.IconsService;
 import edu.yaprnn.networks.MultiLayerNetwork;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
+import edu.yaprnn.support.Providers;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;

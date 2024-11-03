@@ -1,8 +1,8 @@
 package edu.yaprnn.gui.model.nodes;
 
-import edu.yaprnn.functions.Providers;
 import edu.yaprnn.gui.model.NetworksTreeModel;
 import edu.yaprnn.samples.model.Sample;
+import edu.yaprnn.support.Providers;
 import java.util.List;
 import java.util.function.Supplier;
 import javax.swing.Icon;

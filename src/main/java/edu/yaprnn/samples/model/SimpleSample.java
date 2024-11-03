@@ -1,7 +1,6 @@
 package edu.yaprnn.samples.model;
 
 import com.google.common.primitives.Floats;
-import edu.yaprnn.functions.Functions;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -33,7 +32,7 @@ public class SimpleSample implements Sample {
   public Image createPreview() {
     var image = new BufferedImage(input.length, 1, BufferedImage.TYPE_BYTE_GRAY);
     for (var x = 0; x < input.length; x++) {
-      image.setRGB(x, 0, (int) Functions.clamp(255f * input[x], 0f, 255f));
+      image.setRGB(x, 0, (int) Math.clamp(255f * input[x], 0f, 255f));
     }
     return image;
   }
