@@ -1,7 +1,7 @@
 package edu.yaprnn.networks;
 
 import com.google.common.collect.Lists;
-import edu.yaprnn.functions.ActivationFunction;
+import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.training.DataSelector;
 import java.util.Arrays;

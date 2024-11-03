@@ -2,9 +2,9 @@ package edu.yaprnn.networks;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import edu.yaprnn.functions.ActivationFunction;
-import edu.yaprnn.functions.GeLUActivationFunction;
-import edu.yaprnn.functions.LinearActivationFunction;
+import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.functions.GeLUActivationFunction;
+import edu.yaprnn.networks.functions.LinearActivationFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.Sample;

@@ -1,7 +1,7 @@
 package edu.yaprnn.gui.model.nodes;
 
-import edu.yaprnn.functions.ActivationFunction;
 import edu.yaprnn.gui.services.IconsService;
+import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.support.Providers;

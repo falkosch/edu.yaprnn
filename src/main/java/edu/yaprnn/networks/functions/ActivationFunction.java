@@ -1,4 +1,4 @@
-package edu.yaprnn.functions;
+package edu.yaprnn.networks.functions;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;

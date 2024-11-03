@@ -1,4 +1,4 @@
-package edu.yaprnn.functions;
+package edu.yaprnn.networks.functions;
 
 import java.util.Random;
 import lombok.AllArgsConstructor;

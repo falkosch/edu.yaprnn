@@ -4,31 +4,31 @@
     {
       "size": 768,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.LinearActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.LinearActivationFunction"
       }
     },
     {
       "size": 25,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.BinaryStepActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.BinaryStepActivationFunction"
       }
     },
     {
       "size": 25,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.BinaryStepActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.BinaryStepActivationFunction"
       }
     },
     {
       "size": 25,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.BinaryStepActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.BinaryStepActivationFunction"
       }
     },
     {
       "size": 10,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.BinaryStepActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.BinaryStepActivationFunction"
       }
     }
   ]

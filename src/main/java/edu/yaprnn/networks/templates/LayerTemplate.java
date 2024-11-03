@@ -1,7 +1,7 @@
 package edu.yaprnn.networks.templates;
 
-import edu.yaprnn.functions.ActivationFunction;
 import edu.yaprnn.networks.MultiLayerNetwork;
+import edu.yaprnn.networks.functions.ActivationFunction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,10 +1,10 @@
 package edu.yaprnn.gui.model.editors;
 
-import edu.yaprnn.functions.ActivationFunction;
 import edu.yaprnn.gui.model.NetworksTreeCellRenderer;
 import edu.yaprnn.gui.model.nodes.ActivationFunctionNode;
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.views.di.NetworksTree;
+import edu.yaprnn.networks.functions.ActivationFunction;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import javax.swing.DefaultCellEditor;
