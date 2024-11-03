@@ -1,6 +1,5 @@
 package edu.yaprnn.training;
 
-import edu.yaprnn.model.Repository;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.support.RandomConfigurer;
 import edu.yaprnn.training.mappings.TrainingDataMapper;
@@ -19,8 +18,6 @@ public class ShuffleService {
   @Named(RandomConfigurer.YAPRNN_RANDOM_BEAN)
   @Inject
   Random random;
-  @Inject
-  Repository repository;
   @Inject
   TrainingDataMapper trainingDataMapper;
 
@@ -50,9 +47,5 @@ public class ShuffleService {
     var result = new ArrayList<>(items);
     Collections.shuffle(result, random);
     return result;
-  }
-
-  public List<Sample> shuffleSamples(List<String> sampleNames) {
-    return repository.querySamplesByName(shuffleList(sampleNames));
   }
 }

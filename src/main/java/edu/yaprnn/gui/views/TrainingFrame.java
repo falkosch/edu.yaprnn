@@ -410,12 +410,14 @@ public class TrainingFrame extends JFrame {
     private void train(LearnSamplesConsumer learnSamplesConsumer) {
       var learningRateState = getLearningRateState();
       var dataSelector = trainingData.getDataSelector();
-      var devTestSamples = trainingData.getDevTestSamples(repository);
-      var trainingError = trackError(-1, learningRate, trainingData.getTrainingSamples(repository),
-          devTestSamples, dataSelector);
+      var devTestSamples = repository.querySamplesByName(trainingData.getDevTestSampleNames());
+      var trainingSamples = repository.querySamplesByName(trainingData.getTrainingSampleNames());
+
+      var trainingError = trackError(-1, learningRate, trainingSamples, devTestSamples,
+          dataSelector);
 
       for (var i = 0; i < maxIterations && trainingError > maxTrainingError && !stopped; i++) {
-        var samples = trainingData.shuffleTrainingSamples(shuffleService);
+        var samples = shuffleService.shuffleList(trainingSamples);
         var learningRate = learningRateState.current();
 
         var iteration = i;
