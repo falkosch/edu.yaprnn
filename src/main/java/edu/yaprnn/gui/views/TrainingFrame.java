@@ -5,7 +5,6 @@ import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModifiedRouter;
 import edu.yaprnn.gui.services.ControlsService;
-import edu.yaprnn.gui.services.DialogsService;
 import edu.yaprnn.gui.services.IconsService;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.GradientMatrixService;
@@ -15,6 +14,7 @@ import edu.yaprnn.networks.learningrate.DynamicLearningRateState;
 import edu.yaprnn.networks.learningrate.EpochLearningRateState;
 import edu.yaprnn.networks.learningrate.LearningRateState;
 import edu.yaprnn.samples.model.Sample;
+import edu.yaprnn.support.swing.DialogsService;
 import edu.yaprnn.training.DataSelector;
 import edu.yaprnn.training.ShuffleService;
 import edu.yaprnn.training.TrainingData;

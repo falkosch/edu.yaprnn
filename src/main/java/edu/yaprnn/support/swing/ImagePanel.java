@@ -1,4 +1,4 @@
-package edu.yaprnn.gui.images;
+package edu.yaprnn.support.swing;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

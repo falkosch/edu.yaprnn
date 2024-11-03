@@ -4,11 +4,11 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.events.OnSamplePreviewModifiedRouter;
-import edu.yaprnn.gui.images.ImagePanel;
 import edu.yaprnn.gui.services.ControlsService;
-import edu.yaprnn.gui.services.DialogsService;
 import edu.yaprnn.gui.services.SamplesService;
 import edu.yaprnn.samples.model.Sample;
+import edu.yaprnn.support.swing.DialogsService;
+import edu.yaprnn.support.swing.ImagePanel;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.awt.event.MouseAdapter;

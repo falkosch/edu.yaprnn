@@ -43,7 +43,8 @@ public final class GeLUActivationFunction implements ActivationFunction {
   }
 
   /**
-   * Approximation of the error function as proposed in https://arxiv.org/pdf/1606.08415
+   * Approximation of the error function as proposed in <a
+   * href="https://arxiv.org/pdf/1606.08415">...</a>
    */
   private static final class ErfApproximation {
 

@@ -1,12 +1,13 @@
 package edu.yaprnn.gui.services;
 
-import edu.yaprnn.gui.images.Images;
 import edu.yaprnn.gui.views.ImportImagesPanel;
 import edu.yaprnn.samples.AudiosImportService;
 import edu.yaprnn.samples.ImagesImportService;
 import edu.yaprnn.samples.model.ImageSample;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.samples.model.SoundSample;
+import edu.yaprnn.support.swing.DialogsService;
+import edu.yaprnn.support.swing.Images;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;

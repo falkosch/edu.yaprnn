@@ -6,6 +6,7 @@ import edu.yaprnn.gui.model.NetworksTreeModel;
 import edu.yaprnn.gui.model.nodes.ModelNode;
 import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction;
+import edu.yaprnn.support.swing.DialogsService;
 import edu.yaprnn.training.ClassifierDataSelector;
 import edu.yaprnn.training.DataSelector;
 import jakarta.enterprise.inject.Any;

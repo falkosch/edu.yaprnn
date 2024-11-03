@@ -4,7 +4,7 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.gui.services.ControlsService;
-import edu.yaprnn.gui.services.DialogsService;
+import edu.yaprnn.support.swing.DialogsService;
 import edu.yaprnn.training.DataSelector;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
