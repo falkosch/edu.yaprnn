@@ -168,7 +168,7 @@ public class TrainingFrame extends JFrame {
 
     maxTrainingErrorSpinnerNumberModel = new SpinnerNumberModel(0.001, 0.001, null, 0.001);
     var maxTrainingErrorSpinner = new JSpinner(maxTrainingErrorSpinnerNumberModel);
-    maxIterationsSpinnerNumberModel = new SpinnerNumberModel(100, 1, null, 1000);
+    maxIterationsSpinnerNumberModel = new SpinnerNumberModel(50, 1, null, 1000);
     var maxIterationsSpinner = new JSpinner(maxIterationsSpinnerNumberModel);
 
     trainingMethodComboBox = new JComboBox<>(TrainingMethod.values());
@@ -188,7 +188,7 @@ public class TrainingFrame extends JFrame {
     var learningRateAscendSpinner = new JSpinner(learningRateAscendSpinnerNumberModel);
     learningRateDescendSpinnerNumberModel = new SpinnerNumberModel(0.98, 0.0, 1.0, 0.001);
     var learningRateDescendSpinner = new JSpinner(learningRateDescendSpinnerNumberModel);
-    momentumSpinnerNumberModel = new SpinnerNumberModel(0.5, -1.0, 1.0, 0.001);
+    momentumSpinnerNumberModel = new SpinnerNumberModel(0.2, -1.0, 1.0, 0.001);
     var momentumSpinner = new JSpinner(momentumSpinnerNumberModel);
     decayL1SpinnerNumberModel = new SpinnerNumberModel(0.001, -1.0, 1.0, 0.001);
     var decayL1Spinner = new JSpinner(decayL1SpinnerNumberModel);

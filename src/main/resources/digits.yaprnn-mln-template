@@ -1,8 +1,8 @@
 {
-  "name": "digits 768,25,25,25,10",
+  "name": "digits 784,25,25,25,10",
   "layers": [
     {
-      "size": 768,
+      "size": 784,
       "activationFunction": {
         "@class": "edu.yaprnn.networks.functions.LinearActivationFunction"
       }
