@@ -100,7 +100,7 @@ public class ImageSample implements Sample {
 
     for (var y = 0; y < inputHeight; y++) {
       for (var x = 0; x < inputWidth; x++) {
-        var pixelValue = Math.round(255f * input[y * inputWidth + x]);
+        var pixelValue = Math.clamp(Math.round(255f * input[y * inputWidth + x]), 0, 255);
         image.setRGB(x, y, pixelValue | (pixelValue << 8) | (pixelValue << 16));
       }
     }

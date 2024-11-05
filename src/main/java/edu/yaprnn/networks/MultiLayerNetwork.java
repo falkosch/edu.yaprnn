@@ -45,11 +45,14 @@ public class MultiLayerNetwork {
       List<? extends Sample> trainingSamples, DataSelector dataSelector, float learningRate,
       float momentum, float decayL1, float decayL2) {
 
+    var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
+
     trainingSamples.parallelStream().forEach(sample -> {
+      var input = dataSelector.input(sample);
+      var target = dataSelector.target(sample, outputActivationFunction);
+
       var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
       var layerWeights = gradientMatrixService.copyMatrices(this.layerWeights);
-      var input = dataSelector.input(sample);
-      var target = dataSelector.target(sample);
       computeGradients(layerGradients, layerWeights, input, target);
       applyGradients(layerGradients, layerWeights, 1, learningRate, momentum, decayL1, decayL2);
     });
@@ -107,7 +110,8 @@ public class MultiLayerNetwork {
   private Layer[] feedForward(float[] input, float[][] layerWeights) {
     var v = Arrays.copyOf(input, layerSizes[0]);
     var layers = new Layer[layerSizes.length];
-    layers[0] = new Layer(v, activationFunctions[0].apply(v));
+    var inputActivationFunction = activationFunctions[0];
+    layers[0] = new Layer(0, v, inputActivationFunction.apply(v), inputActivationFunction);
 
     for (int i = 1, k = 0; i < layers.length; i++, k++) {
       layers[i] = feedForward(layers[k], layerWeights[k], i);
@@ -145,34 +149,39 @@ public class MultiLayerNetwork {
     return layerError;
   }
 
-  private Layer feedForward(Layer inputLayer, float[] weights, int outputLayerIndex) {
-    var inputH = inputLayer.h();
-    var outputV = new float[layerSizes[outputLayerIndex]];
+  private Layer feedForward(Layer inputLayer, float[] weights, int nextLayerIndex) {
+    var input = inputLayer.h();
+    var v = new float[layerSizes[nextLayerIndex]];
     var w = 0;
 
-    for (var row = 0; row < inputH.length; row++) {
-      var value = inputH[row];
-      for (var i = 0; i < outputV.length; i++, w++) {
-        outputV[i] += weights[w] * value;
+    for (var row = 0; row < input.length; row++) {
+      var value = input[row];
+      for (var i = 0; i < v.length; i++, w++) {
+        v[i] += weights[w] * value;
       }
     }
 
-    for (var i = 0; i < outputV.length; i++, w++) {
-      outputV[i] += weights[w] * bias;
+    for (var i = 0; i < v.length; i++, w++) {
+      v[i] += weights[w] * bias;
     }
 
-    return new Layer(outputV, activationFunctions[outputLayerIndex].apply(outputV));
+    var nextLayerActivationFunction = activationFunctions[nextLayerIndex];
+    return new Layer(nextLayerIndex, v, nextLayerActivationFunction.apply(v),
+        nextLayerActivationFunction);
   }
 
   public void learnMiniBatch(GradientMatrixService gradientMatrixService,
       List<? extends Sample> trainingSamples, DataSelector dataSelector, int batchSize,
       float learningRate, float momentum, float decayL1, float decayL2) {
+    var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
+
     Lists.partition(trainingSamples, batchSize).forEach(batch -> {
       var batchLayerGradients = batch.parallelStream()
           .map(sample -> {
-            var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
             var input = dataSelector.input(sample);
-            var target = dataSelector.target(sample);
+            var target = dataSelector.target(sample, outputActivationFunction);
+
+            var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
             computeGradients(layerGradients, layerWeights, input, target);
             return layerGradients;
           })
@@ -186,17 +195,19 @@ public class MultiLayerNetwork {
 
   public AccuracyResult computeAccuracy(Collection<? extends Sample> samples,
       DataSelector dataSelector) {
+    var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
+
     return samples.parallelStream().map(sample -> {
       var layers = feedForward(dataSelector.input(sample), layerWeights);
-      var outputLayer = Layer.output(layers);
-      var target = dataSelector.target(sample);
-      var error = computeNetworkError(outputLayer, target);
-      return AccuracyResult.from(outputLayer.h(), target, error);
+      var h = Layer.output(layers).h();
+
+      var target = dataSelector.target(sample, outputActivationFunction);
+      var error = computeNetworkError(h, target);
+      return AccuracyResult.from(h, target, error);
     }).reduce(AccuracyResult::sum).map(AccuracyResult::average).orElseThrow();
   }
 
-  private float computeNetworkError(Layer outputLayer, float[] target) {
-    var h = outputLayer.h();
+  private float computeNetworkError(float[] h, float[] target) {
     var maxLength = Math.max(h.length, target.length);
     var safeH = Arrays.copyOf(h, maxLength);
     var safeT = Arrays.copyOf(target, maxLength);
