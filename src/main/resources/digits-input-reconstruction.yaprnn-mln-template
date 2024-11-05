@@ -1,0 +1,47 @@
+{
+  "name": "digits 784,392,196,196,392,784",
+  "layers": [
+    {
+      "size": 784,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.LinearActivationFunction"
+      }
+    },
+    {
+      "size": 196,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+      }
+    },
+    {
+      "size": 98,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+      }
+    },
+    {
+      "size": 50,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+      }
+    },
+    {
+      "size": 98,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+      }
+    },
+    {
+      "size": 196,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+      }
+    },
+    {
+      "size": 784,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+      }
+    }
+  ]
+}

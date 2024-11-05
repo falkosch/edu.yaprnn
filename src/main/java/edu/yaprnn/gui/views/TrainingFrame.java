@@ -204,7 +204,7 @@ public class TrainingFrame extends JFrame {
     errorXYSeriesCollection.addSeries(devTestHitRate);
     errorXYSeriesCollection.addSeries(trainingError);
     errorXYSeriesCollection.addSeries(trainingHitRate);
-    var xyLineChart = ChartFactory.createXYLineChart("Training progress", "Iteration", "Value",
+    var xyLineChart = ChartFactory.createXYLineChart("Training progress", "Epoch", "Value",
         errorXYSeriesCollection, PlotOrientation.VERTICAL, true, false, false);
     xyLineChart.getXYPlot().getRangeAxis().setRange(0d, 1d);
 
