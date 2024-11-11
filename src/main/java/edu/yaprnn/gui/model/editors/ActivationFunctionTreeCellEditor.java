@@ -2,7 +2,7 @@ package edu.yaprnn.gui.model.editors;
 
 import edu.yaprnn.gui.model.NetworksTreeCellRenderer;
 import edu.yaprnn.gui.model.nodes.ActivationFunctionNode;
-import edu.yaprnn.gui.services.ControlsService;
+import edu.yaprnn.gui.services.ActivationFunctionControlsService;
 import edu.yaprnn.gui.views.di.NetworksTree;
 import edu.yaprnn.networks.functions.ActivationFunction;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -17,7 +17,8 @@ public class ActivationFunctionTreeCellEditor extends
 
   @Inject
   public ActivationFunctionTreeCellEditor(@NetworksTree JTree networksTree,
-      NetworksTreeCellRenderer networksTreeCellRenderer, ControlsService controlsService) {
+      NetworksTreeCellRenderer networksTreeCellRenderer,
+      ActivationFunctionControlsService controlsService) {
     this(networksTree, networksTreeCellRenderer,
         controlsService.activationFunctionsComboBox(_ -> {/*NOOP*/}));
   }

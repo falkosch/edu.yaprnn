@@ -43,7 +43,7 @@ public class FilesService {
   public JButton chooseFileButton(Component parent, JTextField target,
       FileNameExtensionFilter filter) {
     var button = new JButton("...");
-    button.addActionListener(event -> selectFile(parent, filter, false, target::setText));
+    button.addActionListener(_ -> selectFile(parent, filter, false, target::setText));
     return button;
   }
 

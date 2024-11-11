@@ -34,9 +34,9 @@ import edu.yaprnn.gui.model.nodes.TrainingDataNode;
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.services.FilesService;
 import edu.yaprnn.gui.services.IconsService;
+import edu.yaprnn.gui.services.NetworksControlsService;
 import edu.yaprnn.gui.services.PersistenceService;
 import edu.yaprnn.gui.services.SamplesService;
-import edu.yaprnn.gui.services.WebsiteService;
 import edu.yaprnn.gui.views.di.NetworksTree;
 import edu.yaprnn.gui.views.mappings.MultiLayerNetworkMapper;
 import edu.yaprnn.gui.views.mappings.MultiLayerNetworkTemplateMapper;
@@ -45,6 +45,7 @@ import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.GradientMatrixService;
 import edu.yaprnn.networks.MultiLayerNetwork;
 import edu.yaprnn.samples.model.Sample;
+import edu.yaprnn.support.swing.DialogsService;
 import edu.yaprnn.training.TrainingData;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Instance;
@@ -52,9 +53,11 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.GroupLayout;
@@ -80,6 +83,8 @@ public class MainFrame extends JFrame {
   @Inject
   ControlsService controlsService;
   @Inject
+  DialogsService dialogsService;
+  @Inject
   FilesService filesService;
   @Inject
   GradientMatrixService gradientMatrixService;
@@ -89,6 +94,8 @@ public class MainFrame extends JFrame {
   MultiLayerNetworkMapper multiLayerNetworkMapper;
   @Inject
   MultiLayerNetworkTemplateMapper multiLayerNetworkTemplateMapper;
+  @Inject
+  NetworksControlsService networksControlsService;
   @Inject
   NetworksTreeCellEditor networksTreeCellEditor;
   @Inject
@@ -113,8 +120,6 @@ public class MainFrame extends JFrame {
   SamplesService samplesService;
   @Inject
   TrainingDataMapper trainingDataMapper;
-  @Inject
-  WebsiteService websiteService;
 
   @Inject
   Instance<ClassifyFrame> classifyFrameInstance;
@@ -242,8 +247,8 @@ public class MainFrame extends JFrame {
     toolBar.add(resetButton);
 
     classifyFrame = classifyFrameInstance.get();
-    networksTree = controlsService.networksTree(networksTreeCellEditor, networksTreeCellRenderer,
-        this::setSelectedPath);
+    networksTree = networksControlsService.networksTree(networksTreeCellEditor,
+        networksTreeCellRenderer, this::setSelectedPath);
     networksTree.addKeyListener(new RemoveFromNetworksTreeKeyAdapter());
     sampleDetailsView = sampleDetailsViewInstance.get();
     samplePreprocessingFrame = samplePreprocessingFrameInstance.get();
@@ -302,10 +307,6 @@ public class MainFrame extends JFrame {
     persistenceService.saveMultiLayerNetwork(onMultiLayerNetworkSelectedRouter.getSelected(), path);
   }
 
-  private void visitWebsite() {
-    websiteService.visit(this);
-  }
-
   private void add() {
     var selectedNode = onModelNodeSelectedRouter.getSelected();
     if (selectedNode instanceof TrainingDataListNode) {
@@ -359,7 +360,6 @@ public class MainFrame extends JFrame {
 
     networksTreeModel.add(persistenceService.loadTrainingData(
         MainFrame.class.getResource("/digits.yaprnn-training-data")));
-
     networksTreeModel.add(persistenceService.loadMultiLayerNetworkTemplate(
         MainFrame.class.getResource("/digits.yaprnn-mln-template")));
     networksTreeModel.add(persistenceService.loadMultiLayerNetwork(
@@ -369,7 +369,6 @@ public class MainFrame extends JFrame {
         MainFrame.class.getResource("/digits-input-reconstruction.yaprnn-training-data"));
     networksTreeModel.add(digitInputReconstructionTrainingData);
     onTrainingDataSelectedRouter.setSelected(digitInputReconstructionTrainingData);
-
     networksTreeModel.add(persistenceService.loadMultiLayerNetworkTemplate(
         MainFrame.class.getResource("/digits-input-reconstruction.yaprnn-mln-template")));
     networksTreeModel.add(persistenceService.loadMultiLayerNetwork(
@@ -545,6 +544,14 @@ public class MainFrame extends JFrame {
   private void removeMultiLayerNetworksFromSelectionControls(List<MultiLayerNetwork> removed) {
     classifyFrame.removeMultiLayerNetworksFromSelectionControls(removed);
     trainingFrame.removeMultiLayerNetworksFromSelectionControls(removed);
+  }
+
+  private void visitWebsite() {
+    try {
+      Desktop.getDesktop().browse(new URI("https://github.com/falkosch/edu.yaprnn"));
+    } catch (Throwable throwable) {
+      dialogsService.showError(this, "Visit code repository", throwable);
+    }
   }
 
   private class RemoveFromNetworksTreeKeyAdapter extends KeyAdapter {

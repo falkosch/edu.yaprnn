@@ -5,7 +5,9 @@ import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.events.OnSamplePreviewModifiedRouter;
 import edu.yaprnn.gui.services.ControlsService;
+import edu.yaprnn.gui.services.SampleControlsService;
 import edu.yaprnn.gui.services.SamplesService;
+import edu.yaprnn.gui.services.ZoomControlsService;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.support.swing.DialogsService;
 import edu.yaprnn.support.swing.ImagePanel;
@@ -55,6 +57,10 @@ public class SampleDetailsView {
   @Inject
   SamplesService samplesService;
   @Inject
+  SampleControlsService sampleControlsService;
+  @Inject
+  ZoomControlsService zoomControlsService;
+  @Inject
   OnSamplePreviewModifiedRouter onSamplePreviewModifiedRouter;
 
   @Getter
@@ -78,15 +84,17 @@ public class SampleDetailsView {
     var subSampledTitledBorder = BorderFactory.createTitledBorder("Preview");
     var sampleMetaTitledBorder = BorderFactory.createTitledBorder("Sample Meta");
 
-    var zoomSampleComboBox = controlsService.zoomComboBox(onSamplePreviewModifiedRouter::setZoom);
-    var resolutionSpinner = controlsService.resolutionSpinner(
+    var zoomSampleComboBox = zoomControlsService.zoomComboBox(
+        onSamplePreviewModifiedRouter::setZoom);
+    var resolutionSpinner = sampleControlsService.resolutionSpinner(
         onSamplePreviewModifiedRouter::setResolution);
-    var overlapSpinner = controlsService.overlapSpinner(onSamplePreviewModifiedRouter::setOverlap);
+    var overlapSpinner = sampleControlsService.overlapSpinner(
+        onSamplePreviewModifiedRouter::setOverlap);
 
     previewImagePanel = new ImagePanel();
     previewImagePanel.addMouseListener(new PlayAudioSampleMouseAdapter());
     subSampledPreviewImagePanel = new ImagePanel();
-    sampleMetaEditorPane = controlsService.sampleMetaEditorPane();
+    sampleMetaEditorPane = sampleControlsService.sampleMetaEditorPane();
 
     var previewImageScrollPane = new JScrollPane(previewImagePanel);
     var subSampledPreviewScrollPane = new JScrollPane(subSampledPreviewImagePanel);
