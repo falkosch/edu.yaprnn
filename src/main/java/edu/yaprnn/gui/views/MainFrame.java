@@ -365,6 +365,13 @@ public class MainFrame extends JFrame {
     networksTreeModel.add(persistenceService.loadMultiLayerNetwork(
         MainFrame.class.getResource("/digits.yaprnn-mln")));
 
+    networksTreeModel.add(persistenceService.loadTrainingData(
+        MainFrame.class.getResource("/digits-image-from-label.yaprnn-training-data")));
+    networksTreeModel.add(persistenceService.loadMultiLayerNetworkTemplate(
+        MainFrame.class.getResource("/digits-image-from-label.yaprnn-mln-template")));
+    networksTreeModel.add(persistenceService.loadMultiLayerNetwork(
+        MainFrame.class.getResource("/digits-image-from-label.yaprnn-mln")));
+
     var digitInputReconstructionTrainingData = persistenceService.loadTrainingData(
         MainFrame.class.getResource("/digits-input-reconstruction.yaprnn-training-data"));
     networksTreeModel.add(digitInputReconstructionTrainingData);

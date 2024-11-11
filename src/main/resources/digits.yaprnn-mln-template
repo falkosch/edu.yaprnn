@@ -1,34 +1,28 @@
 {
-  "name": "digits 784,25,25,25,10",
+  "name": "digits GeLU 20,15",
   "layers": [
     {
       "size": 784,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.LinearActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
-      "size": 25,
+      "size": 20,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
-      "size": 25,
+      "size": 15,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
-      }
-    },
-    {
-      "size": 25,
-      "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
       "size": 10,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     }
   ]
