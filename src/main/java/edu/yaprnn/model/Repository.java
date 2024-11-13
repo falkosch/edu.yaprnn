@@ -23,7 +23,7 @@ import lombok.Getter;
  */
 @Getter
 @Singleton
-public class Repository {
+public final class Repository {
 
   private final List<Sample> samples = new ArrayList<>();
   private final Map<String, Sample> samplesGroupedByName = new HashMap<>();

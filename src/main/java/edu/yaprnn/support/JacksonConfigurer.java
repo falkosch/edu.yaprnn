@@ -8,7 +8,7 @@ import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 
 @Singleton
-public class JacksonConfigurer {
+public final class JacksonConfigurer {
 
   public static final String YAPRNN_OBJECT_MAPPER_BEAN = "yaprnnObjectMapper";
 

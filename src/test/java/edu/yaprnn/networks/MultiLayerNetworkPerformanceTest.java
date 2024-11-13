@@ -1,6 +1,5 @@
 package edu.yaprnn.networks;
 
-import com.google.common.primitives.Floats;
 import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.networks.functions.LinearActivationFunction;
 import edu.yaprnn.networks.functions.SigmoidActivationFunction;
@@ -49,7 +48,12 @@ class MultiLayerNetworkPerformanceTest {
   }
 
   float[] generateFloats(int count) {
-    return Floats.toArray(random.doubles(count).boxed().toList());
+    var floats = new float[count];
+    for (int i = 0; i < count; i++) {
+      floats[i] = random.nextFloat();
+    }
+    return floats;
+
   }
 
   @Test
@@ -90,7 +94,7 @@ class MultiLayerNetworkPerformanceTest {
         0.001f);
   }
 
-  class TestGradientMatrixService extends GradientMatrixService {
+  final class TestGradientMatrixService extends GradientMatrixService {
 
     @Override
     public float[][] resetLayerWeights(int[] layerSizes, ActivationFunction[] activationFunctions) {

@@ -12,7 +12,7 @@ import lombok.SneakyThrows;
 import org.jtransforms.fft.FloatFFT_1D;
 
 @Singleton
-public class AudiosImportService {
+public final class AudiosImportService {
 
   private static final float SHORT_NORM = -1f / Short.MIN_VALUE;
 

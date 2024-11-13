@@ -1,10 +1,10 @@
 package edu.yaprnn.training;
 
-import com.google.common.primitives.Floats;
 import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.samples.model.Sample;
+import edu.yaprnn.support.Floats;
 
-public class ClassifierDataSelector implements DataSelector {
+public final class ClassifierDataSelector implements DataSelector {
 
   @Override
   public float[] input(Sample sample) {

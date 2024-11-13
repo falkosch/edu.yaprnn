@@ -342,7 +342,7 @@ class MultiLayerNetworkTest {
 
       final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
-              LayerTemplate.builder().size(4).activationFunction(linear).build(),
+              LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(1).activationFunction(linear).build()))
           .build();
 
@@ -384,7 +384,7 @@ class MultiLayerNetworkTest {
 
       final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
-              LayerTemplate.builder().size(3).activationFunction(nonlinear).build(),
+              LayerTemplate.builder().size(2).activationFunction(nonlinear).build(),
               LayerTemplate.builder().size(1).activationFunction(nonlinear).build()))
           .build();
 
@@ -422,7 +422,7 @@ class MultiLayerNetworkTest {
     }
   }
 
-  class TestGradientMatrixService extends GradientMatrixService {
+  final class TestGradientMatrixService extends GradientMatrixService {
 
     @Override
     public float[][] resetLayerWeights(int[] layerSizes, ActivationFunction[] activationFunctions) {

@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class TrainingData {
+public final class TrainingData {
 
   private String name;
   private List<String> trainingSampleNames;

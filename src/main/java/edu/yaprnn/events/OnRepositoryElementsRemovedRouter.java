@@ -6,7 +6,7 @@ import jakarta.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class OnRepositoryElementsRemovedRouter {
+public final class OnRepositoryElementsRemovedRouter {
 
   @Inject
   Event<OnRepositoryElementsRemoved> onRepositoryElementRemovedEvent;

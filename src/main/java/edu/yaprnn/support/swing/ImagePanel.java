@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  *
  * <p>Scrolling is supported by adding this component into a {@link javax.swing.JScrollPane}.
  */
-public class ImagePanel extends JPanel {
+public final class ImagePanel extends JPanel {
 
   private Dimension imageSize = new Dimension();
 

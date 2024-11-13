@@ -8,7 +8,7 @@ import lombok.extern.java.Log;
 
 @Log
 @Singleton
-public class DialogsService {
+public final class DialogsService {
 
   public void showFinished(Component parent, String title) {
     JOptionPane.showMessageDialog(parent, "Finished.", title, JOptionPane.INFORMATION_MESSAGE);

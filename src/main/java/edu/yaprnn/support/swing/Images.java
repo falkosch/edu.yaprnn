@@ -5,7 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public class Images {
+public final class Images {
 
   private static final float RESIZE_MAXSIZE = 4095f;
 

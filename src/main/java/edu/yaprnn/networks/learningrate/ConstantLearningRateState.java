@@ -3,7 +3,7 @@ package edu.yaprnn.networks.learningrate;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ConstantLearningRateState implements LearningRateState {
+public final class ConstantLearningRateState implements LearningRateState {
 
   private final ConstantLearningRate config;
 

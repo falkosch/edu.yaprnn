@@ -9,7 +9,7 @@ import java.util.Objects;
 import lombok.Getter;
 
 @Singleton
-public class OnSampleSelectedRouter {
+public final class OnSampleSelectedRouter {
 
   @Inject
   EventsMapper eventsMapper;

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
  * Decreases the learning rate when the error decreased.
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class DynamicLearningRateState implements LearningRateState {
+public final class DynamicLearningRateState implements LearningRateState {
 
   private final DynamicLearningRate config;
 

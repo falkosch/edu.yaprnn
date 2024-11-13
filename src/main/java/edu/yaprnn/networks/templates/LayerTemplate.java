@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder(toBuilder = true)
-public class LayerTemplate {
+public final class LayerTemplate {
 
   /**
    * Count of neurons in this layer.

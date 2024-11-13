@@ -1,11 +1,9 @@
 package edu.yaprnn.networks.weights;
 
 import java.util.Random;
-import lombok.experimental.UtilityClass;
 import org.apache.commons.math3.random.GaussianRandomGenerator;
 import org.apache.commons.math3.random.RandomGeneratorFactory;
 
-@UtilityClass
 public final class GaussianInitializer {
 
   private static GaussianRandomGenerator createGaussianRandomGenerator(Random random) {

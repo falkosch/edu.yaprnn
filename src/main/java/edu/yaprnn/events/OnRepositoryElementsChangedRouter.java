@@ -6,7 +6,7 @@ import jakarta.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class OnRepositoryElementsChangedRouter {
+public final class OnRepositoryElementsChangedRouter {
 
   @Inject
   Event<OnRepositoryElementsChanged> onRepositoryElementsChangedEvent;

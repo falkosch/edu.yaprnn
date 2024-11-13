@@ -6,7 +6,8 @@ import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.samples.model.Sample;
 
 @JsonTypeInfo(use = Id.CLASS)
-public interface DataSelector {
+public sealed interface DataSelector permits ClassifierDataSelector, OnlyInputDataSelector,
+    TargetAsInputDataSelector {
 
   float[] input(Sample sample);
 

@@ -12,7 +12,7 @@ import java.util.List;
 import lombok.SneakyThrows;
 
 @Singleton
-public class ImagesImportService {
+public final class ImagesImportService {
 
   private static final int IMAGES_PACKAGE_HEADER_SIGNATURE = 2051;
   private static final int LABELS_PACKAGE_HEADER_SIGNATURE = 2049;

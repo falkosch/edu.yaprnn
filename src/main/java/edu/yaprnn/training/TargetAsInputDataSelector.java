@@ -3,7 +3,7 @@ package edu.yaprnn.training;
 import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.samples.model.Sample;
 
-public class TargetAsInputDataSelector implements DataSelector {
+public final class TargetAsInputDataSelector implements DataSelector {
 
   @Override
   public float[] input(Sample sample) {

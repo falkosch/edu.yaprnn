@@ -1,6 +1,6 @@
 package edu.yaprnn.samples.model;
 
-import com.google.common.primitives.Floats;
+import edu.yaprnn.support.Floats;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class SoundSample implements Sample {
+public final class SoundSample implements Sample {
 
   public static final List<String> LABELS = List.of("A", "E", "I", "O", "U");
 

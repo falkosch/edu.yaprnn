@@ -3,10 +3,8 @@ package edu.yaprnn.support;
 import java.util.function.Function;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
-public class Providers {
+public final class Providers {
 
   public static IntSupplier constant(int value) {
     return () -> value;

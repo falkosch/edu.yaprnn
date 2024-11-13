@@ -8,7 +8,7 @@ import jakarta.inject.Singleton;
 import lombok.Getter;
 
 @Singleton
-public class OnMultiLayerNetworkWeightsSelectedRouter {
+public final class OnMultiLayerNetworkWeightsSelectedRouter {
 
   @Inject
   EventsMapper eventsMapper;

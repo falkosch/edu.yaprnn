@@ -8,7 +8,7 @@ import jakarta.inject.Singleton;
 import lombok.Getter;
 
 @Singleton
-public class OnMultiLayerNetworkWeightsPreviewModifiedRouter {
+public final class OnMultiLayerNetworkWeightsPreviewModifiedRouter {
 
   @Inject
   Event<OnMultiLayerNetworkWeightsPreviewModified> onMultiLayerNetworkWeightsPreviewModifiedEvent;

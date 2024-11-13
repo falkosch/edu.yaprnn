@@ -2,7 +2,6 @@ package edu.yaprnn.networks;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.google.common.collect.Lists;
 import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.training.DataSelector;
@@ -17,7 +16,7 @@ import lombok.Setter;
 @JsonDeserialize(builder = MultiLayerNetwork.MultiLayerNetworkBuilder.class)
 @Builder
 @Getter
-public class MultiLayerNetwork {
+public final class MultiLayerNetwork {
 
   private final int[] layerSizes;
   private final ActivationFunction[] activationFunctions;
@@ -108,7 +107,7 @@ public class MultiLayerNetwork {
   }
 
   private Layer[] feedForward(float[] input, float[][] layerWeights) {
-    var v = Arrays.copyOf(input, layerSizes[0]);
+    var v = input.length == layerSizes[0] ? input : Arrays.copyOf(input, layerSizes[0]);
     var layers = new Layer[layerSizes.length];
     var inputActivationFunction = activationFunctions[0];
     layers[0] = new Layer(0, v, inputActivationFunction.apply(v), inputActivationFunction);
@@ -123,12 +122,15 @@ public class MultiLayerNetwork {
   private float[] computeOutputError(float[] target, Layer outputLayer,
       ActivationFunction outputActivationFunction) {
     var h = outputLayer.h();
-    var v = outputLayer.v();
-    var t = Arrays.copyOf(target, h.length);
-    var error = outputActivationFunction.derivative(h, v);
+    var error = outputActivationFunction.derivative(h, outputLayer.v());
 
-    for (var i = 0; i < h.length; i++) {
-      error[i] *= h[i] - t[i];
+    var minLength = Math.min(h.length, target.length);
+    var i = 0;
+    for (; i < minLength; i++) {
+      error[i] *= h[i] - target[i];
+    }
+    for (; i < h.length; i++) {
+      error[i] *= h[i];
     }
 
     return error;
@@ -175,8 +177,10 @@ public class MultiLayerNetwork {
       float learningRate, float momentum, float decayL1, float decayL2) {
     var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
 
-    Lists.partition(trainingSamples, batchSize).forEach(batch -> {
-      var batchLayerGradients = batch.parallelStream()
+    var maxLength = trainingSamples.size();
+    for (var batchStart = 0; batchStart < trainingSamples.size(); batchStart += batchSize) {
+      var batchEnd = Math.min(batchStart + batchSize, maxLength);
+      var batchLayerGradients = trainingSamples.subList(batchStart, batchEnd).parallelStream()
           .map(sample -> {
             var input = dataSelector.input(sample);
             var target = dataSelector.target(sample, outputActivationFunction);
@@ -190,7 +194,7 @@ public class MultiLayerNetwork {
 
       applyGradients(batchLayerGradients, layerWeights, batchSize, learningRate, momentum, decayL1,
           decayL2);
-    });
+    }
   }
 
   public AccuracyResult computeAccuracy(Collection<? extends Sample> samples,

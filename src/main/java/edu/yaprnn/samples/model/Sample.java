@@ -3,7 +3,7 @@ package edu.yaprnn.samples.model;
 import java.awt.Image;
 import java.io.File;
 
-public interface Sample {
+public sealed interface Sample permits ImageSample, SimpleSample, SoundSample {
 
   File getFile();
 
