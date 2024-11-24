@@ -11,7 +11,7 @@ public final class Floats {
     return -1;
   }
 
-  public static int max(float[] array) {
+  public static int argMax(float[] array) {
     assert array.length > 0;
 
     var argMax = 0;
@@ -22,6 +22,10 @@ public final class Floats {
       }
     }
     return argMax;
+  }
+
+  public static float max(float[] array) {
+    return array[argMax(array)];
   }
 
   public static boolean haveMaxAtSameIndex(float[] h, float[] target) {

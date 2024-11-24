@@ -19,11 +19,8 @@ public final class ClassifierDataSelector implements DataSelector {
   @Override
   public float[] postprocessOutput(float[] v, float[] h,
       ActivationFunction outputActivationFunction) {
-    var maxValue = Floats.max(h);
     var maxTarget = new float[h.length];
-    for (var i = 0; i < maxTarget.length; i++) {
-      maxTarget[i] = h[i] == maxValue ? 1 : 0;
-    }
+    maxTarget[Floats.argMax(h)] = 1f;
     return maxTarget;
   }
 
