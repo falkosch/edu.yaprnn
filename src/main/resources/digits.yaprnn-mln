@@ -7,19 +7,22 @@
   ],
   "activationFunctions": [
     {
-      "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+      "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
     },
     {
-      "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+      "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
     },
     {
-      "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+      "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
     },
     {
-      "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+      "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
     }
   ],
   "bias": -1.0,
+  "lossFunction": {
+    "@class": "edu.yaprnn.networks.loss.HalfSquaredErrorLossFunction"
+  },
   "name": "digits GeLU 20,15",
   "layerWeights": [
     [

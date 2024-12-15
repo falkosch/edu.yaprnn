@@ -10,7 +10,7 @@ import edu.yaprnn.gui.model.nodes.SampleNode;
 import edu.yaprnn.gui.model.nodes.TrainingDataNode;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.MultiLayerNetwork;
-import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.Sample;

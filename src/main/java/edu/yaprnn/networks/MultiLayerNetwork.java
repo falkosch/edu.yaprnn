@@ -2,7 +2,8 @@ package edu.yaprnn.networks;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
+import edu.yaprnn.networks.loss.LossFunction;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.training.DataSelector;
 import java.util.Arrays;
@@ -21,8 +22,11 @@ public final class MultiLayerNetwork {
   private final int[] layerSizes;
   private final ActivationFunction[] activationFunctions;
   private final float bias;
+  private final LossFunction lossFunction;
+
   @Setter
   private String name;
+
   // [layerSizes.length - 1][each l : (layerSizes[l] + 1) x layerSizes[l + 1]]
   // rows -> from input layer nodes with 1 bias node
   // cols -> to output layer nodes without 1 bias node
@@ -61,8 +65,10 @@ public final class MultiLayerNetwork {
       float[] target) {
     var layers = feedForward(input, layerWeights);
     var layerIndex = Layer.outputIndex(layers);
-    var outputError = computeOutputError(target, layers[layerIndex],
-        activationFunctions[layerIndex]);
+
+    var outputLayer = layers[layerIndex];
+    var outputError = lossFunction.computeOutputError(outputLayer.v(), outputLayer.h(), target,
+        outputLayer.activationFunction());
 
     for (layerIndex -= 1; layerIndex >= 0; layerIndex--) {
       var gradients = layerGradients[layerIndex];
@@ -119,23 +125,6 @@ public final class MultiLayerNetwork {
     return layers;
   }
 
-  private float[] computeOutputError(float[] target, Layer outputLayer,
-      ActivationFunction outputActivationFunction) {
-    var h = outputLayer.h();
-    var error = outputActivationFunction.derivative(h, outputLayer.v());
-
-    var minLength = Math.min(h.length, target.length);
-    var i = 0;
-    for (; i < minLength; i++) {
-      error[i] *= h[i] - target[i];
-    }
-    for (; i < h.length; i++) {
-      error[i] *= h[i];
-    }
-
-    return error;
-  }
-
   private float[] computeLayerError(Layer inputLayer, float[] outputError, float[] weights,
       ActivationFunction inputActivationFunction) {
     var layerError = inputActivationFunction.derivative(inputLayer.h(), inputLayer.v());
@@ -180,7 +169,8 @@ public final class MultiLayerNetwork {
     var maxLength = trainingSamples.size();
     for (var batchStart = 0; batchStart < trainingSamples.size(); batchStart += batchSize) {
       var batchEnd = Math.min(batchStart + batchSize, maxLength);
-      var batchLayerGradients = trainingSamples.subList(batchStart, batchEnd).parallelStream()
+      var batchLayerGradients = trainingSamples.subList(batchStart, batchEnd)
+          .parallelStream()
           .map(sample -> {
             var input = dataSelector.input(sample);
             var target = dataSelector.target(sample, outputActivationFunction);
@@ -206,22 +196,9 @@ public final class MultiLayerNetwork {
       var h = Layer.output(layers).h();
 
       var target = dataSelector.target(sample, outputActivationFunction);
-      var error = computeNetworkError(h, target);
+      var error = lossFunction.computeNetworkError(h, target);
       return AccuracyResult.from(h, target, error);
     }).reduce(AccuracyResult::sum).map(AccuracyResult::average).orElseThrow();
-  }
-
-  private float computeNetworkError(float[] h, float[] target) {
-    var maxLength = Math.max(h.length, target.length);
-    var safeH = Arrays.copyOf(h, maxLength);
-    var safeT = Arrays.copyOf(target, maxLength);
-
-    var sumSquaredError = 0f;
-    for (var i = 0; i < maxLength; i++) {
-      var residual = safeT[i] - safeH[i];
-      sumSquaredError += residual * residual;
-    }
-    return 0.5f * sumSquaredError;
   }
 
   public Layer[] feedForward(Sample sample, DataSelector dataSelector) {

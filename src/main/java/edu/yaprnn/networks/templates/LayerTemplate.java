@@ -1,7 +1,7 @@
 package edu.yaprnn.networks.templates;
 
 import edu.yaprnn.networks.MultiLayerNetwork;
-import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public final class LayerTemplate {
    */
   private int size;
   /**
-   * Scales the values that should be propagated as output.
+   * Transformation of the output values.
    */
   private ActivationFunction activationFunction;
 }

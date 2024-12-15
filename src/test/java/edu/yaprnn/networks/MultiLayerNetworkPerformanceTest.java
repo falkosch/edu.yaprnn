@@ -1,8 +1,10 @@
 package edu.yaprnn.networks;
 
-import edu.yaprnn.networks.functions.ActivationFunction;
-import edu.yaprnn.networks.functions.LinearActivationFunction;
-import edu.yaprnn.networks.functions.SigmoidActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
+import edu.yaprnn.networks.activation.LinearActivationFunction;
+import edu.yaprnn.networks.activation.SigmoidActivationFunction;
+import edu.yaprnn.networks.loss.HalfSquaredErrorLossFunction;
+import edu.yaprnn.networks.loss.LossFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.SimpleSample;
@@ -19,7 +21,9 @@ class MultiLayerNetworkPerformanceTest {
   final ClassifierDataSelector dataSelector = new ClassifierDataSelector();
   final ActivationFunction linear = new LinearActivationFunction();
   final ActivationFunction sigmoid = new SigmoidActivationFunction();
+  final LossFunction lossFunction = new HalfSquaredErrorLossFunction();
   final MultiLayerNetworkTemplate model = MultiLayerNetworkTemplate.builder()
+      .lossFunction(lossFunction)
       .layers(List.of(LayerTemplate.builder().size(999).activationFunction(linear).build(),
           LayerTemplate.builder().size(999).activationFunction(sigmoid).build(),
           LayerTemplate.builder().size(999).activationFunction(sigmoid).build()))
@@ -43,6 +47,7 @@ class MultiLayerNetworkPerformanceTest {
         .bias(-1f)
         .activationFunctions(model.collectActivationFunctions())
         .layerSizes(model.collectLayerSizes())
+        .lossFunction(model.getLossFunction())
         .build();
     network.resetLayerWeights(new TestGradientMatrixService());
   }

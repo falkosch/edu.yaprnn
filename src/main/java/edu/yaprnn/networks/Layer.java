@@ -1,6 +1,6 @@
 package edu.yaprnn.networks;
 
-import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
 
 /**
  * Tracks the inputs/outputs in the layers of the network while feeding a sample to it. Denotation
