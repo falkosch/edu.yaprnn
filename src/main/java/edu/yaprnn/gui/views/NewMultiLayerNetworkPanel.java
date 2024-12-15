@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import lombok.Builder;
 
 public class NewMultiLayerNetworkPanel extends JPanel {
 
@@ -70,14 +71,16 @@ public class NewMultiLayerNetworkPanel extends JPanel {
       }
 
       try {
-        var name = nameTextField.getText();
-        var isNameValid = !name.trim().isEmpty();
-        nameTextField.setBackground(controlsService.validationColor(isNameValid));
-
         var multiLayerNetworkTemplate = (MultiLayerNetworkTemplate) multiLayerNetworkTemplatesComboBox.getSelectedItem();
+        var parameters = Parameters.builder()
+            .name(nameTextField.getText())
+            .multiLayerNetworkTemplate(multiLayerNetworkTemplate)
+            .build();
 
-        if (isNameValid) {
-          consumer.accept(new Parameters(name, multiLayerNetworkTemplate, -1f));
+        nameTextField.setBackground(controlsService.validationColor(parameters.isNameValid()));
+
+        if (parameters.isValid()) {
+          consumer.accept(parameters);
           return;
         }
       } catch (Throwable throwable) {
@@ -87,8 +90,15 @@ public class NewMultiLayerNetworkPanel extends JPanel {
     }
   }
 
-  public record Parameters(String name, MultiLayerNetworkTemplate multiLayerNetworkTemplate,
-                           float bias) {
+  @Builder
+  public record Parameters(String name, MultiLayerNetworkTemplate multiLayerNetworkTemplate) {
 
+    public boolean isValid() {
+      return isNameValid();
+    }
+
+    public boolean isNameValid() {
+      return !name.isBlank();
+    }
   }
 }

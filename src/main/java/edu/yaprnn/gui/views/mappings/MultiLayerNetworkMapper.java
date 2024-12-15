@@ -17,8 +17,4 @@ public interface MultiLayerNetworkMapper {
   @Mapping(target = "layerWeights", ignore = true)
   @Mapping(target = "previousLayerGradients", ignore = true)
   MultiLayerNetwork toMultiLayerNetwork(Parameters parameters);
-
-  List<LayerTemplate> clone(List<LayerTemplate> source);
-
-  LayerTemplate clone(LayerTemplate source);
 }

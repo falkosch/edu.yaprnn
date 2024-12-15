@@ -3,16 +3,9 @@ package edu.yaprnn.networks.loss;
 import edu.yaprnn.networks.activation.ActivationFunction;
 import java.util.Arrays;
 
-
 /**
- * Computes the loss and gradients for the half-squared error function used in training neural
- * networks. This loss function represents the squared difference between the predicted and actual
- * values, normalized by a factor of 0.5.
- * <p>
- * The half-squared error is defined as: {@code E = 1/2 * sum([activation(v) - y]^2)}
- * <p>
- * This implementation calculates both the network error and the gradient of the output layer error
- * for use in backpropagation.
+ * Computes the Half-Squared Error and gradients for training neural networks. It is defined as:
+ * {@code E = 1/2 * sum([h - y]^2)}.
  */
 public final class HalfSquaredErrorLossFunction implements LossFunction {
 
@@ -25,6 +18,7 @@ public final class HalfSquaredErrorLossFunction implements LossFunction {
     for (var minLength = Math.min(h.length, target.length); i < minLength; i++) {
       error[i] *= h[i] - target[i];
     }
+    // for any remaining h (when target is the smaller array), assume target=0
     for (; i < h.length; i++) {
       error[i] *= h[i];
     }
@@ -48,6 +42,6 @@ public final class HalfSquaredErrorLossFunction implements LossFunction {
 
   @Override
   public String toString() {
-    return "HalfSquaredError: 1/2 * sum([activation(v) - y]^2)";
+    return "HalfSquaredError: 1/2 * sum([h - y]^2)";
   }
 }
