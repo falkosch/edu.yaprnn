@@ -30,7 +30,7 @@ public class SelectableTreeCellEditor implements TreeCellEditor {
 
   @Override
   public boolean isCellEditable(EventObject event) {
-    return Objects.isNull(event);
+    return false;
   }
 
   @Override

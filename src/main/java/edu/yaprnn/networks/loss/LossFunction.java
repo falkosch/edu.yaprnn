@@ -11,7 +11,8 @@ import java.util.Comparator;
  * algorithms.
  */
 @JsonTypeInfo(use = Id.CLASS)
-public sealed interface LossFunction permits HalfSquaredErrorLossFunction {
+public sealed interface LossFunction permits BinaryCrossEntropyLossFunction,
+    HalfSquaredErrorLossFunction, MeanBinaryCrossEntropyLossFunction, MeanSquaredErrorLossFunction {
 
   Comparator<LossFunction> COMPARATOR = Comparator.comparing(LossFunction::toString);
 

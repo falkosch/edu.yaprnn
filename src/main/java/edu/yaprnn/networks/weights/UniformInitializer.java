@@ -6,10 +6,6 @@ import org.apache.commons.math3.random.UniformRandomGenerator;
 
 public final class UniformInitializer {
 
-  private static UniformRandomGenerator createUniformRandomGenerator(Random random) {
-    return new UniformRandomGenerator(RandomGeneratorFactory.createRandomGenerator(random));
-  }
-
   public static void normalized(Random random, float[] weights, int inputSize, int outputSize) {
     var generator = createUniformRandomGenerator(random);
 
@@ -18,6 +14,10 @@ public final class UniformInitializer {
         weights[w] = (float) generator.nextNormalizedDouble();
       }
     }
+  }
+
+  private static UniformRandomGenerator createUniformRandomGenerator(Random random) {
+    return new UniformRandomGenerator(RandomGeneratorFactory.createRandomGenerator(random));
   }
 
   public static void xavier(Random random, float[] weights, int inputSize, int outputSize) {

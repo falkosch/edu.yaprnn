@@ -7,6 +7,11 @@ import java.util.Random;
 public final class SoftMaxActivationFunction implements ActivationFunction {
 
   @Override
+  public String toString() {
+    return "SoftMax: exp(v[i]) / sum(exp[v])";
+  }
+
+  @Override
   public float[] apply(float[] v) {
     var s = 0f;
     var h = new float[v.length];
@@ -46,8 +51,5 @@ public final class SoftMaxActivationFunction implements ActivationFunction {
     return Initialization.shell(random, count, outputSize, UniformInitializer::xavier);
   }
 
-  @Override
-  public String toString() {
-    return "SoftMax: exp(v[i]) / sum(exp[v])";
-  }
+
 }

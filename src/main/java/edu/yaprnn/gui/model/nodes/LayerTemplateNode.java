@@ -27,8 +27,8 @@ public class LayerTemplateNode extends DefaultNode {
     this.multiLayerNetworkTemplateSupplier = multiLayerNetworkTemplateSupplier;
     this.layerIndexSupplier = layerIndexSupplier;
     this.layerTemplateSupplier = Providers.mapped(multiLayerNetworkTemplateSupplier,
-        multiLayerNetworkTemplate -> multiLayerNetworkTemplate.getLayer(
-            layerIndexSupplier.getAsInt()));
+        multiLayerNetworkTemplate -> multiLayerNetworkTemplate.getLayers()
+            .get(layerIndexSupplier.getAsInt()));
   }
 
   private static String labelFrom(MultiLayerNetworkTemplate multiLayerNetworkTemplate,
@@ -45,7 +45,8 @@ public class LayerTemplateNode extends DefaultNode {
   private static List<? extends ModelNode> childrenFrom(
       MultiLayerNetworkTemplate multiLayerNetworkTemplate, int layerIndex) {
     var multiLayerNetworkTemplateSupplier = Providers.constant(multiLayerNetworkTemplate);
-    var layerTemplateSupplier = Providers.constant(multiLayerNetworkTemplate.getLayer(layerIndex));
+    var layerTemplateSupplier = Providers.constant(
+        multiLayerNetworkTemplate.getLayers().get(layerIndex));
     return List.of(new LayerSizeNode(multiLayerNetworkTemplateSupplier, layerTemplateSupplier),
         new ActivationFunctionNode(multiLayerNetworkTemplateSupplier, layerTemplateSupplier));
   }

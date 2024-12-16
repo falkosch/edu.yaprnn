@@ -228,6 +228,10 @@ public class ClassifyFrame extends JFrame {
     }
   }
 
+  private DataSelector getSelectedDataSelector() {
+    return (DataSelector) dataSelectorComboBoxModel.getSelectedItem();
+  }
+
   private MultiLayerNetwork getSelectedMultiLayerNetwork() {
     return (MultiLayerNetwork) multiLayerNetworksComboBoxModel.getSelectedItem();
   }
@@ -236,10 +240,6 @@ public class ClassifyFrame extends JFrame {
     if (Objects.nonNull(multiLayerNetwork)) {
       multiLayerNetworksComboBoxModel.setSelectedItem(multiLayerNetwork);
     }
-  }
-
-  private DataSelector getSelectedDataSelector() {
-    return (DataSelector) dataSelectorComboBoxModel.getSelectedItem();
   }
 
   public void setSamplePreview(float zoom, int resolution, float overlap) {

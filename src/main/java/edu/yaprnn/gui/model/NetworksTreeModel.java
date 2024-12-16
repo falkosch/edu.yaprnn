@@ -1,8 +1,10 @@
 package edu.yaprnn.gui.model;
 
 import edu.yaprnn.gui.model.nodes.ActivationFunctionNode;
+import edu.yaprnn.gui.model.nodes.BiasNode;
 import edu.yaprnn.gui.model.nodes.LayerSizeNode;
 import edu.yaprnn.gui.model.nodes.LayerTemplateNode;
+import edu.yaprnn.gui.model.nodes.LossFunctionNode;
 import edu.yaprnn.gui.model.nodes.ModelNode;
 import edu.yaprnn.gui.model.nodes.MultiLayerNetworkNode;
 import edu.yaprnn.gui.model.nodes.MultiLayerNetworkTemplateNode;
@@ -11,6 +13,7 @@ import edu.yaprnn.gui.model.nodes.TrainingDataNode;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.MultiLayerNetwork;
 import edu.yaprnn.networks.activation.ActivationFunction;
+import edu.yaprnn.networks.loss.LossFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.Sample;
@@ -38,6 +41,8 @@ import javax.swing.tree.TreePath;
  *       WeightsNode...
  *   MultiLayerNetworkTemplateListNode
  *     MultiLayerNetworkTemplateNode...
+ *       LossFunctionNode
+ *       BiasNode
  *       LayerNode...
  *         LayerSizeNode
  *         ActivationFunctionNode
@@ -76,7 +81,7 @@ public class NetworksTreeModel implements TreeModel {
     } else if (modelNode instanceof TrainingDataNode trainingDataNode) {
       remove(trainingDataNode.getTrainingDataSupplier().get());
     } else if (modelNode instanceof MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode) {
-      remove(multiLayerNetworkTemplateNode.getMultiLayerNetworkTemplateSupplier().get());
+      remove(multiLayerNetworkTemplateNode.getTemplateSupplier().get());
     } else if (modelNode instanceof LayerTemplateNode layerTemplateNode) {
       remove(layerTemplateNode.getMultiLayerNetworkTemplateSupplier().get(),
           layerTemplateNode.getLayerTemplateSupplier().get());
@@ -170,62 +175,68 @@ public class NetworksTreeModel implements TreeModel {
   }
 
   @Override
-  public void valueForPathChanged(TreePath treePath, Object newValue) {
-    var lastPathComponent = treePath.getLastPathComponent();
+  public void valueForPathChanged(TreePath path, Object newValue) {
+    var component = path.getLastPathComponent();
 
-    if (lastPathComponent instanceof TrainingDataNode trainingDataNode) {
-      changeNameOfTrainingData(trainingDataNode, String.valueOf(newValue));
-    }
-    if (lastPathComponent instanceof MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode) {
-      changeNameOfMultiLayerNetworkTemplate(multiLayerNetworkTemplateNode,
-          String.valueOf(newValue));
-    }
-    if (lastPathComponent instanceof LayerSizeNode layerSizeNode) {
-      changeLayerSizeOfLayerTemplate(layerSizeNode, (Integer) newValue);
-    }
-    if (lastPathComponent instanceof ActivationFunctionNode activationFunctionNode) {
-      changeActivationFunctionOfLayerTemplate(activationFunctionNode,
-          (ActivationFunction) newValue);
-    }
-    if (lastPathComponent instanceof MultiLayerNetworkNode multiLayerNetworkNode) {
-      changeNameOfMultiLayerNetwork(multiLayerNetworkNode, String.valueOf(newValue));
+    switch (component) {
+      case TrainingDataNode node -> changeNameOfTrainingData(node, String.valueOf(newValue));
+      case MultiLayerNetworkTemplateNode node ->
+          changeNameOfMultiLayerNetworkTemplate(node, String.valueOf(newValue));
+      case BiasNode node -> changeBiasOfMultiLayerNetworkTemplate(node, (Float) newValue);
+      case LossFunctionNode node ->
+          changeLossFunctionOfMultiLayerNetworkTemplate(node, (LossFunction) newValue);
+      case LayerSizeNode node -> changeLayerSizeOfLayerTemplate(node, (Integer) newValue);
+      case ActivationFunctionNode node ->
+          changeActivationFunctionOfLayerTemplate(node, (ActivationFunction) newValue);
+      case MultiLayerNetworkNode node ->
+          changeNameOfMultiLayerNetwork(node, String.valueOf(newValue));
+      case null, default -> throw new UnsupportedOperationException(
+          "Update of unknown component: %s".formatted(component));
     }
 
-    refreshNodes(treePath);
+    refreshNodes(path);
   }
 
-  private void changeNameOfTrainingData(TrainingDataNode trainingDataNode, String newValue) {
-    trainingDataNode.getTrainingDataSupplier().get().setName(newValue);
+  private void changeNameOfTrainingData(TrainingDataNode node, String newValue) {
+    node.getTrainingDataSupplier().get().setName(newValue);
   }
 
-  private void changeNameOfMultiLayerNetworkTemplate(
-      MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode, String newValue) {
-    multiLayerNetworkTemplateNode.getMultiLayerNetworkTemplateSupplier().get().setName(newValue);
-  }
-
-  private void changeLayerSizeOfLayerTemplate(LayerSizeNode layerSizeNode, int newValue) {
-    var multiLayerNetworkTemplate = layerSizeNode.getMultiLayerNetworkTemplateSupplier().get();
-    var layerTemplate = layerSizeNode.getLayerTemplateSupplier().get();
-    var layerIndex = multiLayerNetworkTemplate.indexOfLayer(layerTemplate);
-    multiLayerNetworkTemplate.setLayerSize(layerIndex, newValue);
-  }
-
-  private void changeActivationFunctionOfLayerTemplate(
-      ActivationFunctionNode activationFunctionNode, ActivationFunction newValue) {
-    var networkTemplate = activationFunctionNode.getMultiLayerNetworkTemplateSupplier().get();
-    var layerTemplate = activationFunctionNode.getLayerTemplateSupplier().get();
-    var layerIndex = networkTemplate.indexOfLayer(layerTemplate);
-    networkTemplate.setActivationFunction(layerIndex, newValue);
-  }
-
-  private void changeNameOfMultiLayerNetwork(MultiLayerNetworkNode multiLayerNetworkNode,
+  private void changeNameOfMultiLayerNetworkTemplate(MultiLayerNetworkTemplateNode node,
       String newValue) {
-    multiLayerNetworkNode.getMultiLayerNetworkSupplier().get().setName(newValue);
+    node.getTemplateSupplier().get().setName(newValue);
   }
 
-  public void refreshNodes(TreePath treePath) {
-    Arrays.stream(treePath.getPath()).map(ModelNode.class::cast).forEach(ModelNode::refresh);
-    fireStructureChanged(treePath.getPath());
+  private void changeBiasOfMultiLayerNetworkTemplate(BiasNode node, float newValue) {
+    node.getMultiLayerNetworkTemplateSupplier().get().setBias(newValue);
+  }
+
+  private void changeLossFunctionOfMultiLayerNetworkTemplate(LossFunctionNode node,
+      LossFunction newValue) {
+    node.getMultiLayerNetworkTemplateSupplier().get().setLossFunction(newValue);
+  }
+
+  private void changeLayerSizeOfLayerTemplate(LayerSizeNode node, int newValue) {
+    var multiLayerNetworkTemplate = node.getMultiLayerNetworkTemplateSupplier().get();
+    var layerTemplate = node.getLayerTemplateSupplier().get();
+    var layerIndex = multiLayerNetworkTemplate.getLayers().indexOf(layerTemplate);
+    multiLayerNetworkTemplate.getLayers().get(layerIndex).setSize(newValue);
+  }
+
+  private void changeActivationFunctionOfLayerTemplate(ActivationFunctionNode node,
+      ActivationFunction newValue) {
+    var networkTemplate = node.getMultiLayerNetworkTemplateSupplier().get();
+    var layerTemplate = node.getLayerTemplateSupplier().get();
+    var layerIndex = networkTemplate.getLayers().indexOf(layerTemplate);
+    networkTemplate.getLayers().get(layerIndex).setActivationFunction(newValue);
+  }
+
+  private void changeNameOfMultiLayerNetwork(MultiLayerNetworkNode node, String newValue) {
+    node.getMultiLayerNetworkSupplier().get().setName(newValue);
+  }
+
+  public void refreshNodes(TreePath path) {
+    Arrays.stream(path.getPath()).map(ModelNode.class::cast).forEach(ModelNode::refresh);
+    fireStructureChanged(path.getPath());
   }
 
   @Override
@@ -237,13 +248,13 @@ public class NetworksTreeModel implements TreeModel {
   }
 
   @Override
-  public void addTreeModelListener(TreeModelListener treeModelListener) {
-    treeModelListeners.add(treeModelListener);
+  public void addTreeModelListener(TreeModelListener listener) {
+    treeModelListeners.add(listener);
   }
 
   @Override
-  public void removeTreeModelListener(TreeModelListener treeModelListener) {
-    treeModelListeners.remove(treeModelListener);
+  public void removeTreeModelListener(TreeModelListener listener) {
+    treeModelListeners.remove(listener);
   }
 
   public void add(TrainingData trainingData) {
@@ -263,8 +274,8 @@ public class NetworksTreeModel implements TreeModel {
     removeTrainingData(List.of(trainingData));
   }
 
-  public void add(MultiLayerNetworkTemplate multiLayerNetworkTemplate) {
-    addMultiLayerNetworkTemplates(List.of(multiLayerNetworkTemplate));
+  public void add(MultiLayerNetworkTemplate template) {
+    addMultiLayerNetworkTemplates(List.of(template));
   }
 
   public void addMultiLayerNetworkTemplates(Collection<? extends MultiLayerNetworkTemplate> items) {
@@ -276,17 +287,15 @@ public class NetworksTreeModel implements TreeModel {
     refreshNodes(multiLayerNetworkTemplateListNode);
   }
 
-  public void addLayerTemplateTo(MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode) {
-    var multiLayerNetworkTemplate = multiLayerNetworkTemplateNode.getMultiLayerNetworkTemplateSupplier()
-        .get();
-    var lastLayerTemplate = multiLayerNetworkTemplate.getLayer(
-        multiLayerNetworkTemplate.getLayers().size() - 1);
-    multiLayerNetworkTemplate.addLayer(lastLayerTemplate.toBuilder().build());
-    refreshNodes(multiLayerNetworkTemplateListNode, multiLayerNetworkTemplateNode);
+  public void addLayerTemplateTo(MultiLayerNetworkTemplateNode node) {
+    var multiLayerNetworkTemplate = node.getTemplateSupplier().get();
+    var lastLayerTemplate = multiLayerNetworkTemplate.getLayers().getLast();
+    multiLayerNetworkTemplate.getLayers().add(lastLayerTemplate.toBuilder().build());
+    refreshNodes(multiLayerNetworkTemplateListNode, node);
   }
 
-  public void remove(MultiLayerNetworkTemplate multiLayerNetworkTemplate) {
-    removeMultiLayerNetworkTemplates(List.of(multiLayerNetworkTemplate));
+  public void remove(MultiLayerNetworkTemplate template) {
+    removeMultiLayerNetworkTemplates(List.of(template));
   }
 
   public void removeTrainingData(Collection<? extends TrainingData> items) {

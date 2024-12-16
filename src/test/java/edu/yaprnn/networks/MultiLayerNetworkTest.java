@@ -53,6 +53,7 @@ class MultiLayerNetworkTest {
      * Optimal weights: [-1,-0.5], last is weight for bias=-1 (McCulloch and Pitts, 1943)
      */
     final MultiLayerNetworkTemplate notModel = MultiLayerNetworkTemplate.builder()
+        .bias(-1f)
         .lossFunction(lossFunction)
         .layers(List.of(LayerTemplate.builder().size(1).activationFunction(linear).build(),
             LayerTemplate.builder().size(1).activationFunction(linear).build()))
@@ -70,10 +71,10 @@ class MultiLayerNetworkTest {
     @BeforeEach
     void setupNetwork() {
       network = MultiLayerNetwork.builder()
-          .bias(-1f)
+          .bias(notModel.getBias())
+          .lossFunction(notModel.getLossFunction())
           .activationFunctions(notModel.collectActivationFunctions())
           .layerSizes(notModel.collectLayerSizes())
-          .lossFunction(notModel.getLossFunction())
           .build();
       network.resetLayerWeights(gradientMatrixService);
     }
@@ -104,6 +105,7 @@ class MultiLayerNetworkTest {
      * Optimal weights: [1, 1, 1.5], last is weight for bias=-1 (McCulloch and Pitts, 1943)
      */
     final MultiLayerNetworkTemplate andModel = MultiLayerNetworkTemplate.builder()
+        .bias(-1f)
         .lossFunction(lossFunction)
         .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
             LayerTemplate.builder().size(1).activationFunction(linear).build()))
@@ -136,10 +138,10 @@ class MultiLayerNetworkTest {
     @BeforeEach
     void setupNetwork() {
       network = MultiLayerNetwork.builder()
-          .bias(-1f)
+          .bias(andModel.getBias())
+          .lossFunction(andModel.getLossFunction())
           .activationFunctions(andModel.collectActivationFunctions())
           .layerSizes(andModel.collectLayerSizes())
-          .lossFunction(andModel.getLossFunction())
           .build();
       network.resetLayerWeights(gradientMatrixService);
     }
@@ -174,6 +176,7 @@ class MultiLayerNetworkTest {
      * Optimal weights: [1, 1, 0.5], last is weight for bias=-1 (McCulloch and Pitts, 1943)
      */
     final MultiLayerNetworkTemplate orModel = MultiLayerNetworkTemplate.builder()
+        .bias(-1f)
         .lossFunction(lossFunction)
         .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
             LayerTemplate.builder().size(1).activationFunction(linear).build()))
@@ -206,10 +209,10 @@ class MultiLayerNetworkTest {
     @BeforeEach
     void setupNetwork() {
       network = MultiLayerNetwork.builder()
-          .bias(-1f)
+          .bias(orModel.getBias())
+          .lossFunction(orModel.getLossFunction())
           .activationFunctions(orModel.collectActivationFunctions())
           .layerSizes(orModel.collectLayerSizes())
-          .lossFunction(orModel.getLossFunction())
           .build();
       network.resetLayerWeights(gradientMatrixService);
     }
@@ -268,6 +271,7 @@ class MultiLayerNetworkTest {
     class BadPerceptronLinearCase {
 
       final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+          .bias(-1f)
           .lossFunction(lossFunction)
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(1).activationFunction(linear).build()))
@@ -276,10 +280,10 @@ class MultiLayerNetworkTest {
       @BeforeEach
       void setupNetwork() {
         network = MultiLayerNetwork.builder()
-            .bias(-1f)
+            .bias(xorModel.getBias())
+            .lossFunction(xorModel.getLossFunction())
             .activationFunctions(xorModel.collectActivationFunctions())
             .layerSizes(xorModel.collectLayerSizes())
-            .lossFunction(xorModel.getLossFunction())
             .build();
         network.resetLayerWeights(gradientMatrixService);
       }
@@ -311,6 +315,7 @@ class MultiLayerNetworkTest {
     class BadPerceptronNonLinearCase {
 
       final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+          .bias(-1f)
           .lossFunction(lossFunction)
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(1).activationFunction(nonlinear).build()))
@@ -319,10 +324,10 @@ class MultiLayerNetworkTest {
       @BeforeEach
       void setupNetwork() {
         network = MultiLayerNetwork.builder()
-            .bias(-1f)
+            .bias(xorModel.getBias())
+            .lossFunction(xorModel.getLossFunction())
             .activationFunctions(xorModel.collectActivationFunctions())
             .layerSizes(xorModel.collectLayerSizes())
-            .lossFunction(xorModel.getLossFunction())
             .build();
         network.resetLayerWeights(gradientMatrixService);
       }
@@ -354,6 +359,7 @@ class MultiLayerNetworkTest {
     class BadMultiLayerLinearCase {
 
       final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+          .bias(-1f)
           .lossFunction(lossFunction)
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(2).activationFunction(linear).build(),
@@ -363,10 +369,10 @@ class MultiLayerNetworkTest {
       @BeforeEach
       void setupNetwork() {
         network = MultiLayerNetwork.builder()
-            .bias(-1f)
+            .bias(xorModel.getBias())
+            .lossFunction(xorModel.getLossFunction())
             .activationFunctions(xorModel.collectActivationFunctions())
             .layerSizes(xorModel.collectLayerSizes())
-            .lossFunction(xorModel.getLossFunction())
             .build();
         network.resetLayerWeights(gradientMatrixService);
       }
@@ -398,6 +404,7 @@ class MultiLayerNetworkTest {
     class GoodMultiLayerNonLinearCase {
 
       final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+          .bias(-1f)
           .lossFunction(lossFunction)
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(2).activationFunction(nonlinear).build(),
@@ -407,10 +414,10 @@ class MultiLayerNetworkTest {
       @BeforeEach
       void setupNetwork() {
         network = MultiLayerNetwork.builder()
-            .bias(-1f)
+            .bias(xorModel.getBias())
+            .lossFunction(xorModel.getLossFunction())
             .activationFunctions(xorModel.collectActivationFunctions())
             .layerSizes(xorModel.collectLayerSizes())
-            .lossFunction(xorModel.getLossFunction())
             .build();
         network.resetLayerWeights(gradientMatrixService);
       }

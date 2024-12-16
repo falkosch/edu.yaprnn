@@ -45,6 +45,7 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
   private JTextField nameTextField;
   private SpinnerNumberModel layersCountSpinnerNumberModel;
   private SpinnerNumberModel layersSizeSpinnerNumberModel;
+  private SpinnerNumberModel biasSpinnerNumberModel;
   private ComboBoxModel<ActivationFunction> activationFunctionsComboBoxModel;
   private ComboBoxModel<LossFunction> lossFunctionsComboBoxModel;
 
@@ -53,12 +54,14 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
     var nameLabel = new JLabel("Name");
     var layersCountLabel = new JLabel("Layers Count");
     var layerSizeLabel = new JLabel("Layer size");
+    var biasLabel = new JLabel("Bias value");
     var activationFunctionLabel = new JLabel("Activation function");
     var lossFunctionLabel = new JLabel("Loss function");
 
     nameTextField = new JTextField("%s %d".formatted(TITLE, ++counter));
     layersCountSpinnerNumberModel = networksControlsService.layersCountSpinnerNumberModel();
     layersSizeSpinnerNumberModel = networksControlsService.layerSizeSpinnerNumberModel();
+    biasSpinnerNumberModel = networksControlsService.biasSpinnerNumberModel();
     activationFunctionsComboBoxModel = activationFunctionControlsService.activationFunctionsComboBoxModel();
     lossFunctionsComboBoxModel = lossFunctionControlsService.lossFunctionsComboBoxModel();
 
@@ -66,6 +69,7 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
     layersCountSpinner.addKeyListener(controlsService.onlyNumbersKeyListener(true, true));
     var layersSizeSpinner = new JSpinner(layersSizeSpinnerNumberModel);
     layersSizeSpinner.addKeyListener(controlsService.onlyNumbersKeyListener(true, true));
+    var biasSpinner = new JSpinner(biasSpinnerNumberModel);
     var activationFunctionComboBox = new JComboBox<>(activationFunctionsComboBoxModel);
     var lossFunctionComboBox = new JComboBox<>(lossFunctionsComboBoxModel);
 
@@ -77,6 +81,8 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
         .addComponent(layersCountSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
         .addComponent(layerSizeLabel)
         .addComponent(layersSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
+        .addComponent(biasLabel)
+        .addComponent(biasSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
         .addComponent(activationFunctionLabel)
         .addComponent(activationFunctionComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 200)
         .addComponent(lossFunctionLabel)
@@ -88,6 +94,8 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
         .addComponent(layersCountSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
         .addComponent(layerSizeLabel)
         .addComponent(layersSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
+        .addComponent(biasLabel)
+        .addComponent(biasSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
         .addComponent(activationFunctionLabel)
         .addComponent(activationFunctionComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28)
         .addComponent(lossFunctionLabel)
@@ -113,6 +121,7 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
             .name(nameTextField.getText())
             .layersCount(layersCountSpinnerNumberModel.getNumber().intValue())
             .layersSize(layersSizeSpinnerNumberModel.getNumber().intValue())
+            .bias(biasSpinnerNumberModel.getNumber().floatValue())
             .activationFunction(activationFunction)
             .lossFunction(lossFunction)
             .build();
@@ -131,7 +140,7 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
   }
 
   @Builder
-  public record Parameters(String name, int layersCount, int layersSize,
+  public record Parameters(String name, int layersCount, int layersSize, float bias,
                            ActivationFunction activationFunction, LossFunction lossFunction) {
 
     public boolean isValid() {

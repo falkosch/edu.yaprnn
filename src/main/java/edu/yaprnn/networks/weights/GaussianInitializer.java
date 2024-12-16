@@ -6,10 +6,6 @@ import org.apache.commons.math3.random.RandomGeneratorFactory;
 
 public final class GaussianInitializer {
 
-  private static GaussianRandomGenerator createGaussianRandomGenerator(Random random) {
-    return new GaussianRandomGenerator(RandomGeneratorFactory.createRandomGenerator(random));
-  }
-
   public static void gaussian(Random random, float[] weights, int inputSize, int outputSize) {
     var generator = createGaussianRandomGenerator(random);
 
@@ -18,6 +14,10 @@ public final class GaussianInitializer {
         weights[w] = (float) generator.nextNormalizedDouble();
       }
     }
+  }
+
+  private static GaussianRandomGenerator createGaussianRandomGenerator(Random random) {
+    return new GaussianRandomGenerator(RandomGeneratorFactory.createRandomGenerator(random));
   }
 
   public static void xavier(Random random, float[] weights, int inputSize, int outputSize) {

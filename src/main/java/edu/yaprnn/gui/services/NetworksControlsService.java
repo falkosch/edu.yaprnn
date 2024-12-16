@@ -116,4 +116,8 @@ public class NetworksControlsService {
   public SpinnerNumberModel layerSizeSpinnerNumberModel() {
     return new SpinnerNumberModel(10, 2, Integer.MAX_VALUE, 1);
   }
+
+  public SpinnerNumberModel biasSpinnerNumberModel() {
+    return new SpinnerNumberModel(-1.0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0.001);
+  }
 }
