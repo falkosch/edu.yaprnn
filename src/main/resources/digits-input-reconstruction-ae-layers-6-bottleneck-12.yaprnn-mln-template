@@ -1,0 +1,51 @@
+{
+  "name": "digits-input-reconstruction GeLU AE 196 49 12 49 196",
+  "layers": [
+    {
+      "size": 784,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 196,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 49,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 12,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 49,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 196,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 784,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    }
+  ],
+  "lossFunction": {
+    "@class": "edu.yaprnn.networks.loss.HalfSquaredErrorLossFunction"
+  },
+  "bias": -1.0
+}
