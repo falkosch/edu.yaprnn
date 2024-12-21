@@ -26,52 +26,43 @@ public abstract class EventsMapper {
   Repository repository;
 
   public MultiLayerNetwork toMultiLayerNetwork(ModelNode modelNode) {
-    if (modelNode instanceof MultiLayerNetworkNode multiLayerNetworkNode) {
-      return multiLayerNetworkNode.getMultiLayerNetworkSupplier().get();
-    }
-    if (modelNode instanceof MultiLayerNetworkWeightsNode multiLayerNetworkWeightsNode) {
-      return multiLayerNetworkWeightsNode.getMultiLayerNetworkSupplier().get();
-    }
-    return null;
+    return switch (modelNode) {
+      case MultiLayerNetworkNode node -> node.getMultiLayerNetworkSupplier().get();
+      case MultiLayerNetworkWeightsNode node -> node.getMultiLayerNetworkSupplier().get();
+      case null, default -> null;
+    };
   }
 
   public int toWeightsIndex(ModelNode modelNode) {
-    if (modelNode instanceof MultiLayerNetworkWeightsNode multiLayerNetworkWeightsNode) {
-      return multiLayerNetworkWeightsNode.getWeightsIndexSupplier().getAsInt();
-    }
-    return -1;
+    return switch (modelNode) {
+      case MultiLayerNetworkWeightsNode node -> node.getWeightsIndexSupplier().getAsInt();
+      case null, default -> -1;
+    };
   }
 
   public MultiLayerNetworkTemplate toMultiLayerNetworkTemplate(ModelNode modelNode) {
-    if (modelNode instanceof MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode) {
-      return multiLayerNetworkTemplateNode.getTemplateSupplier().get();
-    }
-    if (modelNode instanceof LayerTemplateNode layerTemplateNode) {
-      return layerTemplateNode.getMultiLayerNetworkTemplateSupplier().get();
-    }
-    if (modelNode instanceof LayerSizeNode layerSizeNode) {
-      return layerSizeNode.getMultiLayerNetworkTemplateSupplier().get();
-    }
-    if (modelNode instanceof ActivationFunctionNode activationFunctionNode) {
-      return activationFunctionNode.getMultiLayerNetworkTemplateSupplier().get();
-    }
-    return null;
+    return switch (modelNode) {
+      case MultiLayerNetworkTemplateNode node -> node.getTemplateSupplier().get();
+      case LayerTemplateNode node -> node.getMultiLayerNetworkTemplateSupplier().get();
+      case LayerSizeNode node -> node.getMultiLayerNetworkTemplateSupplier().get();
+      case ActivationFunctionNode node -> node.getMultiLayerNetworkTemplateSupplier().get();
+      case null, default -> null;
+    };
   }
 
   public TrainingData toTrainingData(ModelNode modelNode) {
-    if (modelNode instanceof TrainingDataNode trainingDataNode) {
-      return trainingDataNode.getTrainingDataSupplier().get();
-    }
-    return null;
+    return switch (modelNode) {
+      case TrainingDataNode node -> node.getTrainingDataSupplier().get();
+      case null, default -> null;
+    };
   }
 
   public Sample toSample(ModelNode modelNode) {
-    if (modelNode instanceof SampleNode sampleNode) {
-      return sampleNode.getSampleSupplier().get();
-    }
-    if (modelNode instanceof SampleNameNode sampleNameNode) {
-      return repository.getSamplesGroupedByName().get(sampleNameNode.getSampleNameSupplier().get());
-    }
-    return null;
+    return switch (modelNode) {
+      case SampleNode node -> node.getSampleSupplier().get();
+      case SampleNameNode node ->
+          repository.getSamplesGroupedByName().get(node.getSampleNameSupplier().get());
+      case null, default -> null;
+    };
   }
 }

@@ -93,12 +93,11 @@ public class SamplesService {
   }
 
   public Sample subSample(Sample sample, int resolution, float overlap) {
-    if (sample instanceof ImageSample imageSample) {
-      return imageSample.subSample(resolution, overlap);
-    }
-    if (sample instanceof SoundSample soundSample) {
-      return soundSample.subSample(resolution, overlap);
-    }
-    throw new UnsupportedOperationException("Unknowns sample type: %s".formatted(sample));
+    return switch (sample) {
+      case ImageSample imageSample -> imageSample.subSample(resolution, overlap);
+      case SoundSample soundSample -> soundSample.subSample(resolution, overlap);
+      case null, default ->
+          throw new UnsupportedOperationException("Unknowns sample type: %s".formatted(sample));
+    };
   }
 }
