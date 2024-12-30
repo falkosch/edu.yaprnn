@@ -1,7 +1,10 @@
+colorama~=0.4.6
+ipywidgets~=8.1.5
 matplotlib~=3.10.0
 notebook~=7.3.2
 numpy~=1.26.4
 scikit-learn~=1.6.0
+tqdm~=4.67.1
 
 tensorflow<2.11.0
 intel-tensorflow<2.11.0

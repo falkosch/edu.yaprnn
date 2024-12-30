@@ -1,7 +1,14 @@
+colorama~=0.4.6
+flax~=0.10.2
+ipywidgets~=8.1.5
+jax~=0.4.38
+#jax[cuda12]~=0.4.38
 matplotlib~=3.10.0
 notebook~=7.3.2
 numpy~=2.2.0
+optax~=0.2.4
 scikit-learn~=1.6.0
+tqdm~=4.67.1
 
 --extra-index-url https://download.pytorch.org/whl/cu124
 torch==2.5.1+cu124

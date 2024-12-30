@@ -4,7 +4,7 @@
     {
       "size": 784,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.activation.LinearActivationFunction"
       }
     },
     {
@@ -45,7 +45,7 @@
     }
   ],
   "lossFunction": {
-    "@class": "edu.yaprnn.networks.loss.HalfSquaredErrorLossFunction"
+    "@class": "edu.yaprnn.networks.loss.MeanSquaredErrorLossFunction"
   },
   "bias": -1.0
 }
