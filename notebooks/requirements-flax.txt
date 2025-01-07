@@ -5,15 +5,9 @@ notebook~=7.3.2
 scikit-learn~=1.6.0
 tqdm~=4.67.1
 
-numpy
+numpy~=2.2.1
 
-flax
-jaxlib
-jax
-optax
-
-#intel-extension-for-openxla
-
-#jax[cuda11_local]
-jax[cuda12_local]
-#jax[tpu]
+flax~=0.10.2
+jax~=0.4.38
+jaxlib~=0.4.38
+optax~=0.2.4
