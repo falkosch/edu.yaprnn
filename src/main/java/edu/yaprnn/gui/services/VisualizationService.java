@@ -1,7 +1,7 @@
 package edu.yaprnn.gui.services;
 
+import edu.yaprnn.networks.Dimension2d;
 import edu.yaprnn.networks.Layer;
-import edu.yaprnn.networks.WeightsDimension;
 import edu.yaprnn.support.swing.Images;
 import jakarta.inject.Singleton;
 import java.awt.Image;
@@ -90,7 +90,7 @@ public class VisualizationService {
   }
 
   public int inputSizeWithBias(float[] weights, int outputSize) {
-    return WeightsDimension.from(weights, outputSize).inputSizeWithBias();
+    return Dimension2d.from(weights, outputSize).inputSizeWithBias();
   }
 
   public Image fromWeights(float[] weights, int outputSize, float zoom, float gamma) {
