@@ -33,6 +33,39 @@ public class VisualizationService {
   private static final int HEAT_LOOKUP_GREEN = 2;
   private static final int HEAT_LOOKUP_BLUE = 3;
 
+  private static int toHeatColor(float intensity) {
+    var startHeat = HEAT_LOOKUP[intensity < 0f ? 0 : HEAT_LOOKUP.length - 1];
+    var redFloat = startHeat[HEAT_LOOKUP_RED];
+    var greenFloat = startHeat[HEAT_LOOKUP_GREEN];
+    var blueFloat = startHeat[HEAT_LOOKUP_BLUE];
+
+    for (int minIndex = 0, maxIndex = 1; maxIndex < HEAT_LOOKUP.length; minIndex++, maxIndex++) {
+      var minHeat = HEAT_LOOKUP[minIndex];
+      var minHeatIntensity = minHeat[HEAT_LOOKUP_INTENSITY];
+      var maxHeat = HEAT_LOOKUP[maxIndex];
+
+      var maxHeatIntensity = maxHeat[HEAT_LOOKUP_INTENSITY];
+      if (intensity < minHeatIntensity || intensity >= maxHeatIntensity) {
+        continue;
+      }
+
+      var minHeatRed = minHeat[HEAT_LOOKUP_RED];
+      var minHeatGreen = minHeat[HEAT_LOOKUP_GREEN];
+      var minHeatBlue = minHeat[HEAT_LOOKUP_BLUE];
+
+      var factor = (intensity - minHeatIntensity) / (maxHeatIntensity - minHeatIntensity);
+      redFloat = minHeatRed + factor * (maxHeat[HEAT_LOOKUP_RED] - minHeatRed);
+      greenFloat = minHeatGreen + factor * (maxHeat[HEAT_LOOKUP_GREEN] - minHeatGreen);
+      blueFloat = minHeatBlue + factor * (maxHeat[HEAT_LOOKUP_BLUE] - minHeatBlue);
+      break;
+    }
+
+    var red = Math.clamp(Math.round(redFloat), 0, 255);
+    var green = Math.clamp(Math.round(greenFloat), 0, 255);
+    var blue = Math.clamp(Math.round(blueFloat), 0, 255);
+    return (red << 16) | (green << 8) | blue;
+  }
+
   public Image fromOutput(float[] output, int width, float zoom, float gamma) {
     var height = Math.max(1, inputSizeWithBias(output, width));
     var safeOutput = Arrays.copyOf(output, width * height);
@@ -83,39 +116,6 @@ public class VisualizationService {
     } finally {
       image.flush();
     }
-  }
-
-  private static int toHeatColor(float intensity) {
-    var startHeat = HEAT_LOOKUP[intensity < 0f ? 0 : HEAT_LOOKUP.length - 1];
-    var redFloat = startHeat[HEAT_LOOKUP_RED];
-    var greenFloat = startHeat[HEAT_LOOKUP_GREEN];
-    var blueFloat = startHeat[HEAT_LOOKUP_BLUE];
-
-    for (int minIndex = 0, maxIndex = 1; maxIndex < HEAT_LOOKUP.length; minIndex++, maxIndex++) {
-      var minHeat = HEAT_LOOKUP[minIndex];
-      var minHeatIntensity = minHeat[HEAT_LOOKUP_INTENSITY];
-      var maxHeat = HEAT_LOOKUP[maxIndex];
-
-      var maxHeatIntensity = maxHeat[HEAT_LOOKUP_INTENSITY];
-      if (intensity < minHeatIntensity || intensity >= maxHeatIntensity) {
-        continue;
-      }
-
-      var minHeatRed = minHeat[HEAT_LOOKUP_RED];
-      var minHeatGreen = minHeat[HEAT_LOOKUP_GREEN];
-      var minHeatBlue = minHeat[HEAT_LOOKUP_BLUE];
-
-      var factor = (intensity - minHeatIntensity) / (maxHeatIntensity - minHeatIntensity);
-      redFloat = minHeatRed + factor * (maxHeat[HEAT_LOOKUP_RED] - minHeatRed);
-      greenFloat = minHeatGreen + factor * (maxHeat[HEAT_LOOKUP_GREEN] - minHeatGreen);
-      blueFloat = minHeatBlue + factor * (maxHeat[HEAT_LOOKUP_BLUE] - minHeatBlue);
-      break;
-    }
-
-    var red = Math.clamp(Math.round(redFloat), 0, 255);
-    var green = Math.clamp(Math.round(greenFloat), 0, 255);
-    var blue = Math.clamp(Math.round(blueFloat), 0, 255);
-    return (red << 16) | (green << 8) | blue;
   }
 
   public DefaultTableModel classificationTableModel(String[] labels, Layer[] layers,
