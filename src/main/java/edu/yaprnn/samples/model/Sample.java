@@ -17,7 +17,11 @@ public sealed interface Sample permits ImageSample, SimpleSample, SoundSample {
 
   float[] getInput();
 
-  Image createPreview();
+  float[] getOriginal();
+
+  Image createPreviewFromOriginal();
+
+  Image createPreviewFromInput();
 
   String getMetaDescription();
 }

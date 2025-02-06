@@ -169,11 +169,11 @@ public class SampleDetailsView {
 
   private void setSamplePreview() {
     if (Objects.nonNull(sample)) {
-      sampleMetaEditorPane.setText(META_TEMPLATE.formatted(sample.getMetaDescription()));
-      previewImagePanel.setImage(samplesService.from(sample, zoom));
-
       var subSampled = samplesService.subSample(sample, resolution, overlap);
-      subSampledPreviewImagePanel.setImage(samplesService.from(subSampled, zoom));
+      sampleMetaEditorPane.setText(META_TEMPLATE.formatted(subSampled.getMetaDescription()));
+      previewImagePanel.setImage(samplesService.from(subSampled::createPreviewFromOriginal, zoom));
+      subSampledPreviewImagePanel.setImage(
+          samplesService.from(subSampled::createPreviewFromInput, zoom));
     } else {
       clear();
     }

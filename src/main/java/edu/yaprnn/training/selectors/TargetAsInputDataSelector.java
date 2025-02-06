@@ -1,31 +1,34 @@
-package edu.yaprnn.training;
+package edu.yaprnn.training.selectors;
 
 import edu.yaprnn.networks.activation.ActivationFunction;
+import edu.yaprnn.samples.model.ImageSample;
 import edu.yaprnn.samples.model.Sample;
-import edu.yaprnn.support.Floats;
 
-public final class ClassifierDataSelector implements DataSelector {
+public final class TargetAsInputDataSelector implements DataSelector {
 
   @Override
   public float[] input(Sample sample) {
-    return sample.getInput();
+    return sample.getTarget();
   }
 
   @Override
   public float[] target(Sample sample, ActivationFunction outputActivationFunction) {
-    return outputActivationFunction.apply(sample.getTarget());
+    return outputActivationFunction.apply(sample.getInput());
   }
 
   @Override
   public float[] postprocessOutput(float[] v, float[] h,
       ActivationFunction outputActivationFunction) {
-    var maxTarget = new float[h.length];
-    maxTarget[Floats.argMax(h)] = 1f;
-    return maxTarget;
+    return v;
+  }
+
+  @Override
+  public int getOutputWidth(ImageSample sample) {
+    return sample.getInputWidth();
   }
 
   @Override
   public String toString() {
-    return ClassifierDataSelector.class.getSimpleName();
+    return TargetAsInputDataSelector.class.getSimpleName();
   }
 }

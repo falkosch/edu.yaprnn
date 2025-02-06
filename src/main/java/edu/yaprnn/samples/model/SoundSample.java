@@ -25,6 +25,21 @@ public final class SoundSample implements Sample {
   private final float[] input;
   private final float[] original;
 
+  private static Image createPreviewFrom(float[] values) {
+    var image = new BufferedImage(values.length, PREVIEW_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    var scale = PREVIEW_HEIGHT / Floats.max(values);
+
+    for (var x = 0; x < values.length; x++) {
+      var valueAtX = (int) (scale * values[x]);
+      for (var y = PREVIEW_HEIGHT - valueAtX; y < PREVIEW_HEIGHT; y++) {
+        image.setRGB(x, y,
+            COLOR_BASE - PREVIEW_HEIGHT * Math.round(PREVIEW_DESCALE * (PREVIEW_HEIGHT - y)));
+      }
+    }
+
+    return image;
+  }
+
   public SoundSample subSample(int resolution, float overlap) {
     return subSample(resolution, overlap, 1.005f);
   }
@@ -80,19 +95,14 @@ public final class SoundSample implements Sample {
     return LABELS.toArray(String[]::new);
   }
 
-  public Image createPreview() {
-    var image = new BufferedImage(input.length, PREVIEW_HEIGHT, BufferedImage.TYPE_INT_RGB);
-    var scale = PREVIEW_HEIGHT / Floats.max(input);
+  @Override
+  public Image createPreviewFromOriginal() {
+    return createPreviewFrom(original);
+  }
 
-    for (var x = 0; x < input.length; x++) {
-      var valueAtX = (int) (scale * input[x]);
-      for (var y = PREVIEW_HEIGHT - valueAtX; y < PREVIEW_HEIGHT; y++) {
-        image.setRGB(x, y,
-            COLOR_BASE - PREVIEW_HEIGHT * Math.round(PREVIEW_DESCALE * (PREVIEW_HEIGHT - y)));
-      }
-    }
-
-    return image;
+  @Override
+  public Image createPreviewFromInput() {
+    return createPreviewFrom(input);
   }
 
   @Override

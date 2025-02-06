@@ -48005,6 +48005,6 @@
     "digits.idx3-ubyte_9988"
   ],
   "dataSelector": {
-    "@class": "edu.yaprnn.training.ClassifierDataSelector"
+    "@class": "edu.yaprnn.training.selectors.ClassifierDataSelector"
   }
 }

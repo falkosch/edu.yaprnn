@@ -1,8 +1,8 @@
 package edu.yaprnn.gui.services;
 
 import edu.yaprnn.support.swing.DialogsService;
-import edu.yaprnn.training.ClassifierDataSelector;
-import edu.yaprnn.training.DataSelector;
+import edu.yaprnn.training.selectors.ClassifierDataSelector;
+import edu.yaprnn.training.selectors.DataSelector;
 import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;

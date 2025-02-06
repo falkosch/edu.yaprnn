@@ -1,0 +1,33 @@
+{
+  "name": "digits-super-resolution GeLU 196 294 392 784",
+  "layers": [
+    {
+      "size": 196,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 294,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 392,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 784,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
+      }
+    }
+  ],
+  "lossFunction": {
+    "@class": "edu.yaprnn.networks.loss.MeanSquaredErrorLossFunction"
+  },
+  "bias": -1.0
+}

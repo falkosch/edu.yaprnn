@@ -11,8 +11,8 @@ import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.samples.model.SimpleSample;
-import edu.yaprnn.training.ClassifierDataSelector;
-import edu.yaprnn.training.DataSelector;
+import edu.yaprnn.training.selectors.ClassifierDataSelector;
+import edu.yaprnn.training.selectors.DataSelector;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
@@ -36,7 +36,7 @@ class MultiLayerNetworkTest {
 
   void train(int epochs) {
     for (var i = 0; i < epochs; i++) {
-      network.learnMiniBatch(gradientMatrixService, samples, dataSelector, samples.size(), 0.2f,
+      network.learnMiniBatch(gradientMatrixService, samples, dataSelector, 1, samples.size(), 0.2f,
           0.2f, 0f, 0f);
     }
   }

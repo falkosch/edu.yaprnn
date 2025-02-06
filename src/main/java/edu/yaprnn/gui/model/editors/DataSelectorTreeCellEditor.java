@@ -4,7 +4,7 @@ import edu.yaprnn.gui.model.NetworksTreeCellRenderer;
 import edu.yaprnn.gui.model.nodes.DataSelectorNode;
 import edu.yaprnn.gui.services.DataSelectorControlsService;
 import edu.yaprnn.gui.views.di.NetworksTree;
-import edu.yaprnn.training.DataSelector;
+import edu.yaprnn.training.selectors.DataSelector;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import javax.swing.DefaultCellEditor;

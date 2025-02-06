@@ -31,6 +31,19 @@ public final class ImageSample implements Sample {
   private final int inputHeight;
   private final float[] input;
 
+  private static Image createPreviewFrom(int width, int height, float[] values) {
+    var image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    for (var y = 0; y < height; y++) {
+      for (var x = 0; x < width; x++) {
+        var pixelValue = Math.clamp(Math.round(255f * values[y * width + x]), 0, 255);
+        image.setRGB(x, y, pixelValue | (pixelValue << 8) | (pixelValue << 16));
+      }
+    }
+
+    return image;
+  }
+
   /**
    * @param resolution new resolution of data
    * @param overlap    the overlap between adjacent windows in the range [0, 0.95]
@@ -95,17 +108,13 @@ public final class ImageSample implements Sample {
   }
 
   @Override
-  public Image createPreview() {
-    var image = new BufferedImage(inputWidth, inputHeight, BufferedImage.TYPE_INT_RGB);
+  public Image createPreviewFromOriginal() {
+    return createPreviewFrom(originalWidth, originalHeight, original);
+  }
 
-    for (var y = 0; y < inputHeight; y++) {
-      for (var x = 0; x < inputWidth; x++) {
-        var pixelValue = Math.clamp(Math.round(255f * input[y * inputWidth + x]), 0, 255);
-        image.setRGB(x, y, pixelValue | (pixelValue << 8) | (pixelValue << 16));
-      }
-    }
-
-    return image;
+  @Override
+  public Image createPreviewFromInput() {
+    return createPreviewFrom(inputWidth, inputHeight, input);
   }
 
   @Override

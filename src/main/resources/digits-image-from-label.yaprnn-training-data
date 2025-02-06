@@ -60005,6 +60005,6 @@
     "digits.idx3-ubyte_9997"
   ],
   "dataSelector": {
-    "@class": "edu.yaprnn.training.TargetAsInputDataSelector"
+    "@class": "edu.yaprnn.training.selectors.TargetAsInputDataSelector"
   }
 }
