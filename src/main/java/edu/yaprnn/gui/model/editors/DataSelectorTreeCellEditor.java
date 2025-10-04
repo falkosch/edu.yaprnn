@@ -2,7 +2,7 @@ package edu.yaprnn.gui.model.editors;
 
 import edu.yaprnn.gui.model.NetworksTreeCellRenderer;
 import edu.yaprnn.gui.model.nodes.DataSelectorNode;
-import edu.yaprnn.gui.services.ControlsService;
+import edu.yaprnn.gui.services.DataSelectorControlsService;
 import edu.yaprnn.gui.views.di.NetworksTree;
 import edu.yaprnn.training.DataSelector;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -17,7 +17,8 @@ public class DataSelectorTreeCellEditor extends
 
   @Inject
   public DataSelectorTreeCellEditor(@NetworksTree JTree networksTree,
-      NetworksTreeCellRenderer networksTreeCellRenderer, ControlsService controlsService) {
+      NetworksTreeCellRenderer networksTreeCellRenderer,
+      DataSelectorControlsService controlsService) {
     this(networksTree, networksTreeCellRenderer,
         controlsService.dataSelectorsComboBox(_ -> {/*NOOP*/}));
   }

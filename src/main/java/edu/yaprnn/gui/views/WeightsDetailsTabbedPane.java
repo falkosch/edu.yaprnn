@@ -4,8 +4,9 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModifiedRouter;
-import edu.yaprnn.gui.services.ControlsService;
+import edu.yaprnn.gui.services.NetworksControlsService;
 import edu.yaprnn.gui.services.VisualizationService;
+import edu.yaprnn.gui.services.ZoomControlsService;
 import edu.yaprnn.networks.MultiLayerNetwork;
 import edu.yaprnn.support.swing.ImagePanel;
 import jakarta.annotation.PostConstruct;
@@ -25,11 +26,13 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
   public static final String TITLE = "Weights Details";
 
   @Inject
-  ControlsService controlsService;
+  NetworksControlsService networksControlsService;
   @Inject
   OnMultiLayerNetworkWeightsPreviewModifiedRouter onMultiLayerNetworkWeightsPreviewModifiedRouter;
   @Inject
   VisualizationService visualizationService;
+  @Inject
+  ZoomControlsService zoomControlsService;
 
   private JTable weightsTable;
   private ImagePanel weightsImagePanel;
@@ -37,7 +40,7 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
   public void setWeightsPreview(MultiLayerNetwork multiLayerNetwork, int weightsIndex, float zoom,
       float gamma) {
     if (!Objects.nonNull(multiLayerNetwork) || weightsIndex < 0) {
-      weightsTable.setModel(controlsService.emptyTableModel());
+      weightsTable.setModel(networksControlsService.emptyTableModel());
       weightsImagePanel.setImage(null);
       return;
     }
@@ -68,14 +71,14 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
     var gammaLabel = new JLabel("Gamma");
 
     var weightsPanel = new JPanel();
-    weightsTable = controlsService.valuesTable();
+    weightsTable = networksControlsService.valuesTable();
     var weightsTableScrollPane = new JScrollPane(weightsTable);
     addTab("Weights Image", weightsPanel);
     addTab("Weights Table", weightsTableScrollPane);
 
-    var gammaSlider = controlsService.gammaSlider(
+    var gammaSlider = networksControlsService.gammaSlider(
         onMultiLayerNetworkWeightsPreviewModifiedRouter::setGamma);
-    var zoomWeightsComboBox = controlsService.zoomComboBox(
+    var zoomWeightsComboBox = zoomControlsService.zoomComboBox(
         onMultiLayerNetworkWeightsPreviewModifiedRouter::setZoom);
 
     weightsImagePanel = new ImagePanel();

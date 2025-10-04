@@ -4,6 +4,8 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.gui.services.ControlsService;
+import edu.yaprnn.gui.services.DataSelectorControlsService;
+import edu.yaprnn.gui.services.NetworksControlsService;
 import edu.yaprnn.support.swing.DialogsService;
 import edu.yaprnn.training.DataSelector;
 import jakarta.annotation.PostConstruct;
@@ -29,7 +31,11 @@ public class RandomizeTrainingDataPanel extends JPanel {
   @Inject
   ControlsService controlsService;
   @Inject
+  DataSelectorControlsService dataSelectorControlsService;
+  @Inject
   DialogsService dialogsService;
+  @Inject
+  NetworksControlsService networksControlsService;
 
   private SpinnerNumberModel trainingSizeSpinnerNumberModel;
   private SpinnerNumberModel devTestSizeSpinnerNumberModel;
@@ -43,10 +49,10 @@ public class RandomizeTrainingDataPanel extends JPanel {
     var nameLabel = new JLabel("Name");
     var dataSelectorLabel = new JLabel("Data selector");
 
-    trainingSizeSpinnerNumberModel = controlsService.trainingSizeSpinnerNumberModel();
-    devTestSizeSpinnerNumberModel = controlsService.devTestSizeSpinnerNumberModel();
+    trainingSizeSpinnerNumberModel = networksControlsService.trainingSizeSpinnerNumberModel();
+    devTestSizeSpinnerNumberModel = networksControlsService.devTestSizeSpinnerNumberModel();
     nameTextField = new JTextField("%s %d".formatted(TITLE, ++counter));
-    dataSelectorsComboBoxModel = controlsService.dataSelectorsComboBoxModel();
+    dataSelectorsComboBoxModel = dataSelectorControlsService.dataSelectorsComboBoxModel();
 
     var trainingSizeSpinner = new JSpinner(trainingSizeSpinnerNumberModel);
     trainingSizeSpinner.addKeyListener(controlsService.onlyNumbersKeyListener(true, true));

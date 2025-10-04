@@ -34,7 +34,7 @@ public class VisualizationService {
 
       var newWidth = (int) (width * zoom);
       var newHeight = (int) (height * zoom);
-      return Images.resize(image, newWidth, newHeight, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+      return Images.resize(image, newWidth, newHeight, AffineTransformOp.TYPE_BICUBIC);
     } finally {
       image.flush();
     }

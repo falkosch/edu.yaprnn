@@ -5,8 +5,11 @@ import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModifiedRouter;
 import edu.yaprnn.gui.services.ControlsService;
+import edu.yaprnn.gui.services.DataSelectorControlsService;
 import edu.yaprnn.gui.services.IconsService;
+import edu.yaprnn.gui.services.NetworksControlsService;
 import edu.yaprnn.gui.services.VisualizationService;
+import edu.yaprnn.gui.services.ZoomControlsService;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.Layer;
 import edu.yaprnn.networks.MultiLayerNetwork;
@@ -43,6 +46,10 @@ public class ClassifyFrame extends JFrame {
   @Inject
   ControlsService controlsService;
   @Inject
+  DataSelectorControlsService dataSelectorControlsService;
+  @Inject
+  NetworksControlsService networksControlsService;
+  @Inject
   IconsService iconsService;
   @Inject
   OnMultiLayerNetworkWeightsPreviewModifiedRouter onMultiLayerNetworkWeightsPreviewModifiedRouter;
@@ -50,6 +57,8 @@ public class ClassifyFrame extends JFrame {
   Repository repository;
   @Inject
   VisualizationService visualizationService;
+  @Inject
+  ZoomControlsService zoomControlsService;
 
   @Inject
   Instance<SampleDetailsView> sampleDetailsViewInstance;
@@ -90,11 +99,11 @@ public class ClassifyFrame extends JFrame {
     var networksComboBox = new JComboBox<>(multiLayerNetworksComboBoxModel);
     networksComboBox.addItemListener(this::syncViewOnMultiLayerNetworkSelectionChanged);
 
-    dataSelectorComboBoxModel = controlsService.dataSelectorsComboBoxModel();
+    dataSelectorComboBoxModel = dataSelectorControlsService.dataSelectorsComboBoxModel();
     var dataSelectorComboBox = new JComboBox<>(dataSelectorComboBoxModel);
-    var gammaSlider = controlsService.gammaSlider(
+    var gammaSlider = networksControlsService.gammaSlider(
         onMultiLayerNetworkWeightsPreviewModifiedRouter::setGamma);
-    var zoomWeightsComboBox = controlsService.zoomComboBox(
+    var zoomWeightsComboBox = zoomControlsService.zoomComboBox(
         onMultiLayerNetworkWeightsPreviewModifiedRouter::setZoom);
 
     var toolBar = new JToolBar();
@@ -103,7 +112,7 @@ public class ClassifyFrame extends JFrame {
     toolBar.add(networksComboBox);
     toolBar.add(dataSelectorComboBox);
 
-    layersTable = controlsService.valuesTable();
+    layersTable = networksControlsService.valuesTable();
     sampleDetailsView = sampleDetailsViewInstance.get();
     outputReconstructionImagePanel = new ImagePanel();
 

@@ -3,7 +3,9 @@ package edu.yaprnn.gui.views;
 import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
+import edu.yaprnn.gui.services.ActivationFunctionControlsService;
 import edu.yaprnn.gui.services.ControlsService;
+import edu.yaprnn.gui.services.NetworksControlsService;
 import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.support.swing.DialogsService;
 import jakarta.annotation.PostConstruct;
@@ -27,9 +29,13 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
   private static int counter = 0;
 
   @Inject
+  ActivationFunctionControlsService activationFunctionControlsService;
+  @Inject
   ControlsService controlsService;
   @Inject
   DialogsService dialogsService;
+  @Inject
+  NetworksControlsService networksControlsService;
 
   private JTextField nameTextField;
   private SpinnerNumberModel layersCountSpinnerNumberModel;
@@ -44,9 +50,9 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
     var activationFunctionLabel = new JLabel("Activation function");
 
     nameTextField = new JTextField("%s %d".formatted(TITLE, ++counter));
-    layersCountSpinnerNumberModel = controlsService.layersCountSpinnerNumberModel();
-    layersSizeSpinnerNumberModel = controlsService.layerSizeSpinnerNumberModel();
-    activationFunctionsComboBoxModel = controlsService.activationFunctionsComboBoxModel();
+    layersCountSpinnerNumberModel = networksControlsService.layersCountSpinnerNumberModel();
+    layersSizeSpinnerNumberModel = networksControlsService.layerSizeSpinnerNumberModel();
+    activationFunctionsComboBoxModel = activationFunctionControlsService.activationFunctionsComboBoxModel();
 
     var layersCountSpinner = new JSpinner(layersCountSpinnerNumberModel);
     layersCountSpinner.addKeyListener(controlsService.onlyNumbersKeyListener(true, true));
