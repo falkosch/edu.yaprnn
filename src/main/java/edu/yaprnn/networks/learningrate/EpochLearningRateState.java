@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
  * Updates the learning rate at the end of a training epoch.
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class EpochLearningRateState implements LearningRateState {
+public final class EpochLearningRateState implements LearningRateState {
 
   private final EpochLearningRate config;
 

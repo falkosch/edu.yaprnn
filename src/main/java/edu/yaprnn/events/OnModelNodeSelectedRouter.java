@@ -7,7 +7,7 @@ import jakarta.inject.Singleton;
 import lombok.Getter;
 
 @Singleton
-public class OnModelNodeSelectedRouter {
+public final class OnModelNodeSelectedRouter {
 
   @Inject
   Event<OnModelNodeSelected> onModelNodeSelectedEvent;

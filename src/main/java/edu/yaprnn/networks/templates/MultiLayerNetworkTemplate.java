@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder(toBuilder = true)
-public class MultiLayerNetworkTemplate {
+public final class MultiLayerNetworkTemplate {
 
   /**
    * readable name of the multiLayerNetwork template

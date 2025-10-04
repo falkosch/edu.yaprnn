@@ -1,6 +1,6 @@
 package edu.yaprnn.samples.model;
 
-import com.google.common.primitives.Floats;
+import edu.yaprnn.support.Floats;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @Getter
 @RequiredArgsConstructor
-public class SimpleSample implements Sample {
+public final class SimpleSample implements Sample {
 
   private final String name;
   private final String[] labels;
@@ -32,7 +32,7 @@ public class SimpleSample implements Sample {
   public Image createPreview() {
     var image = new BufferedImage(input.length, 1, BufferedImage.TYPE_BYTE_GRAY);
     for (var x = 0; x < input.length; x++) {
-      image.setRGB(x, 0, (int) Math.clamp(255f * input[x], 0f, 255f));
+      image.setRGB(x, 0, Math.clamp(Math.round(255f * input[x]), 0, 255));
     }
     return image;
   }

@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.function.BiFunction;
 
 @Singleton
-public class ShuffleService {
+public final class ShuffleService {
 
   @Named(RandomConfigurer.YAPRNN_RANDOM_BEAN)
   @Inject

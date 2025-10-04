@@ -3,7 +3,8 @@ package edu.yaprnn.networks.learningrate;
 /**
  * Determines the learning rate in training a network.
  */
-public interface LearningRateState {
+public sealed interface LearningRateState permits ConstantLearningRateState,
+    DynamicLearningRateState, EpochLearningRateState {
 
   /**
    * @return the current learning rate in this {@link LearningRateState}

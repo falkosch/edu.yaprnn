@@ -1,11 +1,9 @@
 package edu.yaprnn.networks.weights;
 
 import java.util.Random;
-import lombok.experimental.UtilityClass;
 import org.apache.commons.math3.random.RandomGeneratorFactory;
 import org.apache.commons.math3.random.UniformRandomGenerator;
 
-@UtilityClass
 public final class UniformInitializer {
 
   private static UniformRandomGenerator createUniformRandomGenerator(Random random) {

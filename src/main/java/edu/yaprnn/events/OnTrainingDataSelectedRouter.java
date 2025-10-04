@@ -9,7 +9,7 @@ import java.util.Objects;
 import lombok.Getter;
 
 @Singleton
-public class OnTrainingDataSelectedRouter {
+public final class OnTrainingDataSelectedRouter {
 
   @Inject
   EventsMapper eventsMapper;

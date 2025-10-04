@@ -6,7 +6,7 @@ import jakarta.inject.Singleton;
 import lombok.Getter;
 
 @Singleton
-public class OnSamplePreviewModifiedRouter {
+public final class OnSamplePreviewModifiedRouter {
 
   @Inject
   Event<OnSamplePreviewModified> onSamplePreviewModifiedEvent;

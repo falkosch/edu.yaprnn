@@ -16,7 +16,11 @@ import java.util.Random;
  * </ul>
  */
 @JsonTypeInfo(use = Id.CLASS)
-public interface ActivationFunction {
+public sealed interface ActivationFunction permits BinaryStepActivationFunction,
+    GeLUActivationFunction, LinearActivationFunction, QuickGeLUActivationFunction,
+    ReLUActivationFunction, SigmoidActivationFunction, SignumActivationFunction,
+    SoftMaxActivationFunction, TangentHyperbolicActivationFunction,
+    TangentHyperbolicHardActivationFunction, ThresholdActivationFunction {
 
   Comparator<ActivationFunction> COMPARATOR = Comparator.comparing(ActivationFunction::toString);
 

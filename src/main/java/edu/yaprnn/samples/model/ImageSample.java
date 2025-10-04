@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class ImageSample implements Sample {
+public final class ImageSample implements Sample {
 
   public static final List<String> LABELS = List.of("0", "1", "2", "3", "4", "5", "6", "7", "8",
       "9");

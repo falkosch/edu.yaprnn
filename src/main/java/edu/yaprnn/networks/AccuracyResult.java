@@ -1,15 +1,14 @@
 package edu.yaprnn.networks;
 
-import com.google.common.primitives.Floats;
+import edu.yaprnn.support.Floats;
 
 public record AccuracyResult(float error, int count, float hits) {
 
   public static AccuracyResult from(float[] h, float[] target, float error) {
-    var argMaxH = Floats.indexOf(h, Floats.max(h));
-    var argMaxT = Floats.indexOf(target, Floats.max(target));
-    var hit = argMaxH == argMaxT ? 1f : 0f;
+    var hit = Floats.haveMaxAtSameIndex(h, target) ? 1f : 0f;
     return new AccuracyResult(error, 1, hit);
   }
+
 
   public static AccuracyResult sum(AccuracyResult left, AccuracyResult right) {
     return new AccuracyResult(left.error + right.error, left.count + right.count,

@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 @Singleton
-public class RandomConfigurer {
+public final class RandomConfigurer {
 
   public static final String YAPRNN_RANDOM_BEAN = "yaprnnRandom";
 

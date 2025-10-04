@@ -9,7 +9,7 @@ import java.util.Objects;
 import lombok.Getter;
 
 @Singleton
-public class OnMultiLayerNetworkSelectedRouter {
+public final class OnMultiLayerNetworkSelectedRouter {
 
   @Inject
   EventsMapper eventsMapper;
