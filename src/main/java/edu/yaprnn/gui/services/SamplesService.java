@@ -99,10 +99,6 @@ public class SamplesService {
     if (sample instanceof SoundSample soundSample) {
       return soundSample.subSample(resolution, overlap);
     }
-    throw unknownSampleType(sample);
-  }
-
-  private RuntimeException unknownSampleType(Sample sample) {
-    return new UnsupportedOperationException("Unknowns sample type: %s".formatted(sample));
+    throw new UnsupportedOperationException("Unknowns sample type: %s".formatted(sample));
   }
 }

@@ -1,5 +1,7 @@
 package edu.yaprnn.networks;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.google.common.collect.Lists;
 import edu.yaprnn.networks.functions.ActivationFunction;
 import edu.yaprnn.samples.model.Sample;
@@ -8,25 +10,20 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+@JsonDeserialize(builder = MultiLayerNetwork.MultiLayerNetworkBuilder.class)
 @Builder
 @Getter
-@RequiredArgsConstructor
 public class MultiLayerNetwork {
 
   private final int[] layerSizes;
   private final ActivationFunction[] activationFunctions;
   private final float bias;
-
   @Setter
   private String name;
-
   // [layerSizes.length - 1][each l : (layerSizes[l] + 1) x layerSizes[l + 1]]
   // rows -> from input layer nodes with 1 bias node
   // cols -> to output layer nodes without 1 bias node
@@ -220,5 +217,11 @@ public class MultiLayerNetwork {
   public String toString() {
     return "%s (%s)".formatted(name,
         Arrays.toString(Objects.requireNonNullElseGet(layerSizes, () -> new int[0])));
+  }
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class MultiLayerNetworkBuilder {
+    // Make Jackson use the lombok builder for deserialization
+    // https://stackoverflow.com/a/48801237
   }
 }
