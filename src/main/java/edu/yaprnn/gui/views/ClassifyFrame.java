@@ -25,6 +25,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
 import java.util.List;
 import java.util.Objects;
+import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -85,6 +86,8 @@ public class ClassifyFrame extends JFrame {
   void initializeComponents() {
     var zoomWeightsLabel = new JLabel("Zoom");
     var gammaLabel = new JLabel("Gamma");
+    var outputReconstructionTitledBorder = BorderFactory.createTitledBorder(
+        "Output Reconstruction");
 
     classifyButton = controlsService.actionButton(TITLE, iconsService.classifyIcon(),
         this::classify);
@@ -140,7 +143,7 @@ public class ClassifyFrame extends JFrame {
                 .addComponent(gammaLabel)
                 .addComponent(gammaSlider, PREFERRED_SIZE, DEFAULT_SIZE, 300)))
         .addComponent(outputReconstructionScrollPane));
-    outputReconstructionLayout.setVerticalGroup(outputReconstructionLayout.createParallelGroup()
+    outputReconstructionLayout.setVerticalGroup(outputReconstructionLayout.createSequentialGroup()
         .addGroup(outputReconstructionLayout.createParallelGroup()
             .addGroup(outputReconstructionLayout.createSequentialGroup()
                 .addComponent(zoomWeightsLabel)
@@ -152,6 +155,7 @@ public class ClassifyFrame extends JFrame {
     outputReconstructionLayout.setAutoCreateContainerGaps(true);
     outputReconstructionLayout.setAutoCreateGaps(true);
     outputReconstructionPanel.setLayout(outputReconstructionLayout);
+    outputReconstructionPanel.setBorder(outputReconstructionTitledBorder);
     outputReconstructionPanel.setOpaque(false);
 
     var tabbedPane = new JTabbedPane();
