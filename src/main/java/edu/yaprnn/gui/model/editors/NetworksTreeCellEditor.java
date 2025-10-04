@@ -1,6 +1,7 @@
 package edu.yaprnn.gui.model.editors;
 
 import edu.yaprnn.gui.model.editors.di.DefaultSelectableTreeCellEditor;
+import edu.yaprnn.gui.model.nodes.ModelNode;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;
@@ -8,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.awt.Component;
 import java.util.EventObject;
+import java.util.Objects;
 import javax.swing.JTree;
 import javax.swing.event.CellEditorListener;
 import javax.swing.tree.TreeCellEditor;
@@ -36,13 +38,18 @@ public class NetworksTreeCellEditor implements TreeCellEditor {
   @Override
   public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected,
       boolean expanded, boolean leaf, int row) {
-    selectedTreeCellEditor = selectableTreeCellEditorInstance.stream()
-        .filter(x -> x.isEditorOf(value))
-        .findAny()
-        .orElse(defaultSelectedTreeCellEditor);
-
+    if (value instanceof ModelNode modelNode) {
+      selectTreeCellEditor(modelNode);
+    }
     return selectedTreeCellEditor.getTreeCellEditorComponent(tree, value, isSelected, expanded,
         leaf, row);
+  }
+
+  private void selectTreeCellEditor(ModelNode modelNode) {
+    selectedTreeCellEditor = selectableTreeCellEditorInstance.stream()
+        .filter(x -> x.isEditorOf(modelNode))
+        .findAny()
+        .orElse(defaultSelectedTreeCellEditor);
   }
 
   @Override
@@ -52,6 +59,14 @@ public class NetworksTreeCellEditor implements TreeCellEditor {
 
   @Override
   public boolean isCellEditable(EventObject event) {
+    if (event.getSource() instanceof JTree tree) {
+      var treePath = tree.getSelectionPath();
+      if (Objects.nonNull(treePath)
+          && treePath.getLastPathComponent() instanceof ModelNode modelNode) {
+        selectTreeCellEditor(modelNode);
+      }
+    }
+
     return selectedTreeCellEditor.isCellEditable(event);
   }
 
