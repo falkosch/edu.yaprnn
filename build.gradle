@@ -1,0 +1,50 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    jfreeChartVersion = '1.0.19'
+    jtransformsVersion = '3.1'
+
+    lombokMapStructBindingVersion = '0.2.0'
+    lombokVersion = '1.18.32'
+    mapStructVersion = '1.6.0.Beta1'
+
+    assertjVersion = "3.25.3"
+    junitVersion = '5.11.0-M1'
+}
+dependencies {
+    implementation "com.github.wendykierp:JTransforms:${jtransformsVersion}"
+    implementation "org.jfree:jfreechart:${jfreeChartVersion}"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.mapstruct:mapstruct:${mapStructVersion}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapStructBindingVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+application {
+    applicationDefaultJvmArgs = ['-XX:+UseZGC']
+}
+sourceSets {
+    main {
+        java {
+            // put resources in classes output
+            output.resourcesDir = 'build/classes/java/main'
+        }
+    }
+}
+test {
+    useJUnitPlatform()
+}
