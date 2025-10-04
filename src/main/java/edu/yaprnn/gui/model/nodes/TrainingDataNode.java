@@ -1,7 +1,7 @@
 package edu.yaprnn.gui.model.nodes;
 
-import edu.yaprnn.functions.Providers;
 import edu.yaprnn.gui.services.IconsService;
+import edu.yaprnn.support.Providers;
 import edu.yaprnn.training.TrainingData;
 import java.util.List;
 import java.util.function.Supplier;

@@ -1,12 +1,12 @@
 package edu.yaprnn.gui.model;
 
-import edu.yaprnn.functions.Providers;
 import edu.yaprnn.gui.model.nodes.DefaultNode;
 import edu.yaprnn.gui.model.nodes.ModelNode;
 import edu.yaprnn.gui.model.nodes.MultiLayerNetworkNode;
 import edu.yaprnn.gui.services.IconsService;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.MultiLayerNetwork;
+import edu.yaprnn.support.Providers;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.List;

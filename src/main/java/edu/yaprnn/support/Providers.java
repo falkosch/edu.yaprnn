@@ -1,4 +1,4 @@
-package edu.yaprnn.functions;
+package edu.yaprnn.support;
 
 import java.util.function.Function;
 import java.util.function.IntSupplier;
