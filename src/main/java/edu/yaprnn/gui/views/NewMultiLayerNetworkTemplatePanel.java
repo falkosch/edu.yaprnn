@@ -117,10 +117,9 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
             .lossFunction(lossFunction)
             .build();
 
-        var isValid = parameters.isValid();
-        nameTextField.setBackground(controlsService.validationColor(isValid));
+        nameTextField.setBackground(controlsService.validationColor(parameters.isNameValid()));
 
-        if (isValid) {
+        if (parameters.isValid()) {
           consumer.accept(parameters);
           return;
         }
@@ -135,7 +134,11 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
   public record Parameters(String name, int layersCount, int layersSize,
                            ActivationFunction activationFunction, LossFunction lossFunction) {
 
-    boolean isValid() {
+    public boolean isValid() {
+      return isNameValid();
+    }
+
+    public boolean isNameValid() {
       return !name.isBlank();
     }
   }

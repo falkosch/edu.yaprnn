@@ -110,7 +110,7 @@ public class NetworksControlsService {
   }
 
   public SpinnerNumberModel layersCountSpinnerNumberModel() {
-    return new SpinnerNumberModel(10, 2, Integer.MAX_VALUE, 1);
+    return new SpinnerNumberModel(5, 2, Integer.MAX_VALUE, 1);
   }
 
   public SpinnerNumberModel layerSizeSpinnerNumberModel() {

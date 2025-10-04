@@ -25,7 +25,13 @@ public final class Floats {
   }
 
   public static float max(float[] array) {
-    return array[argMax(array)];
+    assert array.length > 0;
+
+    var max = array[0];
+    for (var i = 1; i < array.length; i++) {
+      max = Math.max(max, array[i]);
+    }
+    return max;
   }
 
   public static boolean haveMaxAtSameIndex(float[] h, float[] target) {

@@ -43,7 +43,12 @@ import javax.swing.tree.TreePath;
  *         ActivationFunctionNode
  *   TrainingDataListNode
  *     TrainingDataNode...
- *   SampleSetNode
+ *       SampleNameListNode "Training"
+ *         SampleNameNode...
+ *       SampleNameListNode "Dev Test"
+ *         SampleNameNode...
+ *       DataSelectorNode
+ *   AllSamplesListNode (extends SampleListNode)
  *     Sample...
  * </pre>
  */
