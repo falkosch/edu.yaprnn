@@ -77,6 +77,7 @@ public class TrainingFrame extends JFrame {
   private SpinnerNumberModel maxTrainingErrorSpinnerNumberModel;
   private JComboBox<TrainingMethod> trainingMethodComboBox;
   private SpinnerNumberModel batchSizeSpinnerNumberModel;
+  private SpinnerNumberModel maxParallelismSpinnerNumberModel;
   private SpinnerNumberModel learningRateSpinnerNumberModel;
   private SpinnerNumberModel momentumSpinnerNumberModel;
   private SpinnerNumberModel decayL1SpinnerNumberModel;
@@ -133,6 +134,7 @@ public class TrainingFrame extends JFrame {
     var maxTrainingErrorLabel = new JLabel("Max error");
     var trainingMethodLabel = new JLabel("Training method");
     var batchSizeLabel = new JLabel("Batch size");
+    var maxParallelismLabel = new JLabel("Max parallelism");
     var learningRateLabel = new JLabel("Learning rate");
     var learningRateModifierLabel = new JLabel("Learning rate modifier");
     var learningRateChangeIntervalLabel = new JLabel("Learning rate change interval");
@@ -173,9 +175,11 @@ public class TrainingFrame extends JFrame {
 
     trainingMethodComboBox = new JComboBox<>(TrainingMethod.values());
     trainingMethodComboBox.getModel().setSelectedItem(TrainingMethod.BATCH);
-    batchSizeSpinnerNumberModel = new SpinnerNumberModel(ForkJoinPool.getCommonPoolParallelism(), 1,
-        null, 1);
+    batchSizeSpinnerNumberModel = new SpinnerNumberModel(100, 1, null, 1);
     var batchSizeSpinner = new JSpinner(batchSizeSpinnerNumberModel);
+    maxParallelismSpinnerNumberModel = new SpinnerNumberModel(
+        ForkJoinPool.getCommonPoolParallelism(), 1, ForkJoinPool.getCommonPoolParallelism(), 1);
+    var maxParallelismSpinner = new JSpinner(maxParallelismSpinnerNumberModel);
 
     learningRateSpinnerNumberModel = new SpinnerNumberModel(0.02, 0.0, 1.0, 0.001);
     var learningRateSpinner = new JSpinner(learningRateSpinnerNumberModel);
@@ -220,7 +224,9 @@ public class TrainingFrame extends JFrame {
             .addComponent(trainingMethodLabel)
             .addComponent(trainingMethodComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 200)
             .addComponent(batchSizeLabel)
-            .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100))
+            .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
+            .addComponent(maxParallelismLabel)
+            .addComponent(maxParallelismSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100))
         .addGroup(preferencesGroupLayout.createParallelGroup()
             .addComponent(learningRateLabel)
             .addComponent(learningRateSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
@@ -249,7 +255,9 @@ public class TrainingFrame extends JFrame {
             .addComponent(trainingMethodLabel)
             .addComponent(trainingMethodComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28)
             .addComponent(batchSizeLabel)
-            .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+            .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
+            .addComponent(maxParallelismLabel)
+            .addComponent(maxParallelismSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28))
         .addGroup(preferencesGroupLayout.createSequentialGroup()
             .addComponent(learningRateLabel)
             .addComponent(learningRateSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
@@ -305,6 +313,7 @@ public class TrainingFrame extends JFrame {
         maxTrainingErrorSpinnerNumberModel.getNumber().floatValue(),
         (TrainingMethod) trainingMethodComboBox.getSelectedItem(),
         batchSizeSpinnerNumberModel.getNumber().intValue(),
+        maxParallelismSpinnerNumberModel.getNumber().intValue(),
         learningRateSpinnerNumberModel.getNumber().floatValue(),
         (LearningRateModifier) learningRateModifierComboBox.getSelectedItem(),
         learningRateChangeIntervalSpinnerNumberModel.getNumber().intValue(),
@@ -362,6 +371,7 @@ public class TrainingFrame extends JFrame {
     private final float maxTrainingError;
     private final TrainingMethod trainingMethod;
     private final int batchSize;
+    private final int maxParallelism;
     private final float learningRate;
     private final LearningRateModifier learningRateModifier;
     private final int learningRateChangeInterval;
