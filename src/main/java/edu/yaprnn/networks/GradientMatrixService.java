@@ -1,6 +1,6 @@
 package edu.yaprnn.networks;
 
-import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
 import edu.yaprnn.support.RandomConfigurer;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;

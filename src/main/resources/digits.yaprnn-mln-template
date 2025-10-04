@@ -4,26 +4,29 @@
     {
       "size": 784,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
       }
     },
     {
       "size": 20,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
       }
     },
     {
       "size": 15,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
       }
     },
     {
       "size": 10,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.activation.GeLUActivationFunction"
       }
     }
-  ]
+  ],
+  "lossFunction": {
+    "@class": "edu.yaprnn.networks.loss.HalfSquaredErrorLossFunction"
+  }
 }

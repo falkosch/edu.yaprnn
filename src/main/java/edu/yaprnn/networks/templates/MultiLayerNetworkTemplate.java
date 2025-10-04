@@ -1,7 +1,8 @@
 package edu.yaprnn.networks.templates;
 
 import edu.yaprnn.networks.MultiLayerNetwork;
-import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
+import edu.yaprnn.networks.loss.LossFunction;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -30,14 +31,18 @@ import lombok.Setter;
 public final class MultiLayerNetworkTemplate {
 
   /**
-   * readable name of the multiLayerNetwork template
+   * Readable name of the multiLayerNetwork template.
    */
   private String name;
   /**
-   * ordered layer templates
+   * Ordered layer templates.
    */
   @Builder.Default
   private List<LayerTemplate> layers = new ArrayList<>();
+  /**
+   * Loss function for predicted values of the model.
+   */
+  private LossFunction lossFunction;
 
   public LayerTemplate getLayer(int layerIndex) {
     return layers.get(layerIndex);
@@ -49,10 +54,6 @@ public final class MultiLayerNetworkTemplate {
 
   public void addLayer(LayerTemplate value) {
     this.layers.add(value);
-  }
-
-  public int getLayerSize(int layerIndex) {
-    return layers.get(layerIndex).getSize();
   }
 
   public void setLayerSize(int layerIndex, int value) {

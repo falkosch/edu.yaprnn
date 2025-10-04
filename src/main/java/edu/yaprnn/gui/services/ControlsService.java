@@ -35,8 +35,8 @@ public class ControlsService {
     return Optional.ofNullable(part).map(toText).orElse("N/A");
   }
 
-  public Color validationColor(boolean labelsExists) {
-    return labelsExists ? SystemColor.text : new Color(255, 160, 160);
+  public Color validationColor(boolean valid) {
+    return valid ? SystemColor.text : new Color(255, 160, 160);
   }
 
   public JMenuItem loadMenuItem(Component parent, String title,

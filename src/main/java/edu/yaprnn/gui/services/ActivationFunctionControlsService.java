@@ -1,7 +1,7 @@
 package edu.yaprnn.gui.services;
 
-import edu.yaprnn.networks.functions.ActivationFunction;
-import edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
+import edu.yaprnn.networks.activation.TangentHyperbolicActivationFunction;
 import edu.yaprnn.support.swing.DialogsService;
 import jakarta.enterprise.inject.Any;
 import jakarta.enterprise.inject.Instance;

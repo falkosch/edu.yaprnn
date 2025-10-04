@@ -38,7 +38,7 @@ public class NetworksTreeCellEditor implements TreeCellEditor {
       boolean expanded, boolean leaf, int row) {
     selectedTreeCellEditor = selectableTreeCellEditorInstance.stream()
         .filter(x -> x.isEditorOf(value))
-        .map(SelectableTreeCellEditor.class::cast)
+        .map(selectableTreeCellEditor -> selectableTreeCellEditor)
         .findAny()
         .orElse(defaultSelectedTreeCellEditor);
 

@@ -1,6 +1,6 @@
 package edu.yaprnn.training;
 
-import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.activation.ActivationFunction;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.support.Floats;
 
