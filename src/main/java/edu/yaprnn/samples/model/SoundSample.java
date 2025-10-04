@@ -1,5 +1,6 @@
 package edu.yaprnn.samples.model;
 
+import com.google.common.primitives.Floats;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,47 +26,53 @@ public class SoundSample implements Sample {
   private final float[] original;
 
   public SoundSample subSample(int resolution, float overlap) {
-    return subSample(resolution, overlap, 1.02f);
+    return subSample(resolution, overlap, 1.005f);
   }
 
   /**
    * @param resolution new resolution of data
-   * @param overlap    the overlap between adjacent windows in the range [0, 0.95]
+   * @param overlap    the overlap between adjacent windows in the range [0, 1)
    * @param lambda     increase of the window width
    * @return sampled version
    */
   public SoundSample subSample(int resolution, float overlap, float lambda) {
-    var index = 0f;
-    var width = firstWindowWidth(resolution, overlap, lambda);
+    assert overlap >= 0f && overlap < 1f : "Overlap must be in the range [0, 1)";
+    assert lambda > 1f : "Window sizing 'lambda' must be greater than 1";
+
+    var windowWidth = initialWindowWidthFrom(resolution, lambda);
+    var windowStart = 0f;
+
     var subSampled = new float[resolution];
-    for (var i = 0; i < resolution; i++) {
-      subSampled[i] = averageInWindow(width, index, overlap);
-      index += (1f - overlap) * width;
-      width *= lambda;
+    for (var i = 0; i < subSampled.length; i++) {
+      subSampled[i] = averageInWindow(windowStart, windowWidth, overlap);
+      windowStart += windowWidth;
+      windowWidth *= lambda;
     }
     return new SoundSample(file, name, label, target, subSampled, original);
   }
 
-  private float firstWindowWidth(int resolution, float overlap, float lambda) {
-    var weight = 0f;
-    for (var i = 0; i < resolution; i++) {
-      weight += (float) Math.pow(lambda, i);
-    }
-    return this.original.length / ((1f - overlap) * weight);
+  private float initialWindowWidthFrom(int resolution, float lambda) {
+    return original.length * (1f - lambda) / (1f - (float) Math.pow(lambda, resolution));
   }
 
-  private float averageInWindow(float width, float index, float overlap) {
-    if (width == 0f) {
-      return 0f;
+  private float averageInWindow(float windowStart, float windowWidth, float overlap) {
+    var windowOverlap = windowWidth * overlap;
+    var windowLeft = windowStart - windowOverlap;
+    var windowRight = windowStart + windowWidth + windowOverlap;
+
+    var leftIndex = Math.clamp((int) windowLeft, 0, original.length - 1);
+    var rightIndex = Math.clamp(1 + (int) windowRight, leftIndex + 1, original.length);
+
+    if (rightIndex - leftIndex < 2) {
+      return original[leftIndex] * (windowRight - windowLeft);
     }
-    var start = Math.round(index - width * overlap);
-    var leftIndex = Math.max(0, start);
-    var rightIndex = Math.min(this.original.length - 1, Math.round(start + width));
-    var sum = 0f;
-    for (var i = leftIndex; i <= rightIndex; i++) {
-      sum += this.original[i];
+
+    var sum = original[leftIndex] * (1f + leftIndex - windowLeft);
+    for (var i = leftIndex + 1; i < rightIndex - 1; i++) {
+      sum += original[i];
     }
-    return sum / (rightIndex - leftIndex);
+    sum += original[rightIndex - 1] * (1f + windowRight - rightIndex);
+    return sum / (windowRight - windowLeft);
   }
 
   @Override
@@ -75,11 +82,8 @@ public class SoundSample implements Sample {
 
   public Image createPreview() {
     var image = new BufferedImage(input.length, PREVIEW_HEIGHT, BufferedImage.TYPE_INT_RGB);
-    var maximum = 0f;
-    for (var v : input) {
-      maximum = Math.max(maximum, v);
-    }
-    var scale = PREVIEW_HEIGHT / maximum;
+    var scale = PREVIEW_HEIGHT / Floats.max(input);
+
     for (var x = 0; x < input.length; x++) {
       var valueAtX = (int) (scale * input[x]);
       for (var y = PREVIEW_HEIGHT - valueAtX; y < PREVIEW_HEIGHT; y++) {

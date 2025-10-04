@@ -1,5 +1,6 @@
 package edu.yaprnn.samples;
 
+import edu.yaprnn.events.OnSamplePreviewModifiedRouter;
 import edu.yaprnn.samples.model.SoundSample;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -13,6 +14,10 @@ import org.jtransforms.fft.FloatFFT_1D;
 @Singleton
 public class AudiosImportService {
 
+  private static final float SHORT_NORM = -1f / Short.MIN_VALUE;
+
+  @Inject
+  OnSamplePreviewModifiedRouter onSamplePreviewModifiedRouter;
   @Inject
   ImportService importService;
 
@@ -35,38 +40,34 @@ public class AudiosImportService {
             "File %s seems to be an invalid AIFF file".formatted(file.getPath()));
       }
 
-      var input = process(toWaveSamples(rawData));
-      return new SoundSample(file, name, label, target, input, input);
+      var input = toFrequencyAmplitudes(toWaveSamples(rawData));
+      return new SoundSample(file, name, label, target, input, input).subSample(
+          onSamplePreviewModifiedRouter.getResolution(),
+          onSamplePreviewModifiedRouter.getOverlap());
     }
   }
 
-  private float[] process(float[] data) {
-    var processed = alignLengthToPowerOfTwo(data);
-    var fftLength = processed.length / 2;
-    new FloatFFT_1D(fftLength).realForwardFull(processed);
+  private float[] toFrequencyAmplitudes(float[] samples) {
+    var inputToFFTBuffer = Arrays.copyOf(samples, 2 * samples.length);
+    new FloatFFT_1D(samples.length).realForwardFull(inputToFFTBuffer);
 
-    var absolute = new float[fftLength];
-    for (int i = 0, j = 0; i < fftLength; i++, j += 2) {
-      var real = processed[j];
-      var imaginary = processed[j + 1];
-      absolute[i] = (float) Math.sqrt(real * real + imaginary * imaginary);
+    var frequencyAmplitudes = new float[inputToFFTBuffer.length / 2];
+    for (int i = 0, j = 0; j < inputToFFTBuffer.length; i++, j += 2) {
+      var real = inputToFFTBuffer[j];
+      var imaginary = inputToFFTBuffer[j + 1];
+      frequencyAmplitudes[i] = (float) Math.sqrt(real * real + imaginary * imaginary);
     }
-    return absolute;
+
+    return frequencyAmplitudes;
   }
 
   private float[] toWaveSamples(byte[] rawData) {
-    var waveSamples = new float[rawData.length / 2];
-    for (int i = 0, j = 0; j < rawData.length; i++, j += 2) {
-      waveSamples[i] = rawData[j] << 8 | rawData[j + 1] & 0xff;
-    }
-    return waveSamples;
-  }
+    var samples = new float[rawData.length / 2];
 
-  private float[] alignLengthToPowerOfTwo(float[] data) {
-    var powerOfTwo = 1;
-    while (powerOfTwo < data.length) {
-      powerOfTwo *= 2;
+    for (int i = 0, j = 0; j < rawData.length; i++, j += 2) {
+      samples[i] = SHORT_NORM * (rawData[j] << 8 | rawData[j + 1] & 0xff);
     }
-    return powerOfTwo == data.length ? data : Arrays.copyOf(data, powerOfTwo);
+
+    return samples;
   }
 }
