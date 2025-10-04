@@ -6,6 +6,11 @@ VENV_SUFFIX="-flax"
 VENV_DIR=".venv${VENV_SUFFIX}"
 
 [ -d "${VENV_DIR}" ] && rm -rf "${VENV_DIR}"
-python -m venv --copies --clear --upgrade-deps "${VENV_DIR}" || exit 1
+
+PYTHON_TOOL="$(which -a python | grep -E "3\.?13")"
+ 
+${PYTHON_TOOL} -m venv --copies --clear --upgrade-deps "${VENV_DIR}" || exit 1
+
 . "${VENV_DIR}"/Scripts/activate || exit 1
+
 pip install -r "requirements${VENV_SUFFIX}.txt" || exit 1
