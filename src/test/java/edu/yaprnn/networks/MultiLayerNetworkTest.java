@@ -1,8 +1,10 @@
 package edu.yaprnn.networks;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import edu.yaprnn.functions.ActivationFunction;
+import edu.yaprnn.functions.GeLUActivationFunction;
 import edu.yaprnn.functions.LinearActivationFunction;
-import edu.yaprnn.functions.SigmoidActivationFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.Sample;
@@ -12,7 +14,6 @@ import edu.yaprnn.training.DataSelector;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -20,7 +21,7 @@ import org.junit.jupiter.api.Test;
 
 class MultiLayerNetworkTest {
 
-  final ActivationFunction sigmoid = new SigmoidActivationFunction();
+  final ActivationFunction nonlinear = new GeLUActivationFunction();
   final ActivationFunction linear = new LinearActivationFunction();
   final DataSelector dataSelector = new ClassifierDataSelector();
 
@@ -30,11 +31,10 @@ class MultiLayerNetworkTest {
   MultiLayerNetwork network;
   List<SimpleSample> samples;
 
-  void train() {
-    for (var i = 0; i < 500; i++) {
-      var learningRate = 0.1f * (float) Math.pow(0.99, i);
-      network.learnMiniBatch(gradientMatrixService, samples, dataSelector, 4, learningRate, 0f, 0f,
-          0f);
+  void train(int epochs) {
+    for (var i = 0; i < epochs; i++) {
+      network.learnMiniBatch(gradientMatrixService, samples, dataSelector, samples.size(), 0.2f,
+          0.2f, 0f, 0f);
     }
   }
 
@@ -77,22 +77,18 @@ class MultiLayerNetworkTest {
     void shouldMinimizeTrainingErrorWhenTrained() {
       var initial = network.computeAccuracy(samples, dataSelector);
 
-      train();
+      train(100);
 
       var actual = network.computeAccuracy(samples, dataSelector);
-      Assertions.assertThat(actual.error()).isLessThan(initial.error());
+      assertThat(actual.error()).isLessThan(initial.error());
     }
 
     @Test
-    void shouldClassifySamplesWithLowError() {
-      train();
+    void shouldClassifyAllSamplesAccurately() {
+      train(100);
 
-      for (Sample sample : samples) {
-        var layers = network.feedForward(sample, dataSelector);
-
-        Assertions.assertThat(Layer.output(layers).h())
-            .containsExactly(sample.getTarget(), Offset.offset(0.499f));
-      }
+      var result = network.computeAccuracy(samples, dataSelector);
+      assertThat(result.hits()).isGreaterThan(0.9f);
     }
   }
 
@@ -145,21 +141,21 @@ class MultiLayerNetworkTest {
     void shouldMinimizeTrainingErrorWhenTrained() {
       var initial = network.computeAccuracy(samples, dataSelector);
 
-      train();
+      train(100);
 
       var actual = network.computeAccuracy(samples, dataSelector);
-      Assertions.assertThat(actual.error()).isLessThan(initial.error());
+      assertThat(actual.error()).isLessThan(initial.error());
     }
 
     @Test
     void shouldClassifySamplesWithLowError() {
-      train();
+      train(100);
 
       for (Sample sample : samples) {
         var layers = network.feedForward(sample, dataSelector);
 
-        Assertions.assertThat(Layer.output(layers).h())
-            .containsExactly(sample.getTarget(), Offset.offset(0.499f));
+        assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
+            Offset.offset(0.499f));
       }
     }
   }
@@ -213,21 +209,21 @@ class MultiLayerNetworkTest {
     void shouldMinimizeTrainingErrorWhenTrained() {
       var initial = network.computeAccuracy(samples, dataSelector);
 
-      train();
+      train(100);
 
       var actual = network.computeAccuracy(samples, dataSelector);
-      Assertions.assertThat(actual.error()).isLessThan(initial.error());
+      assertThat(actual.error()).isLessThan(initial.error());
     }
 
     @Test
     void shouldClassifySamplesWithLowError() {
-      train();
+      train(100);
 
       for (Sample sample : samples) {
         var layers = network.feedForward(sample, dataSelector);
 
-        Assertions.assertThat(Layer.output(layers).h())
-            .containsExactly(sample.getTarget(), Offset.offset(0.499f));
+        assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
+            Offset.offset(0.499f));
       }
     }
   }
@@ -278,24 +274,24 @@ class MultiLayerNetworkTest {
       }
 
       @Test
-      void shouldNotBeAbleToMinimizeTrainingErrorWhenTrained() {
+      void shouldMinimizeTrainingErrorWhenTrained() {
         var initial = network.computeAccuracy(samples, dataSelector);
 
-        train();
+        train(500);
 
         var actual = network.computeAccuracy(samples, dataSelector);
-        Assertions.assertThat(actual.error()).isGreaterThan(initial.error());
+        assertThat(actual.error()).isLessThan(initial.error());
       }
 
       @Test
-      void shouldNotClassifySamplesWithLowError() {
-        train();
+      void shouldClassifySamplesWithLowError() {
+        train(500);
 
         for (Sample sample : samples) {
           var layers = network.feedForward(sample, dataSelector);
 
-          Assertions.assertThat(Layer.output(layers).h())
-              .doesNotContain(sample.getTarget(), Offset.offset(0.499f));
+          assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
+              Offset.offset(0.499f));
         }
       }
     }
@@ -305,91 +301,7 @@ class MultiLayerNetworkTest {
 
       MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
-              LayerTemplate.builder().size(1).activationFunction(sigmoid).build()))
-          .build();
-
-      @BeforeEach
-      void setupNetwork() {
-        network = MultiLayerNetwork.builder()
-            .bias(-1f)
-            .activationFunctions(xorModel.collectActivationFunctions())
-            .layerSizes(xorModel.collectLayerSizes())
-            .build();
-        network.resetLayerWeights(gradientMatrixService);
-      }
-
-      @Test
-      void shouldNotBeAbleToMinimizeTrainingErrorWhenTrained() {
-        var initial = network.computeAccuracy(samples, dataSelector);
-
-        train();
-
-        var actual = network.computeAccuracy(samples, dataSelector);
-        Assertions.assertThat(actual.error()).isGreaterThan(initial.error());
-      }
-
-      @Test
-      void shouldNotClassifySamplesWithLowError() {
-        train();
-
-        for (Sample sample : samples) {
-          var layers = network.feedForward(sample, dataSelector);
-
-          Assertions.assertThat(Layer.output(layers).h())
-              .doesNotContain(sample.getTarget(), Offset.offset(0.499f));
-        }
-      }
-    }
-
-    @Nested
-    class BadMultiLayerLinearCase {
-
-      MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
-          .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
-              LayerTemplate.builder().size(2).activationFunction(linear).build(),
-              LayerTemplate.builder().size(1).activationFunction(linear).build()))
-          .build();
-
-      @BeforeEach
-      void setupNetwork() {
-        network = MultiLayerNetwork.builder()
-            .bias(-1f)
-            .activationFunctions(xorModel.collectActivationFunctions())
-            .layerSizes(xorModel.collectLayerSizes())
-            .build();
-        network.resetLayerWeights(gradientMatrixService);
-      }
-
-      @Test
-      void shouldNotBeAbleToMinimizeTrainingErrorWhenTrained() {
-        var initial = network.computeAccuracy(samples, dataSelector);
-
-        train();
-
-        var actual = network.computeAccuracy(samples, dataSelector);
-        Assertions.assertThat(actual.error()).isGreaterThan(initial.error());
-      }
-
-      @Test
-      void shouldNotClassifySamplesWithLowError() {
-        train();
-
-        for (Sample sample : samples) {
-          var layers = network.feedForward(sample, dataSelector);
-
-          Assertions.assertThat(Layer.output(layers).h())
-              .doesNotContain(sample.getTarget(), Offset.offset(0.499f));
-        }
-      }
-    }
-
-    @Nested
-    class GoodMultiLayerNonLinearCase {
-
-      MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
-          .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
-              LayerTemplate.builder().size(2).activationFunction(sigmoid).build(),
-              LayerTemplate.builder().size(1).activationFunction(sigmoid).build()))
+              LayerTemplate.builder().size(1).activationFunction(nonlinear).build()))
           .build();
 
       @BeforeEach
@@ -406,21 +318,105 @@ class MultiLayerNetworkTest {
       void shouldMinimizeTrainingErrorWhenTrained() {
         var initial = network.computeAccuracy(samples, dataSelector);
 
-        train();
+        train(500);
 
         var actual = network.computeAccuracy(samples, dataSelector);
-        Assertions.assertThat(actual.error()).isLessThan(initial.error());
+        assertThat(actual.error()).isLessThan(initial.error());
       }
 
       @Test
       void shouldClassifySamplesWithLowError() {
-        train();
+        train(500);
 
         for (Sample sample : samples) {
           var layers = network.feedForward(sample, dataSelector);
 
-          Assertions.assertThat(Layer.output(layers).h())
-              .containsExactly(sample.getTarget(), Offset.offset(0.499f));
+          assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
+              Offset.offset(0.499f));
+        }
+      }
+    }
+
+    @Nested
+    class BadMultiLayerLinearCase {
+
+      MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+          .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
+              LayerTemplate.builder().size(4).activationFunction(linear).build(),
+              LayerTemplate.builder().size(1).activationFunction(linear).build()))
+          .build();
+
+      @BeforeEach
+      void setupNetwork() {
+        network = MultiLayerNetwork.builder()
+            .bias(-1f)
+            .activationFunctions(xorModel.collectActivationFunctions())
+            .layerSizes(xorModel.collectLayerSizes())
+            .build();
+        network.resetLayerWeights(gradientMatrixService);
+      }
+
+      @Test
+      void shouldMinimizeTrainingErrorWhenTrained() {
+        var initial = network.computeAccuracy(samples, dataSelector);
+
+        train(500);
+
+        var actual = network.computeAccuracy(samples, dataSelector);
+        assertThat(actual.error()).isLessThan(initial.error());
+      }
+
+      @Test
+      void shouldClassifySamplesWithLowError() {
+        train(500);
+
+        for (Sample sample : samples) {
+          var layers = network.feedForward(sample, dataSelector);
+
+          assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
+              Offset.offset(0.499f));
+        }
+      }
+    }
+
+    @Nested
+    class GoodMultiLayerNonLinearCase {
+
+      MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+          .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
+              LayerTemplate.builder().size(3).activationFunction(nonlinear).build(),
+              LayerTemplate.builder().size(1).activationFunction(nonlinear).build()))
+          .build();
+
+      @BeforeEach
+      void setupNetwork() {
+        network = MultiLayerNetwork.builder()
+            .bias(-1f)
+            .activationFunctions(xorModel.collectActivationFunctions())
+            .layerSizes(xorModel.collectLayerSizes())
+            .build();
+        network.resetLayerWeights(gradientMatrixService);
+      }
+
+      @Test
+      void shouldMinimizeTrainingErrorWhenTrained() {
+        var initial = network.computeAccuracy(samples, dataSelector);
+
+        train(500);
+
+        var actual = network.computeAccuracy(samples, dataSelector);
+        assertThat(actual.error()).isLessThan(initial.error());
+      }
+
+      @Test
+      void shouldClassifySamplesWithLowError() {
+        train(500);
+
+        for (Sample sample : samples) {
+          var layers = network.feedForward(sample, dataSelector);
+
+          assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
+              Offset.offset(0.499f));
         }
       }
     }

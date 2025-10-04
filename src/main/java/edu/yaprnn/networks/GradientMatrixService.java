@@ -25,7 +25,7 @@ public class GradientMatrixService {
 
     var newLayerWeights = zeroMatrices(layerSizes);
     for (int w = 0, l = 1; w < newLayerWeights.length; w++, l++) {
-      newLayerWeights[w] = activationFunctions[l].randomWeights(random, newLayerWeights[w].length,
+      newLayerWeights[w] = activationFunctions[l].initialize(random, newLayerWeights[w].length,
           layerSizes[l]);
     }
     return newLayerWeights;
