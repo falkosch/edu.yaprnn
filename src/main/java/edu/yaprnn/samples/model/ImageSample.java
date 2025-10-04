@@ -34,7 +34,7 @@ public class ImageSample implements Sample {
   /**
    * @param resolution new resolution of data
    * @param overlap    the overlap between adjacent windows in the range [0, 0.95]
-   * @return sub-sampled version
+   * @return sampled version
    */
   public ImageSample subSample(int resolution, float overlap) {
     var clampedResolution = Math.max(1, Math.min(resolution, originalWidth * originalHeight));

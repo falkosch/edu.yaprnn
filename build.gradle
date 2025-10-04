@@ -20,9 +20,10 @@ ext {
     lombokVersion = '1.18.32'
     mapStructVersion = '1.6.0.Beta1'
 
-    assertjVersion = "3.25.3"
+    assertjVersion = '3.25.3'
     junitVersion = '5.11.0-M1'
 }
+
 dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     implementation "com.github.wendykierp:JTransforms:${jtransformsVersion}"
@@ -47,12 +48,13 @@ application {
     applicationDefaultJvmArgs = ['-XX:+UseZGC', '-Xmx4G', '-XX:MaxDirectMemorySize=1G']
     mainClass = 'org.jboss.weld.environment.se.StartMain'
 }
+
 java {
     toolchain {
-        sourceCompatibility = JavaLanguageVersion.of(javaVersion)
-        targetCompatibility = JavaLanguageVersion.of(javaVersion)
+        languageVersion = JavaLanguageVersion.of(javaVersion)
     }
 }
+
 sourceSets {
     main {
         java {
@@ -61,6 +63,7 @@ sourceSets {
         }
     }
 }
+
 test {
     useJUnitPlatform()
 }

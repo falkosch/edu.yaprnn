@@ -32,7 +32,7 @@ public class SoundSample implements Sample {
    * @param resolution new resolution of data
    * @param overlap    the overlap between adjacent windows in the range [0, 0.95]
    * @param lambda     increase of the window width
-   * @return sub-sampled version
+   * @return sampled version
    */
   public SoundSample subSample(int resolution, float overlap, float lambda) {
     var index = 0f;
