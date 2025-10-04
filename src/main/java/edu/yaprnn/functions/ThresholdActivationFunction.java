@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class ThresholdActivationFunction implements ActivationFunction {
+public final class ThresholdActivationFunction implements ActivationFunction {
 
   private float threshold = 0.1f;
   private float value = 0f;
@@ -18,11 +18,6 @@ public class ThresholdActivationFunction implements ActivationFunction {
       h[i] = x > threshold ? x : value;
     }
     return h;
-  }
-
-  @Override
-  public float[] derivative(float[] h, float[] v) {
-    return derivative(v);
   }
 
   @Override

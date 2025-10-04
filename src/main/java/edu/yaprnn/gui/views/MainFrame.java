@@ -53,6 +53,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.GroupLayout;
@@ -242,6 +244,7 @@ public class MainFrame extends JFrame {
     classifyFrame = classifyFrameInstance.get();
     networksTree = controlsService.networksTree(networksTreeCellEditor, networksTreeCellRenderer,
         this::setSelectedPath);
+    networksTree.addKeyListener(new RemoveFromNetworksTreeKeyAdapter());
     sampleDetailsView = sampleDetailsViewInstance.get();
     samplePreprocessingFrame = samplePreprocessingFrameInstance.get();
     trainingFrame = trainingFrameInstance.get();
@@ -534,5 +537,17 @@ public class MainFrame extends JFrame {
   private void removeMultiLayerNetworksFromSelectionControls(List<MultiLayerNetwork> removed) {
     classifyFrame.removeMultiLayerNetworksFromSelectionControls(removed);
     trainingFrame.removeMultiLayerNetworksFromSelectionControls(removed);
+  }
+
+  private class RemoveFromNetworksTreeKeyAdapter extends KeyAdapter {
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+      if (e.getKeyChar() == KeyEvent.VK_DELETE) {
+        removeFromNetworksTree();
+        return;
+      }
+      super.keyTyped(e);
+    }
   }
 }

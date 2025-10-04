@@ -1,6 +1,6 @@
 package edu.yaprnn.functions;
 
-public class SigmoidActivationFunction implements ActivationFunction {
+public final class SigmoidActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {

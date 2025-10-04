@@ -1,25 +1,14 @@
 package edu.yaprnn.functions;
 
-public class BinaryStepActivationFunction implements ActivationFunction {
+public final class BinaryStepActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
     var h = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      h[i] = v[i] < 0 ? 0 : 1;
+      h[i] = v[i] < 0f ? 0f : 1f;
     }
     return h;
-  }
-
-  @Override
-  public float[] derivative(float[] h, float[] v) {
-    return derivative(v);
-  }
-
-  @Override
-  public float[] derivative(float[] v) {
-    // all 0
-    return new float[v.length];
   }
 
   @Override

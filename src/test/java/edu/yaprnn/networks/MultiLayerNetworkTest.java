@@ -33,8 +33,8 @@ class MultiLayerNetworkTest {
   void train() {
     for (var i = 0; i < 500; i++) {
       var learningRate = 0.1f * (float) Math.pow(0.99, i);
-      network.learnMiniBatch(gradientMatrixService, samples, dataSelector, samples.size(),
-          learningRate, 0f, 0f, 0f);
+      network.learnMiniBatch(gradientMatrixService, samples, dataSelector, 4, learningRate, 0f, 0f,
+          0f);
     }
   }
 
@@ -55,10 +55,16 @@ class MultiLayerNetworkTest {
         .build();
 
     @BeforeEach
-    void createNetwork() {
+    void setupSamples() {
       samples = List.of(
           SimpleSample.builder().input(new float[]{0f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f}).target(new float[]{0f}).build(),
           SimpleSample.builder().input(new float[]{1f}).target(new float[]{0f}).build());
+    }
+
+    @BeforeEach
+    void setupNetwork() {
       network = MultiLayerNetwork.builder()
           .bias(-1f)
           .activationFunctions(notModel.collectActivationFunctions())
@@ -102,12 +108,31 @@ class MultiLayerNetworkTest {
         .build();
 
     @BeforeEach
-    void createNetwork() {
+    void setupSamples() {
       samples = List.of(
           SimpleSample.builder().input(new float[]{0f, 0f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0f}).target(new float[]{0f}).build(),
           SimpleSample.builder().input(new float[]{1f, 0f}).target(new float[]{0f}).build(),
+
+          SimpleSample.builder().input(new float[]{0f, 0.25f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0.25f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0.25f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{1f, 0.25f}).target(new float[]{0f}).build(),
+
+          SimpleSample.builder().input(new float[]{0f, 0.75f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0.75f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0.75f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{1f, 0.75f}).target(new float[]{1f}).build(),
+
           SimpleSample.builder().input(new float[]{0f, 1f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 1f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 1f}).target(new float[]{1f}).build(),
           SimpleSample.builder().input(new float[]{1f, 1f}).target(new float[]{1f}).build());
+    }
+
+    @BeforeEach
+    void setupNetwork() {
       network = MultiLayerNetwork.builder()
           .bias(-1f)
           .activationFunctions(andModel.collectActivationFunctions())
@@ -151,12 +176,31 @@ class MultiLayerNetworkTest {
         .build();
 
     @BeforeEach
-    void createNetwork() {
+    void setupSamples() {
       samples = List.of(
           SimpleSample.builder().input(new float[]{0f, 0f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0f}).target(new float[]{1f}).build(),
           SimpleSample.builder().input(new float[]{1f, 0f}).target(new float[]{1f}).build(),
+
+          SimpleSample.builder().input(new float[]{0f, 0.25f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0.25f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0.25f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{1f, 0.25f}).target(new float[]{1f}).build(),
+
+          SimpleSample.builder().input(new float[]{0f, 0.75f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0.75f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0.75f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{1f, 0.75f}).target(new float[]{1f}).build(),
+
           SimpleSample.builder().input(new float[]{0f, 1f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 1f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 1f}).target(new float[]{1f}).build(),
           SimpleSample.builder().input(new float[]{1f, 1f}).target(new float[]{1f}).build());
+    }
+
+    @BeforeEach
+    void setupNetwork() {
       network = MultiLayerNetwork.builder()
           .bias(-1f)
           .activationFunctions(orModel.collectActivationFunctions())
@@ -192,11 +236,26 @@ class MultiLayerNetworkTest {
   class XorCase {
 
     @BeforeEach
-    void setUpSamples() {
+    void setupSamples() {
       samples = List.of(
           SimpleSample.builder().input(new float[]{0f, 0f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0f}).target(new float[]{1f}).build(),
           SimpleSample.builder().input(new float[]{1f, 0f}).target(new float[]{1f}).build(),
+
+          SimpleSample.builder().input(new float[]{0f, 0.25f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0.25f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0.25f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{1f, 0.25f}).target(new float[]{1f}).build(),
+
+          SimpleSample.builder().input(new float[]{0f, 0.75f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 0.75f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 0.75f}).target(new float[]{0f}).build(),
+          SimpleSample.builder().input(new float[]{1f, 0.75f}).target(new float[]{0f}).build(),
+
           SimpleSample.builder().input(new float[]{0f, 1f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.25f, 1f}).target(new float[]{1f}).build(),
+          SimpleSample.builder().input(new float[]{0.75f, 1f}).target(new float[]{0f}).build(),
           SimpleSample.builder().input(new float[]{1f, 1f}).target(new float[]{0f}).build());
     }
 
@@ -209,7 +268,7 @@ class MultiLayerNetworkTest {
           .build();
 
       @BeforeEach
-      void createNetwork() {
+      void setupNetwork() {
         network = MultiLayerNetwork.builder()
             .bias(-1f)
             .activationFunctions(xorModel.collectActivationFunctions())
@@ -250,7 +309,7 @@ class MultiLayerNetworkTest {
           .build();
 
       @BeforeEach
-      void createNetwork() {
+      void setupNetwork() {
         network = MultiLayerNetwork.builder()
             .bias(-1f)
             .activationFunctions(xorModel.collectActivationFunctions())
@@ -292,7 +351,7 @@ class MultiLayerNetworkTest {
           .build();
 
       @BeforeEach
-      void createNetwork() {
+      void setupNetwork() {
         network = MultiLayerNetwork.builder()
             .bias(-1f)
             .activationFunctions(xorModel.collectActivationFunctions())
@@ -334,7 +393,7 @@ class MultiLayerNetworkTest {
           .build();
 
       @BeforeEach
-      void createNetwork() {
+      void setupNetwork() {
         network = MultiLayerNetwork.builder()
             .bias(-1f)
             .activationFunctions(xorModel.collectActivationFunctions())

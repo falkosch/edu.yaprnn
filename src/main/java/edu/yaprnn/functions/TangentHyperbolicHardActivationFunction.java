@@ -1,6 +1,6 @@
 package edu.yaprnn.functions;
 
-public class TangentHyperbolicHardActivationFunction implements ActivationFunction {
+public final class TangentHyperbolicHardActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
@@ -9,11 +9,6 @@ public class TangentHyperbolicHardActivationFunction implements ActivationFuncti
       h[i] = Functions.clamp(v[i], -1f, 1f);
     }
     return h;
-  }
-
-  @Override
-  public float[] derivative(float[] h, float[] v) {
-    return derivative(v);
   }
 
   @Override

@@ -2,7 +2,8 @@ package edu.yaprnn.networks;
 
 import com.google.common.primitives.Floats;
 import edu.yaprnn.functions.ActivationFunction;
-import edu.yaprnn.functions.TangentHyperbolicActivationFunction;
+import edu.yaprnn.functions.LinearActivationFunction;
+import edu.yaprnn.functions.SigmoidActivationFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.SimpleSample;
@@ -17,10 +18,12 @@ import org.junit.jupiter.api.Test;
 class MultiLayerNetworkPerformanceTest {
 
   final ClassifierDataSelector dataSelector = new ClassifierDataSelector();
-  final ActivationFunction tanh = new TangentHyperbolicActivationFunction();
+  final ActivationFunction linear = new LinearActivationFunction();
+  final ActivationFunction sigmoid = new SigmoidActivationFunction();
   final MultiLayerNetworkTemplate model = MultiLayerNetworkTemplate.builder()
-      .layers(List.of(LayerTemplate.builder().size(999).activationFunction(tanh).build(),
-          LayerTemplate.builder().size(999).activationFunction(tanh).build()))
+      .layers(List.of(LayerTemplate.builder().size(999).activationFunction(linear).build(),
+          LayerTemplate.builder().size(999).activationFunction(sigmoid).build(),
+          LayerTemplate.builder().size(999).activationFunction(sigmoid).build()))
       .build();
   final TestGradientMatrixService gradientMatrixService = new TestGradientMatrixService();
 

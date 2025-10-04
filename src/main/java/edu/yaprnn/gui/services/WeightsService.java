@@ -8,6 +8,7 @@ import jakarta.inject.Singleton;
 import java.awt.Image;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import javax.swing.table.DefaultTableModel;
@@ -15,16 +16,22 @@ import javax.swing.table.DefaultTableModel;
 @Singleton
 public class WeightsService {
 
+  private static final DecimalFormat TABLE_VALUE_FORMAT = new DecimalFormat("0.###E0");
+
   public Image from(float[] weights, int outputSize, float zoom, float gamma) {
     var height = inputSizeWithBias(weights, outputSize);
-    var image = new BufferedImage(outputSize, height, BufferedImage.TYPE_BYTE_GRAY);
+    var image = new BufferedImage(outputSize, height, BufferedImage.TYPE_INT_RGB);
+
+    var gammaAsDouble = (double) gamma;
 
     try {
       for (int y = 0, w = 0; y < height; y++) {
         for (var x = 0; x < outputSize; x++, w++) {
-          var value = 127.5f + 4f * (float) Math.pow(weights[w], gamma);
-          var pixelValue = (int) Functions.clamp(value, 0f, 255f);
-          image.setRGB(x, y, pixelValue | (pixelValue << 8) | (pixelValue << 16));
+          var weight = weights[w];
+          var sign = Math.signum(weight);
+          var positiveGammaAdjusted = Math.pow(sign * weight, gammaAsDouble);
+          var intensity = (int) Functions.clamp(255d - positiveGammaAdjusted, 0d, 255d);
+          image.setRGB(x, y, intensity << (sign < 0 ? 0 : 8) | intensity << (sign > 0 ? 16 : 8));
         }
       }
 
@@ -82,11 +89,11 @@ public class WeightsService {
     return index >= 0 && index < array.length ? array[index] : defaultValue;
   }
 
-  public Object valueAtOrDefault(float[] array, int index) {
-    return index >= 0 && index < array.length ? roundFractions(array[index]) : "";
+  public String valueAtOrDefault(float[] array, int index) {
+    return index >= 0 && index < array.length ? formatTableValue(array[index]) : "";
   }
 
-  public float roundFractions(float value) {
-    return Math.round(1_000_000f * value) / 1_000_000f;
+  public String formatTableValue(float value) {
+    return TABLE_VALUE_FORMAT.format(value);
   }
 }

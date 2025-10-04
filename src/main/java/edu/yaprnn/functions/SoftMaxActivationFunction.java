@@ -1,6 +1,6 @@
 package edu.yaprnn.functions;
 
-public class SoftMaxActivationFunction implements ActivationFunction {
+public final class SoftMaxActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
