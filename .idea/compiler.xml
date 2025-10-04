@@ -22,4 +22,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="22" />
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="--add-modules jdk.incubator.vector" />
+  </component>
 </project>
