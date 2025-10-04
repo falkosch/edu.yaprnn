@@ -45,15 +45,7 @@ public class GradientMatrixService {
 
     var result = new float[accumulator.length][];
     for (var i = 0; i < accumulator.length; i++) {
-      var accumulatorGradients = accumulator[i];
-      var layerGradients = layersGradients[i];
-      assert accumulatorGradients.length == layerGradients.length;
-
-      var resultGradients = new float[accumulatorGradients.length];
-      for (var w = 0; w < resultGradients.length; w++) {
-        resultGradients[w] = accumulatorGradients[w] + layerGradients[w];
-      }
-      result[i] = resultGradients;
+      result[i] = SimdSupport.addLaneWise(accumulator[i], layersGradients[i]);
     }
     return result;
   }
