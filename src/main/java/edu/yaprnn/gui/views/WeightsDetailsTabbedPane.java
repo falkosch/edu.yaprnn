@@ -45,7 +45,7 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
     var weights = multiLayerNetwork.getLayerWeights()[weightsIndex];
     var outputSize = multiLayerNetwork.getLayerSizes()[weightsIndex + 1];
 
-    weightsImagePanel.setImage(visualizationService.from(weights, outputSize, zoom, gamma));
+    weightsImagePanel.setImage(visualizationService.fromWeights(weights, outputSize, zoom, gamma));
 
     var inputSizeWithBias = visualizationService.inputSizeWithBias(weights, outputSize);
     var columnNames = IntStream.range(0, 1 + outputSize)

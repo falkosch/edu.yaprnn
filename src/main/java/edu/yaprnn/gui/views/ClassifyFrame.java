@@ -160,18 +160,20 @@ public class ClassifyFrame extends JFrame {
 
   private void classify() {
     var selectedSample = getSelectedSample();
-    var selectedMultiLayerNetwork = getSelectedMultiLayerNetwork();
     var selectedDataSelector = getSelectedDataSelector();
-    var labels = selectedSample.getLabels();
+    var selectedMultiLayerNetwork = getSelectedMultiLayerNetwork();
     var layers = selectedMultiLayerNetwork.feedForward(selectedSample, selectedDataSelector);
-    var tableModel = visualizationService.classificationTableModel(labels, layers);
+    var outputLayer = Layer.output(layers);
+    var output = selectedDataSelector.postprocessOutput(outputLayer.v(), outputLayer.h(),
+        outputLayer.activationFunction());
+    var labels = selectedSample.getLabels();
+    var tableModel = visualizationService.classificationTableModel(labels, layers, output);
     layersTable.setModel(tableModel);
 
     if (selectedSample instanceof ImageSample imageSample) {
-      var h = Layer.output(layers).h();
       var inputWidth = imageSample.getInputWidth();
 
-      var reconstruction = visualizationService.from(h, inputWidth,
+      var reconstruction = visualizationService.fromOutput(output, inputWidth,
           onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
           onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma());
       outputReconstructionImagePanel.setImage(reconstruction);

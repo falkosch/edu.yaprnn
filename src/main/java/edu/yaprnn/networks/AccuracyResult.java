@@ -5,13 +5,10 @@ import com.google.common.primitives.Floats;
 public record AccuracyResult(float error, int count, float hits) {
 
   public static AccuracyResult from(float[] h, float[] target, float error) {
-    var argMax = Floats.indexOf(h, Floats.max(h));
-    if (argMax >= 0 && argMax < target.length) {
-      var t = target[argMax];
-      var hit = t == 1f ? 1f : 0f;
-      return new AccuracyResult(error, 1, hit);
-    }
-    return new AccuracyResult(error, 1, 0f);
+    var argMaxH = Floats.indexOf(h, Floats.max(h));
+    var argMaxT = Floats.indexOf(target, Floats.max(target));
+    var hit = argMaxH == argMaxT ? 1f : 0f;
+    return new AccuracyResult(error, 1, hit);
   }
 
   public static AccuracyResult sum(AccuracyResult left, AccuracyResult right) {
