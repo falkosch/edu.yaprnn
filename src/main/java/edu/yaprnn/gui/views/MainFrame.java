@@ -208,10 +208,10 @@ public class MainFrame extends JFrame {
         networksTreeModel::addSamples);
     var importAudioMenuItem = samplesService.importAudioMenuItem(this,
         networksTreeModel::addSamples);
-    var setupImageScenario = controlsService.actionMenuItem("Setup image scenario",
-        iconsService.loadIcon(), this::setupImageScenario);
+    var setupDigitsScenario = controlsService.actionMenuItem("Setup digits scenario",
+        iconsService.loadIcon(), this::setupDigitsScenario);
 
-    fileMenu.add(setupImageScenario);
+    fileMenu.add(setupDigitsScenario);
     fileMenu.add(new JSeparator());
     fileMenu.add(importImagesMenuItem);
     fileMenu.add(importAudioMenuItem);
@@ -352,20 +352,28 @@ public class MainFrame extends JFrame {
     onMultiLayerNetworkSelectedRouter.getSelected().resetLayerWeights(gradientMatrixService);
   }
 
-  private void setupImageScenario() {
-    var imagesResource = Objects.requireNonNull(MainFrame.class.getResource("/digits.idx3-ubyte"));
-    var labelsResource = Objects.requireNonNull(MainFrame.class.getResource("/digits.idx1-ubyte"));
-    samplesService.importImages(this, networksTreeModel::addSamples, imagesResource,
-        labelsResource);
+  private void setupDigitsScenario() {
+    samplesService.importImages(this, networksTreeModel::addSamples,
+        Objects.requireNonNull(MainFrame.class.getResource("/digits.idx3-ubyte")),
+        Objects.requireNonNull(MainFrame.class.getResource("/digits.idx1-ubyte")));
 
-    var digitsTrainingData = persistenceService.loadTrainingData(
-        MainFrame.class.getResource("/digits.yaprnn-training-data"));
-    networksTreeModel.add(digitsTrainingData);
+    networksTreeModel.add(persistenceService.loadTrainingData(
+        MainFrame.class.getResource("/digits.yaprnn-training-data")));
+
     networksTreeModel.add(persistenceService.loadMultiLayerNetworkTemplate(
         MainFrame.class.getResource("/digits.yaprnn-mln-template")));
-    // networksTreeModel.add(persistenceService.loadMultiLayerNetwork(MainFrame.class.getResource("/digits.yaprnn-mln")));
+    networksTreeModel.add(persistenceService.loadMultiLayerNetwork(
+        MainFrame.class.getResource("/digits.yaprnn-mln")));
 
-    onTrainingDataSelectedRouter.setSelected(digitsTrainingData);
+    var digitInputReconstructionTrainingData = persistenceService.loadTrainingData(
+        MainFrame.class.getResource("/digits-input-reconstruction.yaprnn-training-data"));
+    networksTreeModel.add(digitInputReconstructionTrainingData);
+    onTrainingDataSelectedRouter.setSelected(digitInputReconstructionTrainingData);
+
+    networksTreeModel.add(persistenceService.loadMultiLayerNetworkTemplate(
+        MainFrame.class.getResource("/digits-input-reconstruction.yaprnn-mln-template")));
+    networksTreeModel.add(persistenceService.loadMultiLayerNetwork(
+        MainFrame.class.getResource("/digits-input-reconstruction.yaprnn-mln")));
   }
 
   private void setSelectedPath(ModelNode selectedNode, TreePath selectedPath) {
