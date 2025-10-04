@@ -77,7 +77,7 @@ public class NewMultiLayerNetworkPanel extends JPanel {
         var multiLayerNetworkTemplate = (MultiLayerNetworkTemplate) multiLayerNetworkTemplatesComboBox.getSelectedItem();
 
         if (isNameValid) {
-          consumer.accept(new Parameters(name, multiLayerNetworkTemplate, 1f));
+          consumer.accept(new Parameters(name, multiLayerNetworkTemplate, -1f));
           return;
         }
       } catch (Throwable throwable) {

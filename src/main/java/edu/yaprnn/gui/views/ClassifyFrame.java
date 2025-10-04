@@ -168,8 +168,11 @@ public class ClassifyFrame extends JFrame {
     layersTable.setModel(tableModel);
 
     if (selectedSample instanceof ImageSample imageSample) {
-      var reconstruction = weightsService.from(Layer.output(layers).h(),
-          imageSample.getInputWidth(), onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
+      var h = Layer.output(layers).h();
+      var inputWidth = imageSample.getInputWidth();
+
+      var reconstruction = weightsService.from(h, inputWidth,
+          onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
           onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma());
       outputReconstructionImagePanel.setImage(reconstruction);
     } else {
