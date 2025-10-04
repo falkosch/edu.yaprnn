@@ -21,7 +21,6 @@ import edu.yaprnn.gui.model.NetworksTreeModel;
 import edu.yaprnn.gui.model.TrainingDataListNode;
 import edu.yaprnn.gui.model.editors.NetworksTreeCellEditor;
 import edu.yaprnn.gui.model.nodes.ActivationFunctionNode;
-import edu.yaprnn.gui.model.nodes.DataSelectorNode;
 import edu.yaprnn.gui.model.nodes.LayerSizeNode;
 import edu.yaprnn.gui.model.nodes.LayerTemplateNode;
 import edu.yaprnn.gui.model.nodes.ModelNode;
@@ -268,9 +267,8 @@ public class MainFrame extends JFrame {
         networksTreeGroupLayout.createParallelGroup().addComponent(networksTreeScrollPane));
     networksTreePanel.setLayout(networksTreeGroupLayout);
 
-    var contentSplitPane = new JSplitPane();
-    contentSplitPane.setLeftComponent(networksTreePanel);
-    contentSplitPane.setRightComponent(detailsTabbedPane);
+    var contentSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, networksTreePanel,
+        detailsTabbedPane);
 
     getContentPane().add(toolBar, BorderLayout.NORTH);
     getContentPane().add(contentSplitPane, BorderLayout.CENTER);
@@ -317,17 +315,13 @@ public class MainFrame extends JFrame {
 
   private void add() {
     var selectedNode = onModelNodeSelectedRouter.getSelected();
-    if (selectedNode instanceof TrainingDataListNode) {
-      addRandomizedTrainingData();
-    }
-    if (selectedNode instanceof MultiLayerNetworkTemplateListNode) {
-      addMultiLayerNetworkTemplate();
-    }
-    if (selectedNode instanceof MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode) {
-      addLayerTemplateTo(multiLayerNetworkTemplateNode);
-    }
-    if (selectedNode instanceof MultiLayerNetworkListNode) {
-      addMultiLayerNetwork();
+    switch (selectedNode) {
+      case TrainingDataListNode _ -> addRandomizedTrainingData();
+      case MultiLayerNetworkTemplateListNode _ -> addMultiLayerNetworkTemplate();
+      case MultiLayerNetworkTemplateNode node -> addLayerTemplateTo(node);
+      case MultiLayerNetworkListNode _ -> addMultiLayerNetwork();
+      case null, default -> {
+      }
     }
   }
 
@@ -400,7 +394,6 @@ public class MainFrame extends JFrame {
 
     var isTrainingDataListNode = selected instanceof TrainingDataListNode;
     var isTrainingDataNode = selected instanceof TrainingDataNode;
-    var isDataSelectorNode = selected instanceof DataSelectorNode;
     var isSampleNameNode = selected instanceof SampleNameNode;
 
     var isMultiLayerNetworkTemplateListNode = selected instanceof MultiLayerNetworkTemplateListNode;

@@ -98,9 +98,8 @@ public class SampleDetailsView {
 
     var previewImageScrollPane = new JScrollPane(previewImagePanel);
     var subSampledPreviewScrollPane = new JScrollPane(subSampledPreviewImagePanel);
-    previewSplitPane = new JSplitPane();
-    previewSplitPane.setLeftComponent(previewImageScrollPane);
-    previewSplitPane.setRightComponent(subSampledPreviewScrollPane);
+    previewSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, previewImageScrollPane,
+        subSampledPreviewScrollPane);
 
     var subSampledPanel = new JPanel();
     var subSampledGroupLayout = new GroupLayout(subSampledPanel);

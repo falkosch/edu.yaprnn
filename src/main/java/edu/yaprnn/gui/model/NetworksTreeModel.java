@@ -76,25 +76,24 @@ public class NetworksTreeModel implements TreeModel {
   TrainingDataListNode trainingDataListNode;
 
   public void remove(ModelNode modelNode) {
-    if (modelNode instanceof SampleNode sampleNode) {
-      remove(sampleNode.getSampleSupplier().get());
-    } else if (modelNode instanceof TrainingDataNode trainingDataNode) {
-      remove(trainingDataNode.getTrainingDataSupplier().get());
-    } else if (modelNode instanceof MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode) {
-      remove(multiLayerNetworkTemplateNode.getTemplateSupplier().get());
-    } else if (modelNode instanceof LayerTemplateNode layerTemplateNode) {
-      remove(layerTemplateNode.getMultiLayerNetworkTemplateSupplier().get(),
-          layerTemplateNode.getLayerTemplateSupplier().get());
-    } else if (modelNode instanceof MultiLayerNetworkNode multiLayerNetworkNode) {
-      remove(multiLayerNetworkNode.getMultiLayerNetworkSupplier().get());
-    } else if (modelNode == allSamplesListNode) {
-      removeSamples(List.copyOf(repository.getSamples()));
-    } else if (modelNode == trainingDataListNode) {
-      removeTrainingData(List.copyOf(repository.getTrainingDataList()));
-    } else if (modelNode == multiLayerNetworkTemplateListNode) {
-      removeMultiLayerNetworkTemplates(List.copyOf(repository.getMultiLayerNetworkTemplates()));
-    } else if (modelNode == multiLayerNetworkListNode) {
-      removeMultiLayerNetworks(List.copyOf(repository.getMultiLayerNetworks()));
+    switch (modelNode) {
+      case SampleNode node -> remove(node.getSampleSupplier().get());
+      case TrainingDataNode node -> remove(node.getTrainingDataSupplier().get());
+      case MultiLayerNetworkTemplateNode node -> remove(node.getTemplateSupplier().get());
+      case LayerTemplateNode node -> remove(node.getMultiLayerNetworkTemplateSupplier().get(),
+          node.getLayerTemplateSupplier().get());
+      case MultiLayerNetworkNode node -> remove(node.getMultiLayerNetworkSupplier().get());
+      case null, default -> {
+        if (modelNode == allSamplesListNode) {
+          removeSamples(List.copyOf(repository.getSamples()));
+        } else if (modelNode == trainingDataListNode) {
+          removeTrainingData(List.copyOf(repository.getTrainingDataList()));
+        } else if (modelNode == multiLayerNetworkTemplateListNode) {
+          removeMultiLayerNetworkTemplates(List.copyOf(repository.getMultiLayerNetworkTemplates()));
+        } else if (modelNode == multiLayerNetworkListNode) {
+          removeMultiLayerNetworks(List.copyOf(repository.getMultiLayerNetworks()));
+        }
+      }
     }
   }
 

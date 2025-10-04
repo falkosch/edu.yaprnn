@@ -277,9 +277,8 @@ public class TrainingFrame extends JFrame {
     var graphPanel = new JPanel(new BorderLayout());
     graphPanel.add(chartPanel, BorderLayout.CENTER);
 
-    var contentSplitPane = new JSplitPane();
-    contentSplitPane.setLeftComponent(new JScrollPane(preferencesPanel));
-    contentSplitPane.setRightComponent(graphPanel);
+    var contentSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+        new JScrollPane(preferencesPanel), graphPanel);
 
     getContentPane().add(toolBar, BorderLayout.NORTH);
     getContentPane().add(contentSplitPane);

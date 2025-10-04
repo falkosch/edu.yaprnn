@@ -17,11 +17,11 @@ import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class WeightsDetailsTabbedPane extends JTabbedPane {
+public class WeightsDetailsTabbedPane extends JPanel {
 
   public static final String TITLE = "Weights Details";
 
@@ -70,11 +70,8 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
     var zoomWeightsLabel = new JLabel("Zoom");
     var gammaLabel = new JLabel("Gamma");
 
-    var weightsPanel = new JPanel();
     weightsTable = networksControlsService.valuesTable();
     var weightsTableScrollPane = new JScrollPane(weightsTable);
-    addTab("Weights Image", weightsPanel);
-    addTab("Weights Table", weightsTableScrollPane);
 
     var gammaSlider = networksControlsService.gammaSlider(
         onMultiLayerNetworkWeightsPreviewModifiedRouter::setGamma);
@@ -84,6 +81,7 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
     weightsImagePanel = new ImagePanel();
     var weightsImageScrollPane = new JScrollPane(weightsImagePanel);
 
+    var weightsPanel = new JPanel();
     var weightsGroupLayout = new GroupLayout(weightsPanel);
     weightsGroupLayout.setHorizontalGroup(weightsGroupLayout.createParallelGroup()
         .addGroup(weightsGroupLayout.createSequentialGroup()
@@ -107,5 +105,19 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
     weightsGroupLayout.setAutoCreateGaps(true);
     weightsPanel.setLayout(weightsGroupLayout);
     weightsPanel.setOpaque(false);
+
+    var splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, weightsPanel, weightsTableScrollPane);
+
+    var weightsDetailsGroupLayout = new GroupLayout(this);
+    weightsDetailsGroupLayout.setHorizontalGroup(
+        weightsDetailsGroupLayout.createParallelGroup().addComponent(splitPane));
+    weightsDetailsGroupLayout.setVerticalGroup(
+        weightsDetailsGroupLayout.createSequentialGroup().addComponent(splitPane));
+    weightsDetailsGroupLayout.setAutoCreateContainerGaps(true);
+    weightsDetailsGroupLayout.setAutoCreateGaps(true);
+    setLayout(weightsDetailsGroupLayout);
+    setOpaque(false);
+
+    splitPane.setDividerLocation(0.5);
   }
 }
