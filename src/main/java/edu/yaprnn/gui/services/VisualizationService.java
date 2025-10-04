@@ -1,8 +1,8 @@
 package edu.yaprnn.gui.services;
 
-import edu.yaprnn.gui.images.Images;
 import edu.yaprnn.networks.Layer;
 import edu.yaprnn.networks.WeightsDimension;
+import edu.yaprnn.support.swing.Images;
 import jakarta.inject.Singleton;
 import java.awt.Image;
 import java.awt.image.AffineTransformOp;
@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 import javax.swing.table.DefaultTableModel;
 
 @Singleton
-public class WeightsService {
+public class VisualizationService {
 
   private static final DecimalFormat TABLE_VALUE_FORMAT = new DecimalFormat("0.###E0");
 

@@ -1,6 +1,6 @@
 package edu.yaprnn.gui.services;
 
-import edu.yaprnn.gui.images.Images;
+import edu.yaprnn.support.swing.Images;
 import jakarta.inject.Singleton;
 import java.awt.image.AffineTransformOp;
 import java.util.Objects;

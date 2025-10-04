@@ -4,9 +4,9 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.gui.services.ControlsService;
-import edu.yaprnn.gui.services.DialogsService;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
+import edu.yaprnn.support.swing.DialogsService;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.awt.Component;

@@ -4,15 +4,15 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
 import edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModifiedRouter;
-import edu.yaprnn.gui.images.ImagePanel;
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.services.IconsService;
-import edu.yaprnn.gui.services.WeightsService;
+import edu.yaprnn.gui.services.VisualizationService;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.Layer;
 import edu.yaprnn.networks.MultiLayerNetwork;
 import edu.yaprnn.samples.model.ImageSample;
 import edu.yaprnn.samples.model.Sample;
+import edu.yaprnn.support.swing.ImagePanel;
 import edu.yaprnn.training.DataSelector;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.inject.Instance;
@@ -49,7 +49,7 @@ public class ClassifyFrame extends JFrame {
   @Inject
   Repository repository;
   @Inject
-  WeightsService weightsService;
+  VisualizationService visualizationService;
 
   @Inject
   Instance<SampleDetailsView> sampleDetailsViewInstance;
@@ -164,14 +164,14 @@ public class ClassifyFrame extends JFrame {
     var selectedDataSelector = getSelectedDataSelector();
     var labels = selectedSample.getLabels();
     var layers = selectedMultiLayerNetwork.feedForward(selectedSample, selectedDataSelector);
-    var tableModel = weightsService.classificationTableModel(labels, layers);
+    var tableModel = visualizationService.classificationTableModel(labels, layers);
     layersTable.setModel(tableModel);
 
     if (selectedSample instanceof ImageSample imageSample) {
       var h = Layer.output(layers).h();
       var inputWidth = imageSample.getInputWidth();
 
-      var reconstruction = weightsService.from(h, inputWidth,
+      var reconstruction = visualizationService.from(h, inputWidth,
           onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
           onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma());
       outputReconstructionImagePanel.setImage(reconstruction);

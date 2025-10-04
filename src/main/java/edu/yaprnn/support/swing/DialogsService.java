@@ -1,4 +1,4 @@
-package edu.yaprnn.gui.services;
+package edu.yaprnn.support.swing;
 
 import jakarta.inject.Singleton;
 import java.awt.Component;

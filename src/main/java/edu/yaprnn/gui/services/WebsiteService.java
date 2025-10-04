@@ -1,5 +1,6 @@
 package edu.yaprnn.gui.services;
 
+import edu.yaprnn.support.swing.DialogsService;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.awt.Component;

@@ -1,4 +1,4 @@
-package edu.yaprnn.gui.images;
+package edu.yaprnn.support.swing;
 
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -22,10 +22,10 @@ public class Images {
         bufferedImageGraphics.dispose();
       }
 
-      var zoomCorrection = Math.min(1f,
-          Math.min(RESIZE_MAXSIZE / newWidth, RESIZE_MAXSIZE / newHeight));
-      var sx = (newWidth * zoomCorrection) / oldWidth;
-      var sy = (newHeight * zoomCorrection) / oldHeight;
+      var zoomClip = Math.min(1f, Math.min(RESIZE_MAXSIZE / newWidth, RESIZE_MAXSIZE / newHeight));
+
+      var sx = (newWidth * zoomClip) / oldWidth;
+      var sy = (newHeight * zoomClip) / oldHeight;
       var affineTransform = new AffineTransform();
       affineTransform.scale(sx, sy);
       return new AffineTransformOp(affineTransform, filterOp).filter(bufferedImage, null);
