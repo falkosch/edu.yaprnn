@@ -10,25 +10,25 @@
     {
       "size": 25,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.BinaryStepActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
       }
     },
     {
       "size": 25,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.BinaryStepActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
       }
     },
     {
       "size": 25,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.BinaryStepActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
       }
     },
     {
       "size": 10,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.BinaryStepActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
       }
     }
   ]

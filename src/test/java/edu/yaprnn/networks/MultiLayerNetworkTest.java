@@ -49,7 +49,7 @@ class MultiLayerNetworkTest {
     /**
      * Optimal weights: [-1,-0.5], last is weight for bias=-1 (McCulloch and Pitts, 1943)
      */
-    MultiLayerNetworkTemplate notModel = MultiLayerNetworkTemplate.builder()
+    final MultiLayerNetworkTemplate notModel = MultiLayerNetworkTemplate.builder()
         .layers(List.of(LayerTemplate.builder().size(1).activationFunction(linear).build(),
             LayerTemplate.builder().size(1).activationFunction(linear).build()))
         .build();
@@ -98,7 +98,7 @@ class MultiLayerNetworkTest {
     /**
      * Optimal weights: [1, 1, 1.5], last is weight for bias=-1 (McCulloch and Pitts, 1943)
      */
-    MultiLayerNetworkTemplate andModel = MultiLayerNetworkTemplate.builder()
+    final MultiLayerNetworkTemplate andModel = MultiLayerNetworkTemplate.builder()
         .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
             LayerTemplate.builder().size(1).activationFunction(linear).build()))
         .build();
@@ -166,7 +166,7 @@ class MultiLayerNetworkTest {
     /**
      * Optimal weights: [1, 1, 0.5], last is weight for bias=-1 (McCulloch and Pitts, 1943)
      */
-    MultiLayerNetworkTemplate orModel = MultiLayerNetworkTemplate.builder()
+    final MultiLayerNetworkTemplate orModel = MultiLayerNetworkTemplate.builder()
         .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
             LayerTemplate.builder().size(1).activationFunction(linear).build()))
         .build();
@@ -258,7 +258,7 @@ class MultiLayerNetworkTest {
     @Nested
     class BadPerceptronLinearCase {
 
-      MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+      final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(1).activationFunction(linear).build()))
           .build();
@@ -299,7 +299,7 @@ class MultiLayerNetworkTest {
     @Nested
     class BadPerceptronNonLinearCase {
 
-      MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+      final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(1).activationFunction(nonlinear).build()))
           .build();
@@ -340,7 +340,7 @@ class MultiLayerNetworkTest {
     @Nested
     class BadMultiLayerLinearCase {
 
-      MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+      final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(4).activationFunction(linear).build(),
               LayerTemplate.builder().size(1).activationFunction(linear).build()))
@@ -382,7 +382,7 @@ class MultiLayerNetworkTest {
     @Nested
     class GoodMultiLayerNonLinearCase {
 
-      MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
+      final MultiLayerNetworkTemplate xorModel = MultiLayerNetworkTemplate.builder()
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
               LayerTemplate.builder().size(3).activationFunction(nonlinear).build(),
               LayerTemplate.builder().size(1).activationFunction(nonlinear).build()))
