@@ -1,5 +1,6 @@
 package edu.yaprnn.training;
 
+import edu.yaprnn.training.selectors.DataSelector;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

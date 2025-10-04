@@ -1,5 +1,5 @@
 {
-  "name": "digits-input-reconstruction",
+  "name": "digits-super-resolution",
   "trainingSampleNames": [
     "digits.idx3-ubyte_1",
     "digits.idx3-ubyte_10",
@@ -60005,6 +60005,6 @@
     "digits.idx3-ubyte_9999"
   ],
   "dataSelector": {
-    "@class": "edu.yaprnn.training.selectors.OnlyInputDataSelector"
+    "@class": "edu.yaprnn.training.selectors.SuperResolutionDataSelector"
   }
 }

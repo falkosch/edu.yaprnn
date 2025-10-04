@@ -17,6 +17,7 @@ import java.awt.image.AffineTransformOp;
 import java.net.URL;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import javax.swing.JMenuItem;
 
 @Singleton
@@ -80,8 +81,8 @@ public class SamplesService {
     }
   }
 
-  public Image from(Sample sample, float zoom) {
-    var image = sample.createPreview();
+  public Image from(Supplier<Image> imageSupplier, float zoom) {
+    var image = imageSupplier.get();
 
     try {
       var newWidth = (int) (image.getWidth(null) * zoom);

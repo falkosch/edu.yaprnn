@@ -7,7 +7,7 @@ import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.services.DataSelectorControlsService;
 import edu.yaprnn.gui.services.NetworksControlsService;
 import edu.yaprnn.support.swing.DialogsService;
-import edu.yaprnn.training.DataSelector;
+import edu.yaprnn.training.selectors.DataSelector;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.awt.Component;

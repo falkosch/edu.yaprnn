@@ -18,6 +18,14 @@ public final class SimpleSample implements Sample {
   private final float[] target;
   private final float[] input;
 
+  private static Image createPreviewFrom(float[] values) {
+    var image = new BufferedImage(values.length, 1, BufferedImage.TYPE_BYTE_GRAY);
+    for (var x = 0; x < values.length; x++) {
+      image.setRGB(x, 0, Math.clamp(Math.round(255f * values[x]), 0, 255));
+    }
+    return image;
+  }
+
   @Override
   public File getFile() {
     return null;
@@ -29,13 +37,20 @@ public final class SimpleSample implements Sample {
   }
 
   @Override
-  public Image createPreview() {
-    var image = new BufferedImage(input.length, 1, BufferedImage.TYPE_BYTE_GRAY);
-    for (var x = 0; x < input.length; x++) {
-      image.setRGB(x, 0, Math.clamp(Math.round(255f * input[x]), 0, 255));
-    }
-    return image;
+  public float[] getOriginal() {
+    return input;
   }
+
+  @Override
+  public Image createPreviewFromOriginal() {
+    return createPreviewFrom(input);
+  }
+
+  @Override
+  public Image createPreviewFromInput() {
+    return createPreviewFrom(input);
+  }
+
 
   @Override
   public String getMetaDescription() {

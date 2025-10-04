@@ -15,9 +15,9 @@ import edu.yaprnn.networks.learningrate.EpochLearningRateState;
 import edu.yaprnn.networks.learningrate.LearningRateState;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.support.swing.DialogsService;
-import edu.yaprnn.training.DataSelector;
 import edu.yaprnn.training.ShuffleService;
 import edu.yaprnn.training.TrainingData;
+import edu.yaprnn.training.selectors.DataSelector;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.awt.BorderLayout;
@@ -398,11 +398,11 @@ public class TrainingFrame extends JFrame {
       try {
         train((samples, dataSelector, iteration, learningRate) -> {
           if (Objects.requireNonNull(trainingMethod) == TrainingMethod.ONLINE) {
-            multiLayerNetwork.learnOnlineParallelized(gradientMatrixService, samples, dataSelector,
-                learningRate, momentum, decayL1, decayL2);
+            multiLayerNetwork.learnOnline(gradientMatrixService, samples, dataSelector,
+                maxParallelism, learningRate, momentum, decayL1, decayL2);
           } else {
             multiLayerNetwork.learnMiniBatch(gradientMatrixService, samples, dataSelector,
-                batchSize, learningRate, momentum, decayL1, decayL2);
+                maxParallelism, batchSize, learningRate, momentum, decayL1, decayL2);
           }
         });
       } catch (Throwable throwable) {

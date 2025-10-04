@@ -8,7 +8,7 @@ import edu.yaprnn.networks.loss.LossFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.SimpleSample;
-import edu.yaprnn.training.ClassifierDataSelector;
+import edu.yaprnn.training.selectors.ClassifierDataSelector;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
@@ -96,7 +96,7 @@ class MultiLayerNetworkPerformanceTest {
   }
 
   void learnOnline() {
-    network.learnMiniBatch(gradientMatrixService, samples, dataSelector, 1, 0.001f, 0.5f, 0.001f,
+    network.learnOnline(gradientMatrixService, samples, dataSelector, 1, 0.02f, 0.2f, 0.001f,
         0.001f);
   }
 

@@ -16,7 +16,7 @@ import edu.yaprnn.networks.MultiLayerNetwork;
 import edu.yaprnn.samples.model.ImageSample;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.support.swing.ImagePanel;
-import edu.yaprnn.training.DataSelector;
+import edu.yaprnn.training.selectors.DataSelector;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
@@ -184,9 +184,9 @@ public class ClassifyFrame extends JFrame {
     layersTable.setModel(tableModel);
 
     if (selectedSample instanceof ImageSample imageSample) {
-      var inputWidth = imageSample.getInputWidth();
+      var outputWidth = selectedDataSelector.getOutputWidth(imageSample);
 
-      var reconstruction = visualizationService.fromOutput(output, inputWidth,
+      var reconstruction = visualizationService.fromOutput(output, outputWidth,
           onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
           onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma());
       outputReconstructionImagePanel.setImage(reconstruction);

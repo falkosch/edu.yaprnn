@@ -387,6 +387,11 @@ public class MainFrame extends JFrame {
         getResource("/digits-input-reconstruction-ae-layers-14-bottleneck-6.yaprnn-mln-template")));
     networksTreeModel.add(persistenceService.loadMultiLayerNetwork(
         getResource("/digits-input-reconstruction-ae-layers-14-bottleneck-6.yaprnn-mln")));
+
+    networksTreeModel.add(persistenceService.loadTrainingData(
+        getResource("/digits-super-resolution.yaprnn-training-data")));
+    networksTreeModel.add(persistenceService.loadMultiLayerNetworkTemplate(
+        getResource("/digits-super-resolution-layers-3.yaprnn-mln-template")));
   }
 
   private void setSelectedPath(ModelNode selectedNode, TreePath selectedPath) {

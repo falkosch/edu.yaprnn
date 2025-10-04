@@ -1,15 +1,19 @@
 package edu.yaprnn.networks;
 
+import static java.util.concurrent.Executors.newFixedThreadPool;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import edu.yaprnn.networks.activation.ActivationFunction;
 import edu.yaprnn.networks.loss.LossFunction;
 import edu.yaprnn.samples.model.Sample;
-import edu.yaprnn.training.DataSelector;
+import edu.yaprnn.training.selectors.DataSelector;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,21 +48,25 @@ public final class MultiLayerNetwork {
    * may overshoot, undershoot, or even nullify weight changes. This strongly depends on the chosen
    * activation function though, e.g. the identity function is very sensible to this.
    */
-  public void learnOnlineParallelized(GradientMatrixService gradientMatrixService,
-      List<? extends Sample> trainingSamples, DataSelector dataSelector, float learningRate,
-      float momentum, float decayL1, float decayL2) {
+  public void learnOnline(GradientMatrixService gradientMatrixService,
+      List<? extends Sample> trainingSamples, DataSelector dataSelector, int maxParallelism,
+      float learningRate, float momentum, float decayL1, float decayL2) {
 
-    var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
-
-    trainingSamples.parallelStream().forEach(sample -> {
+    var tasks = trainingSamples.parallelStream().<Callable<Sample>>map(sample -> () -> {
       var input = dataSelector.input(sample);
-      var target = dataSelector.target(sample, outputActivationFunction);
+      var target = dataSelector.target(sample, activationFunctions[activationFunctions.length - 1]);
 
       var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
-      var layerWeights = gradientMatrixService.copyMatrices(this.layerWeights);
-      computeGradients(layerGradients, layerWeights, input, target);
-      applyGradients(layerGradients, layerWeights, 1, learningRate, momentum, decayL1, decayL2);
-    });
+      var layerWeights1 = gradientMatrixService.copyMatrices(this.layerWeights);
+      computeGradients(layerGradients, layerWeights1, input, target);
+      applyGradients(layerGradients, layerWeights1, 1, learningRate, momentum, decayL1, decayL2);
+      return sample;
+    }).toList();
+
+    try (var executor = newFixedThreadPool(maxParallelism, Thread.ofVirtual().factory())) {
+      executor.invokeAll(tasks);
+    } catch (InterruptedException _) {
+    }
   }
 
   private void computeGradients(float[][] layerGradients, float[][] layerWeights, float[] input,
@@ -162,28 +170,35 @@ public final class MultiLayerNetwork {
   }
 
   public void learnMiniBatch(GradientMatrixService gradientMatrixService,
-      List<? extends Sample> trainingSamples, DataSelector dataSelector, int batchSize,
-      float learningRate, float momentum, float decayL1, float decayL2) {
-    var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
+      List<? extends Sample> trainingSamples, DataSelector dataSelector, int maxParallelism,
+      int batchSize, float learningRate, float momentum, float decayL1, float decayL2) {
 
-    var maxLength = trainingSamples.size();
-    for (var batchStart = 0; batchStart < trainingSamples.size(); batchStart += batchSize) {
-      var batchEnd = Math.min(batchStart + batchSize, maxLength);
-      var batchLayerGradients = trainingSamples.subList(batchStart, batchEnd)
-          .parallelStream()
-          .map(sample -> {
-            var input = dataSelector.input(sample);
-            var target = dataSelector.target(sample, outputActivationFunction);
+    try (var executor = newFixedThreadPool(maxParallelism, Thread.ofVirtual().factory())) {
+      for (var batchStart = 0; batchStart < trainingSamples.size(); batchStart += batchSize) {
+        var batchEnd = Math.min(batchStart + batchSize, trainingSamples.size());
+        var batch = trainingSamples.subList(batchStart, batchEnd)
+            .stream()
+            .<Callable<float[][]>>map(sample -> () -> {
+              var input = dataSelector.input(sample);
+              var target = dataSelector.target(sample,
+                  activationFunctions[activationFunctions.length - 1]);
 
-            var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
-            computeGradients(layerGradients, layerWeights, input, target);
-            return layerGradients;
-          })
-          .reduce(gradientMatrixService.zeroMatrices(layerSizes),
-              gradientMatrixService::accumulateGradients);
+              var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
+              computeGradients(layerGradients, layerWeights, input, target);
+              return layerGradients;
+            })
+            .toList();
 
-      applyGradients(batchLayerGradients, layerWeights, batchSize, learningRate, momentum, decayL1,
-          decayL2);
+        var batchLayerGradients = executor.invokeAll(batch)
+            .parallelStream()
+            .map(Future::resultNow)
+            .reduce(gradientMatrixService.zeroMatrices(layerSizes),
+                gradientMatrixService::accumulateGradients);
+
+        applyGradients(batchLayerGradients, layerWeights, batchSize, learningRate, momentum,
+            decayL1, decayL2);
+      }
+    } catch (InterruptedException _) {
     }
   }
 

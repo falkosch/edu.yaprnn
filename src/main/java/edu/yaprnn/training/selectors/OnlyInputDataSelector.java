@@ -1,13 +1,14 @@
-package edu.yaprnn.training;
+package edu.yaprnn.training.selectors;
 
 import edu.yaprnn.networks.activation.ActivationFunction;
+import edu.yaprnn.samples.model.ImageSample;
 import edu.yaprnn.samples.model.Sample;
 
-public final class TargetAsInputDataSelector implements DataSelector {
+public final class OnlyInputDataSelector implements DataSelector {
 
   @Override
   public float[] input(Sample sample) {
-    return sample.getTarget();
+    return sample.getInput();
   }
 
   @Override
@@ -22,7 +23,12 @@ public final class TargetAsInputDataSelector implements DataSelector {
   }
 
   @Override
+  public int getOutputWidth(ImageSample sample) {
+    return sample.getInputWidth();
+  }
+
+  @Override
   public String toString() {
-    return TargetAsInputDataSelector.class.getSimpleName();
+    return OnlyInputDataSelector.class.getSimpleName();
   }
 }
