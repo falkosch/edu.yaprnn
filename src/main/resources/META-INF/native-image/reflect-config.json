@@ -1,0 +1,3361 @@
+[
+  {
+    "name": "[I"
+  },
+  {
+    "name": "[Ledu.yaprnn.functions.ActivationFunction;"
+  },
+  {
+    "name": "[Ljava.awt.event.MouseMotionListener;"
+  },
+  {
+    "name": "[Ljava.lang.Class;"
+  },
+  {
+    "name": "[Ljava.lang.String;",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "[Ljava.util.EventListener;"
+  },
+  {
+    "name": "[Ljava.util.Set;"
+  },
+  {
+    "name": "[Ljavax.swing.event.ListDataListener;"
+  },
+  {
+    "name": "[Lorg.jfree.chart.ChartMouseListener;"
+  },
+  {
+    "name": "ch.qos.logback.classic.Logger"
+  },
+  {
+    "name": "com.fasterxml.jackson.annotation.JsonTypeInfo",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "com.fasterxml.jackson.core.ObjectCodec",
+    "queryAllDeclaredMethods": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.fasterxml.jackson.core.TreeCodec",
+    "queryAllDeclaredMethods": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.fasterxml.jackson.databind.ObjectMapper",
+    "queryAllDeclaredMethods": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.orsonpdf.PDFDocument"
+  },
+  {
+    "name": "com.sun.org.apache.xerces.internal.impl.dv.xs.ExtendedSchemaDVFactoryImpl",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.sun.org.apache.xerces.internal.impl.dv.xs.SchemaDVFactoryImpl",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.sun.xml.internal.stream.XMLInputFactoryImpl",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.EventsMapper",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.EventsMapperImpl",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.EventsMapperImpl$Proxy$_$$_WeldClientProxy",
+    "allDeclaredFields": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnModelNodeSelected",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnModelNodeSelectedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnMultiLayerNetworkSelected",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnMultiLayerNetworkSelectedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setSelected",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnModelNodeSelected"
+        ]
+      },
+      {
+        "name": "unselectIfRemoved",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnRepositoryElementsRemoved"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnMultiLayerNetworkTemplateSelected",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnMultiLayerNetworkTemplateSelectedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setSelected",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnModelNodeSelected"
+        ]
+      },
+      {
+        "name": "unselectIfRemoved",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnRepositoryElementsRemoved"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModified",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModifiedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setWeights",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnMultiLayerNetworkWeightsSelected"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnMultiLayerNetworkWeightsSelected",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnMultiLayerNetworkWeightsSelectedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setWeights",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnModelNodeSelected"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnRepositoryElementsChanged",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnRepositoryElementsChangedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnRepositoryElementsRemoved",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnRepositoryElementsRemovedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnSamplePreviewModified",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnSamplePreviewModifiedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnSampleSelected",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnSampleSelectedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setSelected",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnModelNodeSelected"
+        ]
+      },
+      {
+        "name": "unselectIfRemoved",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnRepositoryElementsRemoved"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.events.OnTrainingDataSelected",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.events.OnTrainingDataSelectedRouter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setSelected",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnModelNodeSelected"
+        ]
+      },
+      {
+        "name": "unselectIfRemoved",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnRepositoryElementsRemoved"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.ActivationFunction",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.functions.Functions",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.HardTangentHyperbolicActivationFunction",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.IdentityActivationFunction",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.Providers",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.ReLUActivationFunction",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.SigmoidActivationFunction",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.SignumActivationFunction",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.SoftMaxActivationFunction",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.functions.TangentHyperbolicActivationFunction",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.images.ImagePanel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.images.Images",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.AllSamplesListNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "edu.yaprnn.model.Repository",
+          "edu.yaprnn.gui.services.IconsService"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.MultiLayerNetworkListNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "edu.yaprnn.model.Repository"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.MultiLayerNetworkTemplateListNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "edu.yaprnn.model.Repository"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.NetworksTreeCellRenderer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.NetworksTreeModel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.RootNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "edu.yaprnn.gui.model.MultiLayerNetworkListNode",
+          "edu.yaprnn.gui.model.MultiLayerNetworkTemplateListNode",
+          "edu.yaprnn.gui.model.TrainingDataListNode",
+          "edu.yaprnn.gui.model.AllSamplesListNode"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.TrainingDataListNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "edu.yaprnn.model.Repository"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.ActivationFunctionTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "javax.swing.JTree",
+          "edu.yaprnn.gui.model.NetworksTreeCellRenderer",
+          "edu.yaprnn.gui.services.ControlsService"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.DataSelectorTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "javax.swing.JTree",
+          "edu.yaprnn.gui.model.NetworksTreeCellRenderer",
+          "edu.yaprnn.gui.services.ControlsService"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.LayerSizeTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "javax.swing.JTree",
+          "edu.yaprnn.gui.model.NetworksTreeCellRenderer",
+          "edu.yaprnn.gui.services.ControlsService"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.MultiLayerNetworkTemplateTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "javax.swing.JTree",
+          "edu.yaprnn.gui.model.NetworksTreeCellRenderer"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.MultiLayerNetworkTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "javax.swing.JTree",
+          "edu.yaprnn.gui.model.NetworksTreeCellRenderer"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.NetworksTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "postConstruct",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.SelectableTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.SelectableTreeCellEditor$Proxy$_$$_WeldClientProxy",
+    "allDeclaredFields": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.SelectableTreeCellEditorWithComponent",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.TrainingDataTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "javax.swing.JTree",
+          "edu.yaprnn.gui.model.NetworksTreeCellRenderer"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.model.editors.di.DefaultSelectableTreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.ActivationFunctionNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.DataSelectorNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.DefaultNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.LayerSizeNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.LayerTemplateNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.ModelNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.MultiLayerNetworkNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.MultiLayerNetworkTemplateNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.MultiLayerNetworkWeightsNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.SampleListNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.SampleNameListNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.SampleNameNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.SampleNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.model.nodes.TrainingDataNode",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.services.ControlsService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.services.ControlsService$1"
+  },
+  {
+    "name": "edu.yaprnn.gui.services.DialogsService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.services.FilesService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.services.IconsService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.services.PersistenceService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.services.SamplesService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.services.WebsiteService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.services.WeightsService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.ClassifyFrame",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      },
+      {
+        "name": "initializeComponents",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.ImportImagesPanel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "initialize",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.ImportImagesPanel$Parameters",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.MainFrame",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      },
+      {
+        "name": "getNetworksTree",
+        "parameterTypes": []
+      },
+      {
+        "name": "prepareSelectionControls",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnRepositoryElementsChanged"
+        ]
+      },
+      {
+        "name": "removeFromSelectionControls",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnRepositoryElementsRemoved"
+        ]
+      },
+      {
+        "name": "setEnabledOfCommands",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnModelNodeSelected"
+        ]
+      },
+      {
+        "name": "setSamplePreview",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnSamplePreviewModified"
+        ]
+      },
+      {
+        "name": "setSelectedMultiLayerNetwork",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnMultiLayerNetworkSelected"
+        ]
+      },
+      {
+        "name": "setSelectedSample",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnSampleSelected"
+        ]
+      },
+      {
+        "name": "setSelectedTrainingData",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnTrainingDataSelected"
+        ]
+      },
+      {
+        "name": "setWeightsPreview",
+        "parameterTypes": [
+          "edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModified"
+        ]
+      },
+      {
+        "name": "start",
+        "parameterTypes": [
+          "org.jboss.weld.environment.se.events.ContainerInitialized"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.NewMultiLayerNetworkPanel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      },
+      {
+        "name": "initialize",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.NewMultiLayerNetworkPanel$Parameters",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.NewMultiLayerNetworkTemplatePanel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "initialize",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.NewMultiLayerNetworkTemplatePanel$Parameters",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.RandomizeTrainingDataPanel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "initialize",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.RandomizeTrainingDataPanel$Parameters",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.SampleDetailsView",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "initialize",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.SampleDetailsView$PlayAudioSampleMouseAdapter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.SamplePreprocessingFrame",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      },
+      {
+        "name": "initializeComponents",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.TrainingFrame",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      },
+      {
+        "name": "initialize",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.TrainingFrame$LearnSamplesConsumer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.TrainingFrame$LearningRateModifier",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.TrainingFrame$TrainingFrameWindowAdapter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.TrainingFrame$TrainingMethod",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.TrainingFrame$TrainingWorker",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.WeightsDetailsTabbedPane",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      },
+      {
+        "name": "initialize",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.di.NetworksTree",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.MultiLayerNetworkMapper",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllPublicMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.MultiLayerNetworkMapperImpl",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.MultiLayerNetworkMapperImpl$Proxy$_$$_WeldClientProxy",
+    "allDeclaredFields": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.MultiLayerNetworkTemplateMapper",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllPublicMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.MultiLayerNetworkTemplateMapperImpl",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.MultiLayerNetworkTemplateMapperImpl$Proxy$_$$_WeldClientProxy",
+    "allDeclaredFields": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.TrainingDataMapper",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.TrainingDataMapperImpl",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.gui.views.mappings.TrainingDataMapperImpl$Proxy$_$$_WeldClientProxy",
+    "allDeclaredFields": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.model.Repository",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.networks.AccuracyResult",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.GradientMatrixService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.networks.Layer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.MultiLayerNetwork",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.MultiLayerNetwork$MultiLayerNetworkBuilder",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.networks.WeightsDimension",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.learningrate.ConstantLearningRate",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.learningrate.ConstantLearningRateState",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.learningrate.DynamicLearningRate",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.learningrate.DynamicLearningRateState",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.learningrate.EpochLearningRate",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.learningrate.EpochLearningRateState",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.learningrate.LearningRateState",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.networks.templates.LayerTemplate",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setActivationFunction",
+        "parameterTypes": [
+          "edu.yaprnn.functions.ActivationFunction"
+        ]
+      },
+      {
+        "name": "setSize",
+        "parameterTypes": [
+          "int"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.networks.templates.LayerTemplate$LayerTemplateBuilder",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.networks.templates.MultiLayerNetworkTemplate",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setLayers",
+        "parameterTypes": [
+          "java.util.List"
+        ]
+      },
+      {
+        "name": "setName",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.networks.templates.MultiLayerNetworkTemplate$MultiLayerNetworkTemplateBuilder",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.samples.AudiosImportService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.samples.ImagesImportService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.samples.ImportService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.samples.model.ImageSample",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.samples.model.Sample",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.samples.model.SimpleSample",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.samples.model.SimpleSample$SimpleSampleBuilder",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.samples.model.SoundSample",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.support.JacksonConfigurer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "getObjectMapper",
+        "parameterTypes": []
+      },
+      {
+        "name": "postConstruct",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.support.RandomConfigurer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "getRandom",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.training.ClassifierDataSelector",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.training.DataSelector",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.training.OnlyInputDataSelector",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.training.ShuffleService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.training.TargetAsInputDataSelector",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.training.TrainingData",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "setDataSelector",
+        "parameterTypes": [
+          "edu.yaprnn.training.DataSelector"
+        ]
+      },
+      {
+        "name": "setDevTestSampleNames",
+        "parameterTypes": [
+          "java.util.List"
+        ]
+      },
+      {
+        "name": "setName",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "setTrainingSampleNames",
+        "parameterTypes": [
+          "java.util.List"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.training.mappings.TrainingDataMapper",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllPublicMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "edu.yaprnn.training.mappings.TrainingDataMapperImpl",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "edu.yaprnn.training.mappings.TrainingDataMapperImpl$Proxy$_$$_WeldClientProxy",
+    "allDeclaredFields": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "groovy.lang.GroovyObject"
+  },
+  {
+    "name": "jakarta.annotation.PostConstruct",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.annotation.PreDestroy"
+  },
+  {
+    "name": "jakarta.annotation.Priority",
+    "queryAllDeclaredMethods": true,
+    "methods": [
+      {
+        "name": "value",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "jakarta.decorator.Decorator",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.decorator.Delegate",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.ejb.PostActivate"
+  },
+  {
+    "name": "jakarta.ejb.PrePassivate"
+  },
+  {
+    "name": "jakarta.enterprise.context.ApplicationScoped",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.enterprise.context.BeforeDestroyed",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "value",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "jakarta.enterprise.context.ConversationScoped",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.enterprise.context.Dependent",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.enterprise.context.Destroyed",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "value",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "jakarta.enterprise.context.Initialized",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "value",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "jakarta.enterprise.context.NormalScope",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.enterprise.context.RequestScoped",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.enterprise.context.SessionScoped",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.enterprise.context.control.ActivateRequestContext",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.enterprise.event.Event",
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "jakarta.enterprise.event.Observes",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.enterprise.inject.Any",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.enterprise.inject.Default",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.enterprise.inject.Instance",
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "jakarta.enterprise.inject.Produces",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.enterprise.inject.Stereotype",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.enterprise.inject.Vetoed",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.enterprise.inject.spi.Extension",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.inject.Inject",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.inject.Named",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "value",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "jakarta.inject.Provider",
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "jakarta.inject.Qualifier",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.inject.Scope",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.inject.Singleton",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jakarta.interceptor.AroundConstruct"
+  },
+  {
+    "name": "jakarta.interceptor.AroundInvoke",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.interceptor.AroundTimeout"
+  },
+  {
+    "name": "jakarta.interceptor.ExcludeClassInterceptors"
+  },
+  {
+    "name": "jakarta.interceptor.Interceptor",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.interceptor.InterceptorBinding",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "jakarta.interceptor.Interceptors",
+    "methods": [
+      {
+        "name": "value",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "jakarta.persistence.Embeddable"
+  },
+  {
+    "name": "jakarta.persistence.Entity"
+  },
+  {
+    "name": "jakarta.persistence.EntityManager"
+  },
+  {
+    "name": "jakarta.persistence.EntityManagerFactory"
+  },
+  {
+    "name": "jakarta.persistence.MappedSuperclass"
+  },
+  {
+    "name": "jakarta.persistence.PersistenceContext"
+  },
+  {
+    "name": "jakarta.persistence.PersistenceContextType"
+  },
+  {
+    "name": "jakarta.persistence.PersistenceUnit"
+  },
+  {
+    "name": "jakarta.xml.ws.WebServiceRef"
+  },
+  {
+    "name": "java.awt.Component",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "java.awt.Container",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.awt.Frame",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.awt.MenuContainer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.awt.SequencedEvent"
+  },
+  {
+    "name": "java.awt.Window",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.awt.event.KeyEvent",
+    "fields": [
+      {
+        "name": "VK_A"
+      },
+      {
+        "name": "VK_ADD"
+      },
+      {
+        "name": "VK_BACK_SLASH"
+      },
+      {
+        "name": "VK_BACK_SPACE"
+      },
+      {
+        "name": "VK_C"
+      },
+      {
+        "name": "VK_CONTEXT_MENU"
+      },
+      {
+        "name": "VK_COPY"
+      },
+      {
+        "name": "VK_CUT"
+      },
+      {
+        "name": "VK_DELETE"
+      },
+      {
+        "name": "VK_DOWN"
+      },
+      {
+        "name": "VK_END"
+      },
+      {
+        "name": "VK_ENTER"
+      },
+      {
+        "name": "VK_ESCAPE"
+      },
+      {
+        "name": "VK_F10"
+      },
+      {
+        "name": "VK_F2"
+      },
+      {
+        "name": "VK_F5"
+      },
+      {
+        "name": "VK_F6"
+      },
+      {
+        "name": "VK_F8"
+      },
+      {
+        "name": "VK_H"
+      },
+      {
+        "name": "VK_HOME"
+      },
+      {
+        "name": "VK_INSERT"
+      },
+      {
+        "name": "VK_KP_DOWN"
+      },
+      {
+        "name": "VK_KP_LEFT"
+      },
+      {
+        "name": "VK_KP_RIGHT"
+      },
+      {
+        "name": "VK_KP_UP"
+      },
+      {
+        "name": "VK_LEFT"
+      },
+      {
+        "name": "VK_O"
+      },
+      {
+        "name": "VK_PAGE_DOWN"
+      },
+      {
+        "name": "VK_PAGE_UP"
+      },
+      {
+        "name": "VK_PASTE"
+      },
+      {
+        "name": "VK_RIGHT"
+      },
+      {
+        "name": "VK_SLASH"
+      },
+      {
+        "name": "VK_SPACE"
+      },
+      {
+        "name": "VK_SUBTRACT"
+      },
+      {
+        "name": "VK_T"
+      },
+      {
+        "name": "VK_TAB"
+      },
+      {
+        "name": "VK_UP"
+      },
+      {
+        "name": "VK_V"
+      },
+      {
+        "name": "VK_X"
+      }
+    ]
+  },
+  {
+    "name": "java.awt.event.MouseAdapter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.awt.event.MouseListener",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.awt.event.MouseMotionListener",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.awt.event.MouseWheelListener",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.awt.event.WindowAdapter",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.awt.event.WindowFocusListener",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.awt.event.WindowListener",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.awt.event.WindowStateListener",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.awt.image.AffineTransformOp"
+  },
+  {
+    "name": "java.awt.image.ConvolveOp"
+  },
+  {
+    "name": "java.awt.image.ImageObserver",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.awt.image.LookupOp"
+  },
+  {
+    "name": "java.beans.BeanProperty",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.beans.JavaBean",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.beans.Transient",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.io.Serializable",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllPublicMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.lang.Comparable",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.lang.Deprecated",
+    "queryAllDeclaredMethods": true,
+    "methods": [
+      {
+        "name": "forRemoval",
+        "parameterTypes": []
+      },
+      {
+        "name": "since",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "java.lang.Enum",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.lang.FunctionalInterface",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.lang.Object",
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.lang.Record",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.lang.Runnable",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.lang.annotation.Annotation",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "java.lang.annotation.Documented",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.lang.annotation.Inherited",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.lang.annotation.Retention",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.lang.annotation.Target",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.lang.constant.Constable",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.util.EventListener",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.util.Random",
+    "queryAllDeclaredMethods": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "java.util.RandomAccess"
+  },
+  {
+    "name": "java.util.concurrent.ForkJoinTask",
+    "fields": [
+      {
+        "name": "aux"
+      },
+      {
+        "name": "status"
+      }
+    ]
+  },
+  {
+    "name": "java.util.concurrent.Future",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.util.concurrent.RunnableFuture",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "java.util.concurrent.atomic.AtomicBoolean",
+    "fields": [
+      {
+        "name": "value"
+      }
+    ]
+  },
+  {
+    "name": "java.util.concurrent.atomic.AtomicReference",
+    "fields": [
+      {
+        "name": "value"
+      }
+    ]
+  },
+  {
+    "name": "javax.accessibility.Accessible",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.CellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllPublicMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.JComponent",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.JFrame",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.JLabel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.JPanel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.JTabbedPane",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.RootPaneContainer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.SwingConstants",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.SwingContainer",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "javax.swing.SwingWorker",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "javax.swing.TransferHandler$HasGetTransferHandler",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.WindowConstants",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicEditorPaneUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicFormattedTextFieldUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicListUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicMenuItemUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      },
+      {
+        "name": "loadActionMap",
+        "parameterTypes": [
+          "javax.swing.plaf.basic.LazyActionMap"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicMenuUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicOptionPaneUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      },
+      {
+        "name": "loadActionMap",
+        "parameterTypes": [
+          "javax.swing.plaf.basic.LazyActionMap"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicPanelUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicPopupMenuUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      },
+      {
+        "name": "loadActionMap",
+        "parameterTypes": [
+          "javax.swing.plaf.basic.LazyActionMap"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicSpinnerUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicTableHeaderUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicTableUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.basic.BasicViewportUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalButtonUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalComboBoxUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalFileChooserUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalLabelUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalMenuBarUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalPopupMenuSeparatorUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalRootPaneUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalScrollBarUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalScrollPaneUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalSeparatorUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalSliderUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalSplitPaneUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalTabbedPaneUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalTextFieldUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalToggleButtonUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalToolBarUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.plaf.metal.MetalTreeUI",
+    "methods": [
+      {
+        "name": "createUI",
+        "parameterTypes": [
+          "javax.swing.JComponent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.text.html.HTMLEditorKit",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "javax.swing.tree.DefaultTreeCellRenderer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.tree.TreeCellEditor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllPublicMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.tree.TreeCellRenderer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "javax.swing.tree.TreeModel",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "jdk.internal.misc.Unsafe"
+  },
+  {
+    "name": "jdk.internal.vm.annotation.IntrinsicCandidate",
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "org.apache.log4j.LogManager"
+  },
+  {
+    "name": "org.apache.logging.log4j.Logger"
+  },
+  {
+    "name": "org.jboss.jandex.Index"
+  },
+  {
+    "name": "org.jboss.logmanager.LogManager"
+  },
+  {
+    "name": "org.jboss.weld.bean.proxy.ProxyObject",
+    "methods": [
+      {
+        "name": "weld_getHandler",
+        "parameterTypes": []
+      },
+      {
+        "name": "weld_setHandler",
+        "parameterTypes": [
+          "org.jboss.weld.bean.proxy.MethodHandler"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.bootstrap.WeldExtension",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "beforeBeanDiscovery",
+        "parameterTypes": [
+          "jakarta.enterprise.inject.spi.BeforeBeanDiscovery",
+          "jakarta.enterprise.inject.spi.BeanManager"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.bootstrap.api.helpers.RegistrySingletonProvider",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.configuration.spi.ExternalConfiguration"
+  },
+  {
+    "name": "org.jboss.weld.context.activator.ActivateRequestContext",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "org.jboss.weld.context.bound.Bound",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "org.jboss.weld.context.unbound.Unbound",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "org.jboss.weld.contexts.activator.AbstractActivateRequestContextInterceptor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.contexts.activator.ActivateRequestContextInterceptor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.weld.context.RequestContext",
+          "org.jboss.weld.manager.BeanManagerImpl"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.contexts.activator.CdiRequestContextActivatorInterceptor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.weld.context.RequestContext",
+          "org.jboss.weld.manager.BeanManagerImpl"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.environment.logging.CommonLogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.environment.logging.CommonLogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.environment.logging.CommonLogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.environment.se.WeldSEBeanRegistrant",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "registerWeldSEBeans",
+        "parameterTypes": [
+          "jakarta.enterprise.inject.spi.BeforeBeanDiscovery",
+          "jakarta.enterprise.inject.spi.BeanManager"
+        ]
+      },
+      {
+        "name": "registerWeldSEContexts",
+        "parameterTypes": [
+          "jakarta.enterprise.inject.spi.AfterBeanDiscovery",
+          "jakarta.enterprise.inject.spi.BeanManager"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.environment.se.beans.ParametersFactory",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "getArgs",
+        "parameterTypes": []
+      },
+      {
+        "name": "getArgsAsArray",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.environment.se.bindings.Parameters",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "org.jboss.weld.environment.se.contexts.ThreadScoped",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "org.jboss.weld.environment.se.contexts.activators.ActivateThreadScope",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true
+  },
+  {
+    "name": "org.jboss.weld.environment.se.contexts.activators.ActivateThreadScopeInterceptor",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.weld.environment.se.WeldSEBeanRegistrant"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.environment.se.logging.WeldSELogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.environment.se.logging.WeldSELogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.environment.se.logging.WeldSELogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.environment.se.threading.RunnableDecorator",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      },
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.weld.environment.se.WeldSEBeanRegistrant"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.events.WeldEvent",
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "org.jboss.weld.generated.proxies.enterprise.event.Event$WeldEvent$Proxy$_$$_Weld$Proxy$"
+  },
+  {
+    "name": "org.jboss.weld.generated.proxies.enterprise.inject.Instance$Provider$WeldInstance$Proxy$_$$_Weld$Proxy$"
+  },
+  {
+    "name": "org.jboss.weld.inject.WeldInstance",
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "org.jboss.weld.interceptor.proxy.LifecycleMixin",
+    "queryAllPublicMethods": true,
+    "methods": [
+      {
+        "name": "lifecycle_mixin_$$_postConstruct",
+        "parameterTypes": []
+      },
+      {
+        "name": "lifecycle_mixin_$$_preDestroy",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.interceptor.util.proxy.TargetInstanceProxy",
+    "methods": [
+      {
+        "name": "weld_getTargetClass",
+        "parameterTypes": []
+      },
+      {
+        "name": "weld_getTargetInstance",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.logging.BeanLogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.logging.BeanLogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.logging.BeanLogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.logging.BootstrapLogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.logging.BootstrapLogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.logging.BootstrapLogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.logging.ConfigurationLogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.logging.ConfigurationLogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.logging.ConfigurationLogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.logging.ContextLogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.logging.ContextLogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.logging.ContextLogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.logging.ReflectionLogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.logging.ReflectionLogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.logging.ReflectionLogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.logging.ValidatorLogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.logging.ValidatorLogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.logging.ValidatorLogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.logging.VersionLogger_$logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "org.jboss.logging.Logger"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.logging.VersionLogger_$logger_de"
+  },
+  {
+    "name": "org.jboss.weld.logging.VersionLogger_$logger_de_DE"
+  },
+  {
+    "name": "org.jboss.weld.proxy.WeldClientProxy",
+    "methods": [
+      {
+        "name": "getMetadata",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.jboss.weld.proxy.WeldConstruct",
+    "queryAllPublicMethods": true
+  },
+  {
+    "name": "org.jfree.chart.ChartPanel",
+    "methods": [
+      {
+        "name": "coalesceEvents",
+        "parameterTypes": [
+          "java.awt.AWTEvent",
+          "java.awt.AWTEvent"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.jfree.graphics2d.svg.SVGGraphics2D"
+  },
+  {
+    "name": "sun.awt.Symbol",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.awt.shell.Win32ShellFolderManager2",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.awt.windows.WingDings",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.java2d.marlin.DMarlinRenderingEngine",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.reflect.annotation.AnnotationType"
+  },
+  {
+    "name": "sun.security.provider.DRBG",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "java.security.SecureRandomParameters"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "sun.security.provider.SHA2$SHA256",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  }
+]
