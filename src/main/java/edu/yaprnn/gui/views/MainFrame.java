@@ -307,6 +307,14 @@ public class MainFrame extends JFrame {
     persistenceService.saveMultiLayerNetwork(onMultiLayerNetworkSelectedRouter.getSelected(), path);
   }
 
+  private void visitWebsite() {
+    try {
+      Desktop.getDesktop().browse(new URI("https://github.com/falkosch/edu.yaprnn"));
+    } catch (Throwable throwable) {
+      dialogsService.showError(this, "Visit code repository", throwable);
+    }
+  }
+
   private void add() {
     var selectedNode = onModelNodeSelectedRouter.getSelected();
     if (selectedNode instanceof TrainingDataListNode) {
@@ -427,9 +435,7 @@ public class MainFrame extends JFrame {
 
     addButton.setEnabled(isTrainingDataListNode | isMultiLayerNetworkTemplateListNode
         | isMultiLayerNetworkTemplateNode | isMultiLayerNetworkListNode);
-    editButton.setEnabled(
-        isTrainingDataNode | isDataSelectorNode | isMultiLayerNetworkTemplateNode | isLayerSizeNode
-            | isActivationFunctionNode | isMultiLayerNetworkNode);
+    editButton.setEnabled(networksTreeCellEditor.isCellEditable(selected));
 
     removeButton.setEnabled(
         isAllSamplesNode | isSampleNode | isTrainingDataListNode | isTrainingDataNode
@@ -551,14 +557,6 @@ public class MainFrame extends JFrame {
   private void removeMultiLayerNetworksFromSelectionControls(List<MultiLayerNetwork> removed) {
     classifyFrame.removeMultiLayerNetworksFromSelectionControls(removed);
     trainingFrame.removeMultiLayerNetworksFromSelectionControls(removed);
-  }
-
-  private void visitWebsite() {
-    try {
-      Desktop.getDesktop().browse(new URI("https://github.com/falkosch/edu.yaprnn"));
-    } catch (Throwable throwable) {
-      dialogsService.showError(this, "Visit code repository", throwable);
-    }
   }
 
   private class RemoveFromNetworksTreeKeyAdapter extends KeyAdapter {

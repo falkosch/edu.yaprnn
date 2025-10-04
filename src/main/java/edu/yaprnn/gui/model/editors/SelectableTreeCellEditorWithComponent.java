@@ -43,12 +43,12 @@ public abstract class SelectableTreeCellEditorWithComponent<T extends JComponent
 
   @Override
   public boolean isCellEditable(EventObject event) {
-    return editor.isCellEditable(event) || event == null;
+    return editor.isCellEditable(event);
   }
 
   @Override
   public boolean shouldSelectCell(EventObject event) {
-    return editor.shouldSelectCell(event) || event == null;
+    return editor.shouldSelectCell(event);
   }
 
   @Override

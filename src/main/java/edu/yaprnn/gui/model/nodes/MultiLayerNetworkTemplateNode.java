@@ -8,6 +8,7 @@ import edu.yaprnn.support.Providers;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import lombok.Getter;
 
 /**
@@ -16,29 +17,29 @@ import lombok.Getter;
 @Getter
 public class MultiLayerNetworkTemplateNode extends DefaultNode {
 
-  private final Supplier<MultiLayerNetworkTemplate> multiLayerNetworkTemplateSupplier;
+  private final Supplier<MultiLayerNetworkTemplate> templateSupplier;
 
-  public MultiLayerNetworkTemplateNode(
-      Supplier<MultiLayerNetworkTemplate> multiLayerNetworkTemplateSupplier) {
+  public MultiLayerNetworkTemplateNode(Supplier<MultiLayerNetworkTemplate> templateSupplier) {
     super(Providers.constant(IconsService.ICON_MULTI_LAYER_NETWORK_TEMPLATE),
-        Providers.mapped(multiLayerNetworkTemplateSupplier,
-            MultiLayerNetworkTemplateNode::labelFrom),
-        Providers.mapped(multiLayerNetworkTemplateSupplier,
-            MultiLayerNetworkTemplateNode::childrenFrom));
-    this.multiLayerNetworkTemplateSupplier = multiLayerNetworkTemplateSupplier;
+        Providers.mapped(templateSupplier, MultiLayerNetworkTemplateNode::labelFrom),
+        Providers.mapped(templateSupplier, MultiLayerNetworkTemplateNode::childrenFrom));
+    this.templateSupplier = templateSupplier;
   }
 
-  private static String labelFrom(MultiLayerNetworkTemplate multiLayerNetworkTemplate) {
-    return multiLayerNetworkTemplate.getName();
+  private static String labelFrom(MultiLayerNetworkTemplate template) {
+    return template.getName();
   }
 
-  private static List<? extends ModelNode> childrenFrom(
-      MultiLayerNetworkTemplate multiLayerNetworkTemplate) {
-    var multiLayerNetworkTemplateSupplier = Providers.constant(multiLayerNetworkTemplate);
-    return IntStream.range(0, multiLayerNetworkTemplate.getLayers().size())
-        .mapToObj(Providers::constant)
-        .map(layerIndexSupplier -> new LayerTemplateNode(multiLayerNetworkTemplateSupplier,
-            layerIndexSupplier))
-        .toList();
+  private static List<? extends ModelNode> childrenFrom(MultiLayerNetworkTemplate template) {
+    var templateSupplier = Providers.constant(template);
+    var layers = template.getLayers();
+
+    var valueNodes = Stream.of(new BiasNode(templateSupplier),
+        new LossFunctionNode(templateSupplier));
+
+    var layerNodes = IntStream.range(0, layers.size())
+        .mapToObj(i -> new LayerTemplateNode(templateSupplier, Providers.constant(i)));
+
+    return Stream.concat(valueNodes, layerNodes).toList();
   }
 }

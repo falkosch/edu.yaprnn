@@ -32,7 +32,7 @@ public class MultiLayerNetworkTemplateTreeCellEditor extends
   @Override
   protected void setEditorValueOnStartEdit(Object value) {
     if (value instanceof MultiLayerNetworkTemplateNode node) {
-      getComponent().setText(node.getMultiLayerNetworkTemplateSupplier().get().getName());
+      getComponent().setText(node.getTemplateSupplier().get().getName());
     }
   }
 

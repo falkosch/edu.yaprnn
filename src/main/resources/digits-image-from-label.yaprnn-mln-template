@@ -28,5 +28,6 @@
   ],
   "lossFunction": {
     "@class": "edu.yaprnn.networks.loss.HalfSquaredErrorLossFunction"
-  }
+  },
+  "bias": -1.0
 }

@@ -43,26 +43,10 @@ public final class MultiLayerNetworkTemplate {
    * Loss function for predicted values of the model.
    */
   private LossFunction lossFunction;
-
-  public LayerTemplate getLayer(int layerIndex) {
-    return layers.get(layerIndex);
-  }
-
-  public int indexOfLayer(LayerTemplate layerTemplate) {
-    return layers.indexOf(layerTemplate);
-  }
-
-  public void addLayer(LayerTemplate value) {
-    this.layers.add(value);
-  }
-
-  public void setLayerSize(int layerIndex, int value) {
-    layers.get(layerIndex).setSize(value);
-  }
-
-  public void setActivationFunction(int layerIndex, ActivationFunction value) {
-    layers.get(layerIndex).setActivationFunction(value);
-  }
+  /**
+   * Bias value used in the layer in the network.
+   */
+  private float bias;
 
   /**
    * @return each layer size not accounting for 1 bias node

@@ -14,6 +14,8 @@ public class IconsService {
 
   public static final Icon ICON_ACTIVATION_FUNCTION = smallIconFromResource(
       "/edu/yaprnn/gui/views/old/activation-function.png");
+  public static final Icon ICON_BIAS = smallIconFromResource(
+      "/edu/yaprnn/gui/views/old/layer-size.png");
   public static final Icon ICON_DEV_TEST_SAMPLES_NODE = smallIconFromResource(
       "/edu/yaprnn/gui/views/old/dev-test-set-node.png");
   public static final Icon ICON_LAYER_SIZE = smallIconFromResource(
@@ -22,6 +24,8 @@ public class IconsService {
       "/edu/yaprnn/gui/views/symbols/afif-fudin-layer.png");
   public static final Icon ICON_LAYER_TEMPLATE = smallIconFromResource(
       "/edu/yaprnn/gui/views/symbols/mayor-icons-layer-template.png");
+  public static final Icon ICON_LOSS_FUNCTION = smallIconFromResource(
+      "/edu/yaprnn/gui/views/old/activation-function.png");
   public static final Icon ICON_MULTI_LAYER_NETWORK = smallIconFromResource(
       "/edu/yaprnn/gui/views/symbols/vectorslab-network.png");
   public static final Icon ICON_MULTI_LAYER_NETWORK_TEMPLATE = smallIconFromResource(
@@ -34,6 +38,10 @@ public class IconsService {
       "/edu/yaprnn/gui/views/old/training-data-node.png");
   public static final Icon ICON_TRAINING_SAMPLES_NODE = smallIconFromResource(
       "/edu/yaprnn/gui/views/old/training-set-node.png");
+
+  public Icon visitIcon() {
+    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-visit.png");
+  }
 
   private static Icon smallIconFromResource(String location) {
     return fromResource(location, SMALL_ICON_SIZE, SMALL_ICON_SIZE);
@@ -49,10 +57,6 @@ public class IconsService {
     } finally {
       image.flush();
     }
-  }
-
-  public Icon visitIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-visit.png");
   }
 
   public Icon addIcon() {

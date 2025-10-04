@@ -44,7 +44,7 @@ public abstract class EventsMapper {
 
   public MultiLayerNetworkTemplate toMultiLayerNetworkTemplate(ModelNode modelNode) {
     if (modelNode instanceof MultiLayerNetworkTemplateNode multiLayerNetworkTemplateNode) {
-      return multiLayerNetworkTemplateNode.getMultiLayerNetworkTemplateSupplier().get();
+      return multiLayerNetworkTemplateNode.getTemplateSupplier().get();
     }
     if (modelNode instanceof LayerTemplateNode layerTemplateNode) {
       return layerTemplateNode.getMultiLayerNetworkTemplateSupplier().get();

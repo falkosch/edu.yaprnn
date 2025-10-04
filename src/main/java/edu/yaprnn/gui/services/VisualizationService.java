@@ -40,6 +40,10 @@ public class VisualizationService {
     }
   }
 
+  public int inputSizeWithBias(float[] weights, int outputSize) {
+    return WeightsDimension.from(weights, outputSize).inputSizeWithBias();
+  }
+
   public Image fromWeights(float[] weights, int outputSize, float zoom, float gamma) {
     var height = inputSizeWithBias(weights, outputSize);
     var image = new BufferedImage(outputSize, height, BufferedImage.TYPE_INT_RGB);
@@ -62,10 +66,6 @@ public class VisualizationService {
     } finally {
       image.flush();
     }
-  }
-
-  public int inputSizeWithBias(float[] weights, int outputSize) {
-    return WeightsDimension.from(weights, outputSize).inputSizeWithBias();
   }
 
   public DefaultTableModel classificationTableModel(String[] labels, Layer[] layers,

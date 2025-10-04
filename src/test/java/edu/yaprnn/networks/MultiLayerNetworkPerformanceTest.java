@@ -23,6 +23,7 @@ class MultiLayerNetworkPerformanceTest {
   final ActivationFunction sigmoid = new SigmoidActivationFunction();
   final LossFunction lossFunction = new HalfSquaredErrorLossFunction();
   final MultiLayerNetworkTemplate model = MultiLayerNetworkTemplate.builder()
+      .bias(-1f)
       .lossFunction(lossFunction)
       .layers(List.of(LayerTemplate.builder().size(999).activationFunction(linear).build(),
           LayerTemplate.builder().size(999).activationFunction(sigmoid).build(),
@@ -44,7 +45,7 @@ class MultiLayerNetworkPerformanceTest {
             .build())
         .toList();
     network = MultiLayerNetwork.builder()
-        .bias(-1f)
+        .bias(model.getBias())
         .activationFunctions(model.collectActivationFunctions())
         .layerSizes(model.collectLayerSizes())
         .lossFunction(model.getLossFunction())
