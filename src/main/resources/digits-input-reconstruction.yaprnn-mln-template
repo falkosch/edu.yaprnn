@@ -1,46 +1,46 @@
 {
-  "name": "digits 784,392,196,196,392,784",
+  "name": "digits-input-reconstruction GeLU AE 196 49 12 49 196",
   "layers": [
     {
       "size": 784,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.LinearActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
       "size": 196,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
-      "size": 98,
+      "size": 49,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
-      "size": 50,
+      "size": 12,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
-      "size": 98,
+      "size": 49,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
       "size": 196,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     },
     {
       "size": 784,
       "activationFunction": {
-        "@class": "edu.yaprnn.networks.functions.QuickGeLUActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
       }
     }
   ]

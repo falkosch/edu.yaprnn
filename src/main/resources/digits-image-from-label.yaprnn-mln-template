@@ -1,0 +1,29 @@
+{
+  "name": "digits-image-from-label GeLU 49 196",
+  "layers": [
+    {
+      "size": 10,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 49,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 196,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+      }
+    },
+    {
+      "size": 784,
+      "activationFunction": {
+        "@class": "edu.yaprnn.networks.functions.GeLUActivationFunction"
+      }
+    }
+  ]
+}
