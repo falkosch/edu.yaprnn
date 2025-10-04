@@ -1,9 +1,9 @@
 package edu.yaprnn.networks;
 
 import com.google.common.primitives.Floats;
-import edu.yaprnn.functions.ActivationFunction;
-import edu.yaprnn.functions.LinearActivationFunction;
-import edu.yaprnn.functions.SigmoidActivationFunction;
+import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.functions.LinearActivationFunction;
+import edu.yaprnn.networks.functions.SigmoidActivationFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.SimpleSample;

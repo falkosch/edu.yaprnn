@@ -4,19 +4,19 @@
     {
       "size": 768,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.LinearActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.LinearActivationFunction"
       }
     },
     {
       "size": 25,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.TangentHyperbolicActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction"
       }
     },
     {
       "size": 10,
       "activationFunction": {
-        "@class": "edu.yaprnn.functions.SoftMaxActivationFunction"
+        "@class": "edu.yaprnn.networks.functions.SoftMaxActivationFunction"
       }
     }
   ]

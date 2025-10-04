@@ -1,14 +1,14 @@
-package edu.yaprnn.functions;
+package edu.yaprnn.networks.functions;
 
 import java.util.Random;
 
-public final class BinaryStepActivationFunction implements ActivationFunction {
+public final class TangentHyperbolicHardActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
     var h = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      h[i] = v[i] < 0f ? 0f : 1f;
+      h[i] = Math.clamp(v[i], -1f, 1f);
     }
     return h;
   }
@@ -22,19 +22,18 @@ public final class BinaryStepActivationFunction implements ActivationFunction {
   public float[] derivative(float[] v) {
     var d = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      // good enough as a surrogate derivative
-      d[i] = 1f;
+      d[i] = -1f < v[i] && v[i] < 1f ? 1f : 0f;
     }
     return d;
   }
 
   @Override
   public float[] initialize(Random random, int count, int outputSize) {
-    return Initialization.shell(random, count, outputSize, Initialization::uniform);
+    return Initialization.shell(random, count, outputSize, Initialization::xavierUniform);
   }
 
   @Override
   public String toString() {
-    return "BinaryStep: v < 0 ? 0 : 1";
+    return "TanH Hard: max(min[v, 1], -1)";
   }
 }

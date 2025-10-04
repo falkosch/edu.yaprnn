@@ -2,10 +2,10 @@ package edu.yaprnn.gui.services;
 
 import edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModifiedRouter;
 import edu.yaprnn.events.OnSamplePreviewModifiedRouter;
-import edu.yaprnn.functions.ActivationFunction;
-import edu.yaprnn.functions.TangentHyperbolicActivationFunction;
 import edu.yaprnn.gui.model.NetworksTreeModel;
 import edu.yaprnn.gui.model.nodes.ModelNode;
+import edu.yaprnn.networks.functions.ActivationFunction;
+import edu.yaprnn.networks.functions.TangentHyperbolicActivationFunction;
 import edu.yaprnn.training.ClassifierDataSelector;
 import edu.yaprnn.training.DataSelector;
 import jakarta.enterprise.inject.Any;

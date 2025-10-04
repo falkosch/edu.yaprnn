@@ -1,16 +1,13 @@
-package edu.yaprnn.functions;
+package edu.yaprnn.networks.functions;
 
+import java.util.Arrays;
 import java.util.Random;
 
-public final class TangentHyperbolicHardActivationFunction implements ActivationFunction {
+public final class LinearActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
-    var h = new float[v.length];
-    for (var i = 0; i < v.length; i++) {
-      h[i] = Math.clamp(v[i], -1f, 1f);
-    }
-    return h;
+    return Arrays.copyOf(v, v.length);
   }
 
   @Override
@@ -22,18 +19,18 @@ public final class TangentHyperbolicHardActivationFunction implements Activation
   public float[] derivative(float[] v) {
     var d = new float[v.length];
     for (var i = 0; i < v.length; i++) {
-      d[i] = -1f < v[i] && v[i] < 1f ? 1f : 0f;
+      d[i] = 1f;
     }
     return d;
   }
 
   @Override
   public float[] initialize(Random random, int count, int outputSize) {
-    return Initialization.shell(random, count, outputSize, Initialization::xavierUniform);
+    return Initialization.shell(random, count, outputSize, Initialization::heNormal);
   }
 
   @Override
   public String toString() {
-    return "TanH Hard: max(min[v, 1], -1)";
+    return "Linear: v";
   }
 }

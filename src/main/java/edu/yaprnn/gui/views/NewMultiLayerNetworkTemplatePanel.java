@@ -3,9 +3,9 @@ package edu.yaprnn.gui.views;
 import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
 
-import edu.yaprnn.functions.ActivationFunction;
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.services.DialogsService;
+import edu.yaprnn.networks.functions.ActivationFunction;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.awt.Component;
