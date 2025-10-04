@@ -45,11 +45,15 @@ public class NewMultiLayerNetworkPanel extends JPanel {
         repository.getMultiLayerNetworkTemplates().toArray(MultiLayerNetworkTemplate[]::new));
 
     var groupLayout = new GroupLayout(this);
-    groupLayout.setHorizontalGroup(groupLayout.createParallelGroup().addComponent(nameLabel)
-        .addComponent(nameTextField, PREFERRED_SIZE, DEFAULT_SIZE, 200).addComponent(templateLabel)
+    groupLayout.setHorizontalGroup(groupLayout.createParallelGroup()
+        .addComponent(nameLabel)
+        .addComponent(nameTextField, PREFERRED_SIZE, DEFAULT_SIZE, 200)
+        .addComponent(templateLabel)
         .addComponent(multiLayerNetworkTemplatesComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 200));
-    groupLayout.setVerticalGroup(groupLayout.createSequentialGroup().addComponent(nameLabel)
-        .addComponent(nameTextField, PREFERRED_SIZE, DEFAULT_SIZE, 28).addComponent(templateLabel)
+    groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
+        .addComponent(nameLabel)
+        .addComponent(nameTextField, PREFERRED_SIZE, DEFAULT_SIZE, 28)
+        .addComponent(templateLabel)
         .addComponent(multiLayerNetworkTemplatesComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28));
     groupLayout.setAutoCreateContainerGaps(true);
     groupLayout.setAutoCreateGaps(true);

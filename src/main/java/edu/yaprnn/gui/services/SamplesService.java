@@ -54,9 +54,9 @@ public class SamplesService {
   public JMenuItem importImagesMenuItem(Component parent,
       Consumer<List<ImageSample>> imageSamplesConsumer) {
     return controlsService.actionMenuItem(ImportImagesPanel.TITLE, iconsService.importImagesIcon(),
-        () -> importImagesPanelInstance.get().show(parent,
-            (parameters) -> importImages(parent, imageSamplesConsumer, parameters.imagesPackage(),
-                parameters.labelsPackage())));
+        () -> importImagesPanelInstance.get()
+            .show(parent, (parameters) -> importImages(parent, imageSamplesConsumer,
+                parameters.imagesPackage(), parameters.labelsPackage())));
   }
 
   public void importImages(Component parent, Consumer<List<ImageSample>> imageSamplesConsumer,

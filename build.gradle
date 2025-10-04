@@ -8,19 +8,19 @@ repositories {
 }
 
 ext {
-    javaVersion = 21
+    javaVersion = 22
 
-    guavaVersion = '33.2.0-jre'
+    guavaVersion = '33.2.1-jre'
     jacksonVersion = '2.17.0'
     jfreeChartVersion = '1.0.19'
     jtransformsVersion = '3.1'
     weldVersion = '6.0.0.Beta1'
 
     lombokMapStructBindingVersion = '0.2.0'
-    lombokVersion = '1.18.32'
+    lombokVersion = '1.18.34'
     mapStructVersion = '1.6.0.Beta1'
 
-    assertjVersion = '3.25.3'
+    assertjVersion = '3.26.3'
     junitVersion = '5.11.0-M1'
 }
 
@@ -45,7 +45,7 @@ dependencies {
 }
 
 application {
-    applicationDefaultJvmArgs = ['-XX:+UseZGC', '-Xmx4G', '-XX:MaxDirectMemorySize=1G']
+    applicationDefaultJvmArgs = ['-XX:+UseZGC', '-XX:+ZGenerational', '-Xmx4G', '-XX:MaxDirectMemorySize=1G']
     mainClass = 'org.jboss.weld.environment.se.StartMain'
 }
 
@@ -66,4 +66,13 @@ sourceSets {
 
 test {
     useJUnitPlatform()
+    jvmArgs += ['--add-modules', 'jdk.incubator.vector']
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['--add-modules', 'jdk.incubator.vector']
+}
+
+tasks.withType(JavaExec).configureEach {
+    jvmArgs += ['--add-modules', 'jdk.incubator.vector']
 }

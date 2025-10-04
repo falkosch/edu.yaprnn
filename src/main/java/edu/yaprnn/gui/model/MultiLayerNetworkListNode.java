@@ -28,7 +28,9 @@ public class MultiLayerNetworkListNode extends DefaultNode {
 
   private static List<? extends ModelNode> childrenFrom(
       List<MultiLayerNetwork> multiLayerNetworks) {
-    return multiLayerNetworks.stream().map(Providers::constant).map(MultiLayerNetworkNode::new)
+    return multiLayerNetworks.stream()
+        .map(Providers::constant)
+        .map(MultiLayerNetworkNode::new)
         .toList();
   }
 }

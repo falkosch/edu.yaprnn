@@ -47,7 +47,8 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
 
       var inputSizeWithBias = weightsService.inputSizeWithBias(weights, outputSize);
       var columnNames = IntStream.range(0, 1 + outputSize)
-          .mapToObj(i -> i > 0 ? "out[%d]".formatted(i - 1) : "").toArray();
+          .mapToObj(i -> i > 0 ? "out[%d]".formatted(i - 1) : "")
+          .toArray();
       var tableData = new Object[inputSizeWithBias][columnNames.length];
       for (int row = 0, w = 0; row < inputSizeWithBias; row++) {
         tableData[row][0] = "in[%d]".formatted(row);
@@ -80,19 +81,23 @@ public class WeightsDetailsTabbedPane extends JTabbedPane {
     var weightsImageScrollPane = new JScrollPane(weightsImagePanel);
 
     var weightsGroupLayout = new GroupLayout(weightsPanel);
-    weightsGroupLayout.setHorizontalGroup(weightsGroupLayout.createParallelGroup().addGroup(
-            weightsGroupLayout.createSequentialGroup().addGroup(
-                weightsGroupLayout.createParallelGroup().addComponent(zoomWeightsLabel)
-                    .addComponent(zoomWeightsComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 100)).addGroup(
-                weightsGroupLayout.createParallelGroup().addComponent(gammaLabel)
-                    .addComponent(gammaSlider, PREFERRED_SIZE, DEFAULT_SIZE, 300)))
+    weightsGroupLayout.setHorizontalGroup(weightsGroupLayout.createParallelGroup()
+        .addGroup(weightsGroupLayout.createSequentialGroup()
+            .addGroup(weightsGroupLayout.createParallelGroup()
+                .addComponent(zoomWeightsLabel)
+                .addComponent(zoomWeightsComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 100))
+            .addGroup(weightsGroupLayout.createParallelGroup()
+                .addComponent(gammaLabel)
+                .addComponent(gammaSlider, PREFERRED_SIZE, DEFAULT_SIZE, 300)))
         .addComponent(weightsImageScrollPane));
-    weightsGroupLayout.setVerticalGroup(weightsGroupLayout.createSequentialGroup().addGroup(
-            weightsGroupLayout.createParallelGroup().addGroup(
-                weightsGroupLayout.createSequentialGroup().addComponent(zoomWeightsLabel)
-                    .addComponent(zoomWeightsComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28)).addGroup(
-                weightsGroupLayout.createSequentialGroup().addComponent(gammaLabel)
-                    .addComponent(gammaSlider, PREFERRED_SIZE, DEFAULT_SIZE, 28)))
+    weightsGroupLayout.setVerticalGroup(weightsGroupLayout.createSequentialGroup()
+        .addGroup(weightsGroupLayout.createParallelGroup()
+            .addGroup(weightsGroupLayout.createSequentialGroup()
+                .addComponent(zoomWeightsLabel)
+                .addComponent(zoomWeightsComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+            .addGroup(weightsGroupLayout.createSequentialGroup()
+                .addComponent(gammaLabel)
+                .addComponent(gammaSlider, PREFERRED_SIZE, DEFAULT_SIZE, 28)))
         .addComponent(weightsImageScrollPane));
     weightsGroupLayout.setAutoCreateContainerGaps(true);
     weightsGroupLayout.setAutoCreateGaps(true);

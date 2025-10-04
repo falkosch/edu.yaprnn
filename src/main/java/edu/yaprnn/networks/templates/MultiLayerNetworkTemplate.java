@@ -5,6 +5,7 @@ import edu.yaprnn.networks.MultiLayerNetwork;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder(toBuilder = true)
 public class MultiLayerNetworkTemplate {
 
   /**
@@ -34,6 +36,7 @@ public class MultiLayerNetworkTemplate {
   /**
    * ordered layer templates
    */
+  @Builder.Default
   private List<LayerTemplate> layers = new ArrayList<>();
 
   public LayerTemplate getLayer(int layerIndex) {
@@ -68,7 +71,8 @@ public class MultiLayerNetworkTemplate {
   }
 
   public ActivationFunction[] collectActivationFunctions() {
-    return layers.stream().map(LayerTemplate::getActivationFunction)
+    return layers.stream()
+        .map(LayerTemplate::getActivationFunction)
         .toArray(ActivationFunction[]::new);
   }
 

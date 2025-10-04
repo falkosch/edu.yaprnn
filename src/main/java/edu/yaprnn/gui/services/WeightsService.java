@@ -42,7 +42,10 @@ public class WeightsService {
   }
 
   public DefaultTableModel classificationTableModel(String[] labels, Layer[] layers) {
-    var layersMaxSize = Arrays.stream(layers).map(Layer::h).mapToInt(h -> h.length).max()
+    var layersMaxSize = Arrays.stream(layers)
+        .map(Layer::h)
+        .mapToInt(h -> h.length)
+        .max()
         .orElseThrow();
     var rowsCount = Math.max(labels.length, layersMaxSize);
     var columns = classificationColumns(layers.length);

@@ -31,8 +31,9 @@ public class MultiLayerNetworkNode extends DefaultNode {
   private static List<? extends ModelNode> childrenFrom(MultiLayerNetwork multiLayerNetwork) {
     var multiLayerNetworkSupplier = Providers.constant(multiLayerNetwork);
     return IntStream.range(0, multiLayerNetwork.getLayerWeights().length)
-        .mapToObj(Providers::constant).map(
-            weightsIndexSupplier -> new MultiLayerNetworkWeightsNode(multiLayerNetworkSupplier,
-                weightsIndexSupplier)).toList();
+        .mapToObj(Providers::constant)
+        .map(weightsIndexSupplier -> new MultiLayerNetworkWeightsNode(multiLayerNetworkSupplier,
+            weightsIndexSupplier))
+        .toList();
   }
 }

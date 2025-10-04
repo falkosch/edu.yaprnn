@@ -96,23 +96,29 @@ public class SampleDetailsView {
 
     var subSampledPanel = new JPanel();
     var subSampledGroupLayout = new GroupLayout(subSampledPanel);
-    subSampledGroupLayout.setHorizontalGroup(subSampledGroupLayout.createParallelGroup().addGroup(
-            subSampledGroupLayout.createSequentialGroup().addGroup(
-                subSampledGroupLayout.createParallelGroup().addComponent(zoomSampleLabel)
-                    .addComponent(zoomSampleComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 100)).addGroup(
-                subSampledGroupLayout.createParallelGroup().addComponent(resolutionLabel)
-                    .addComponent(resolutionSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)).addGroup(
-                subSampledGroupLayout.createParallelGroup().addComponent(overlapLabel)
-                    .addComponent(overlapSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)))
+    subSampledGroupLayout.setHorizontalGroup(subSampledGroupLayout.createParallelGroup()
+        .addGroup(subSampledGroupLayout.createSequentialGroup()
+            .addGroup(subSampledGroupLayout.createParallelGroup()
+                .addComponent(zoomSampleLabel)
+                .addComponent(zoomSampleComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 100))
+            .addGroup(subSampledGroupLayout.createParallelGroup()
+                .addComponent(resolutionLabel)
+                .addComponent(resolutionSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100))
+            .addGroup(subSampledGroupLayout.createParallelGroup()
+                .addComponent(overlapLabel)
+                .addComponent(overlapSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)))
         .addComponent(previewSplitPane));
-    subSampledGroupLayout.setVerticalGroup(subSampledGroupLayout.createSequentialGroup().addGroup(
-            subSampledGroupLayout.createParallelGroup().addGroup(
-                subSampledGroupLayout.createSequentialGroup().addComponent(zoomSampleLabel)
-                    .addComponent(zoomSampleComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28)).addGroup(
-                subSampledGroupLayout.createSequentialGroup().addComponent(resolutionLabel)
-                    .addComponent(resolutionSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)).addGroup(
-                subSampledGroupLayout.createSequentialGroup().addComponent(overlapLabel)
-                    .addComponent(overlapSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)))
+    subSampledGroupLayout.setVerticalGroup(subSampledGroupLayout.createSequentialGroup()
+        .addGroup(subSampledGroupLayout.createParallelGroup()
+            .addGroup(subSampledGroupLayout.createSequentialGroup()
+                .addComponent(zoomSampleLabel)
+                .addComponent(zoomSampleComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+            .addGroup(subSampledGroupLayout.createSequentialGroup()
+                .addComponent(resolutionLabel)
+                .addComponent(resolutionSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28))
+            .addGroup(subSampledGroupLayout.createSequentialGroup()
+                .addComponent(overlapLabel)
+                .addComponent(overlapSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)))
         .addComponent(previewSplitPane));
     subSampledGroupLayout.setAutoCreateContainerGaps(true);
     subSampledGroupLayout.setAutoCreateGaps(true);

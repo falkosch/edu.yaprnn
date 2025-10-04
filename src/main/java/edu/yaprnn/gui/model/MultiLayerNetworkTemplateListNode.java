@@ -32,7 +32,9 @@ public class MultiLayerNetworkTemplateListNode extends DefaultNode {
 
   private static List<? extends ModelNode> childrenFrom(
       List<MultiLayerNetworkTemplate> multiLayerNetworkTemplates) {
-    return multiLayerNetworkTemplates.stream().map(Providers::constant)
-        .map(MultiLayerNetworkTemplateNode::new).toList();
+    return multiLayerNetworkTemplates.stream()
+        .map(Providers::constant)
+        .map(MultiLayerNetworkTemplateNode::new)
+        .toList();
   }
 }
