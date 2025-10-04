@@ -3,6 +3,7 @@ package edu.yaprnn.functions;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import edu.yaprnn.networks.WeightsDimension;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -17,6 +18,8 @@ import java.util.Random;
  */
 @JsonTypeInfo(use = Id.CLASS)
 public interface ActivationFunction {
+
+  Comparator<ActivationFunction> COMPARATOR = Comparator.comparing(ActivationFunction::toString);
 
   /**
    * @param v outputs before activation

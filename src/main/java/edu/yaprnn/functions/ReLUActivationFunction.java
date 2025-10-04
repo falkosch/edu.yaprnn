@@ -49,6 +49,6 @@ public class ReLUActivationFunction implements ActivationFunction {
 
   @Override
   public String toString() {
-    return "ReLU: max{v,0}";
+    return "ReLU: max(v, 0)";
   }
 }

@@ -1,14 +1,12 @@
 package edu.yaprnn.functions;
 
-public class SignumActivationFunction implements ActivationFunction {
+import java.util.Arrays;
+
+public class LinearActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
-    var h = new float[v.length];
-    for (var i = 0; i < v.length; i++) {
-      h[i] = Math.signum(v[i]);
-    }
-    return h;
+    return Arrays.copyOf(v, v.length);
   }
 
   @Override
@@ -18,12 +16,13 @@ public class SignumActivationFunction implements ActivationFunction {
 
   @Override
   public float[] derivative(float[] v) {
-    // all 0
-    return new float[v.length];
+    var d = new float[v.length];
+    Arrays.fill(d, 1f);
+    return d;
   }
 
   @Override
   public String toString() {
-    return "Signum: sign(v)";
+    return "Linear: v";
   }
 }
