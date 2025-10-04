@@ -1,5 +1,6 @@
 plugins {
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 repositories {
@@ -7,8 +8,13 @@ repositories {
 }
 
 ext {
+    javaVersion = 21
+
+    guavaVersion = '33.2.0-jre'
+    jacksonVersion = '2.17.0'
     jfreeChartVersion = '1.0.19'
     jtransformsVersion = '3.1'
+    weldVersion = '6.0.0.Beta1'
 
     lombokMapStructBindingVersion = '0.2.0'
     lombokVersion = '1.18.32'
@@ -18,7 +24,10 @@ ext {
     junitVersion = '5.11.0-M1'
 }
 dependencies {
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     implementation "com.github.wendykierp:JTransforms:${jtransformsVersion}"
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "org.jboss.weld.se:weld-se-core:${weldVersion}"
     implementation "org.jfree:jfreechart:${jfreeChartVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -35,7 +44,14 @@ dependencies {
 }
 
 application {
-    applicationDefaultJvmArgs = ['-XX:+UseZGC']
+    applicationDefaultJvmArgs = ['-XX:+UseZGC', '-Xmx4G', '-XX:MaxDirectMemorySize=1G']
+    mainClass = 'org.jboss.weld.environment.se.StartMain'
+}
+java {
+    toolchain {
+        sourceCompatibility = JavaLanguageVersion.of(javaVersion)
+        targetCompatibility = JavaLanguageVersion.of(javaVersion)
+    }
 }
 sourceSets {
     main {
