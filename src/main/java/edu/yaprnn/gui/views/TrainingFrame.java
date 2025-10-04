@@ -27,6 +27,7 @@ import java.awt.event.WindowEvent;
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ForkJoinPool;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -171,9 +172,8 @@ public class TrainingFrame extends JFrame {
     var maxIterationsSpinner = new JSpinner(maxIterationsSpinnerNumberModel);
 
     trainingMethodComboBox = new JComboBox<>(TrainingMethod.values());
-    var cores = Runtime.getRuntime().availableProcessors();
-    var preferredCores = Math.max(2, Math.min(cores * 3 / 4, cores - 2));
-    batchSizeSpinnerNumberModel = new SpinnerNumberModel(preferredCores, 1, null, 1);
+    batchSizeSpinnerNumberModel = new SpinnerNumberModel(ForkJoinPool.getCommonPoolParallelism(), 1,
+        null, 1);
     var batchSizeSpinner = new JSpinner(batchSizeSpinnerNumberModel);
 
     learningRateSpinnerNumberModel = new SpinnerNumberModel(0.005, 0.0, 1.0, 0.001);
@@ -410,22 +410,20 @@ public class TrainingFrame extends JFrame {
       var learningRateState = getLearningRateState();
       var dataSelector = trainingData.getDataSelector();
       var devTestSamples = trainingData.getDevTestSamples(repository);
-      var trainingError = trackError(trainingData.getTrainingSamples(repository), devTestSamples,
-          dataSelector);
+      var trainingError = trackError(-1, learningRate, trainingData.getTrainingSamples(repository),
+          devTestSamples, dataSelector);
 
       for (var i = 0; i < maxIterations && trainingError > maxTrainingError && !stopped; i++) {
         var samples = trainingData.shuffleTrainingSamples(shuffleService);
         var learningRate = learningRateState.current();
 
         var iteration = i;
-        log.info(
-            "[%s] lr=%s, samples[0]=%s".formatted(iteration, learningRate, samples.getFirst()));
-
         measureIterationTime(
             () -> learnSamplesConsumer.accept(samples, dataSelector, iteration, learningRate));
-        learningRateState = learningRateState.updateRate(trainingError);
 
-        trainingError = trackError(samples, devTestSamples, dataSelector);
+        learningRateState = learningRateState.updateRate(trainingError);
+        trainingError = trackError(iteration, learningRate, samples, devTestSamples, dataSelector);
+
         onMultiLayerNetworkWeightsPreviewModifiedRouter.fireEvent();
       }
     }
@@ -441,14 +439,20 @@ public class TrainingFrame extends JFrame {
       };
     }
 
-    private float trackError(List<Sample> samples, List<Sample> devTestSamples,
-        DataSelector dataSelector) {
+    private float trackError(int iteration, float learningRate, List<Sample> samples,
+        List<Sample> devTestSamples, DataSelector dataSelector) {
       var trainingAccuracy = multiLayerNetwork.computeAccuracy(samples, dataSelector);
       var devTestAccuracy = multiLayerNetwork.computeAccuracy(devTestSamples, dataSelector);
       trainingError.add(trainingError.getItemCount(), trainingAccuracy.error());
       trainingHitRate.add(trainingHitRate.getItemCount(), trainingAccuracy.hits());
       devTestError.add(devTestError.getItemCount(), devTestAccuracy.error());
       devTestHitRate.add(devTestHitRate.getItemCount(), devTestAccuracy.hits());
+
+      log.info(
+          "[%s] lr=%s | training: accuracy=%s, error=%s | test: accuracy=%s, error=%s".formatted(
+              iteration, learningRate, trainingAccuracy.hits(), trainingAccuracy.error(),
+              devTestAccuracy.hits(), devTestAccuracy.error()));
+
       return trainingAccuracy.error();
     }
 

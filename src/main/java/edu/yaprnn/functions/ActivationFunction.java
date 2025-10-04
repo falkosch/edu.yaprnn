@@ -32,21 +32,13 @@ public interface ActivationFunction {
    * @param v outputs before activation
    * @return derivative of outputs
    */
-  default float[] derivative(float[] h, float[] v) {
-    return derivative(v);
-  }
+  float[] derivative(float[] h, float[] v);
 
   /**
    * @param v outputs before activation
    * @return derivative of outputs
    */
-  default float[] derivative(float[] v) {
-    var d = new float[v.length];
-    for (var i = 0; i < v.length; i++) {
-      d[i] = 1f;
-    }
-    return d;
-  }
+  float[] derivative(float[] v);
 
   default float[] randomWeights(Random random, int count, int outputSize) {
     var weights = new float[count];

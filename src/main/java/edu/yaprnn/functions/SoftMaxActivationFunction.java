@@ -19,6 +19,8 @@ public final class SoftMaxActivationFunction implements ActivationFunction {
   public float[] derivative(float[] h, float[] v) {
     var d = new float[h.length];
     for (var i = 0; i < h.length; i++) {
+      // range of true derivative is actually a matrix,
+      // but we can use the derivative of the sigmoid as approximation
       d[i] = h[i] * (1f - h[i]);
     }
     return d;
@@ -28,6 +30,8 @@ public final class SoftMaxActivationFunction implements ActivationFunction {
   public float[] derivative(float[] v) {
     var d = apply(v);
     for (var i = 0; i < v.length; i++) {
+      // range of true derivative is actually a matrix,
+      // but we can use the derivative of the sigmoid as approximation
       d[i] *= (1f - d[i]);
     }
     return d;
