@@ -35,7 +35,9 @@ public sealed interface ActivationFunction permits BinaryStepActivationFunction,
    * @param v outputs before activation
    * @return derivative of outputs
    */
-  float[] derivative(float[] h, float[] v);
+  default float[] derivative(float[] h, float[] v) {
+    return derivative(v);
+  }
 
   /**
    * @param v outputs before activation

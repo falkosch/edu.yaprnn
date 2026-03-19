@@ -23,13 +23,14 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Builder;
 
 public class NewMultiLayerNetworkTemplatePanel extends JPanel {
 
   private static final String TITLE = "New Multilayer Network Template";
 
-  private static int counter = 0;
+  private static final AtomicInteger counter = new AtomicInteger();
 
   @Inject
   ActivationFunctionControlsService activationFunctionControlsService;
@@ -58,7 +59,7 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
     var activationFunctionLabel = new JLabel("Activation function");
     var lossFunctionLabel = new JLabel("Loss function");
 
-    nameTextField = new JTextField("%s %d".formatted(TITLE, ++counter));
+    nameTextField = new JTextField("%s %d".formatted(TITLE, counter.incrementAndGet()));
     layersCountSpinnerNumberModel = networksControlsService.layersCountSpinnerNumberModel();
     layersSizeSpinnerNumberModel = networksControlsService.layerSizeSpinnerNumberModel();
     biasSpinnerNumberModel = networksControlsService.biasSpinnerNumberModel();

@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
@@ -26,7 +27,7 @@ public class RandomizeTrainingDataPanel extends JPanel {
 
   public static final String TITLE = "Randomized Training Data";
 
-  private static int counter = 0;
+  private static final AtomicInteger counter = new AtomicInteger();
 
   @Inject
   ControlsService controlsService;
@@ -51,7 +52,7 @@ public class RandomizeTrainingDataPanel extends JPanel {
 
     trainingSizeSpinnerNumberModel = networksControlsService.trainingSizeSpinnerNumberModel();
     devTestSizeSpinnerNumberModel = networksControlsService.devTestSizeSpinnerNumberModel();
-    nameTextField = new JTextField("%s %d".formatted(TITLE, ++counter));
+    nameTextField = new JTextField("%s %d".formatted(TITLE, counter.incrementAndGet()));
     dataSelectorsComboBoxModel = dataSelectorControlsService.dataSelectorsComboBoxModel();
 
     var trainingSizeSpinner = new JSpinner(trainingSizeSpinnerNumberModel);

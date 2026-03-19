@@ -8,7 +8,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -23,7 +23,7 @@ import lombok.Setter;
  * <li>Layer at <code>n-1</code> is the output layer.</li>
  * </ul>
  */
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter

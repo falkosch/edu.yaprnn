@@ -5,13 +5,13 @@ import edu.yaprnn.networks.activation.ActivationFunction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
  * Represents a template of a layer in a {@link MultiLayerNetwork} topology.
  */
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter

@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public final class Images {
 
+  /** Maximum resize dimension to prevent OOM on large images. */
   private static final float RESIZE_MAXSIZE = 4095f;
 
   public static Image resize(Image original, int newWidth, int newHeight, int filterOp) {

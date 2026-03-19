@@ -44,11 +44,4 @@ public final class SigmoidActivationFunction implements ActivationFunction {
   public String toString() {
     return "Sigmoid: 1 / (1 + exp[-v])";
   }
-
-  private static final class Sigmoid {
-
-    private static float of(float x) {
-      return 1f / (1f + (float) Math.exp(-x));
-    }
-  }
 }

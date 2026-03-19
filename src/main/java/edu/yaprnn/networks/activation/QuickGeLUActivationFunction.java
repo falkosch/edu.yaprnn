@@ -6,12 +6,15 @@ import java.util.Random;
 
 public final class QuickGeLUActivationFunction implements ActivationFunction {
 
+  /** Scaling constant from the QuickGeLU formulation. */
+  private static final float ALPHA = 1.702f;
+
   @Override
   public float[] apply(float[] v) {
     var h = new float[v.length];
     for (var i = 0; i < v.length; i++) {
       var x = v[i];
-      h[i] = x * Sigmoid.of(Sigmoid.ALPHA * x);
+      h[i] = x * Sigmoid.of(ALPHA * x);
     }
     return h;
   }
@@ -20,8 +23,8 @@ public final class QuickGeLUActivationFunction implements ActivationFunction {
   public float[] derivative(float[] h, float[] v) {
     var d = new float[h.length];
     for (var i = 0; i < h.length; i++) {
-      var s = Sigmoid.of(Sigmoid.ALPHA * v[i]);
-      d[i] = s + Sigmoid.ALPHA * h[i] * (1f - s);
+      var s = Sigmoid.of(ALPHA * v[i]);
+      d[i] = s + ALPHA * h[i] * (1f - s);
     }
     return d;
   }
@@ -31,8 +34,8 @@ public final class QuickGeLUActivationFunction implements ActivationFunction {
     var d = new float[v.length];
     for (var i = 0; i < v.length; i++) {
       var x = v[i];
-      var s = Sigmoid.of(Sigmoid.ALPHA * x);
-      d[i] = s + Sigmoid.ALPHA * x * s * (1f - s);
+      var s = Sigmoid.of(ALPHA * x);
+      d[i] = s + ALPHA * x * s * (1f - s);
     }
     return d;
   }
@@ -45,14 +48,5 @@ public final class QuickGeLUActivationFunction implements ActivationFunction {
   @Override
   public String toString() {
     return "QuickGeLU: x * Sigmoid(x)";
-  }
-
-  private static final class Sigmoid {
-
-    private static final float ALPHA = 1.702f;
-
-    private static float of(float x) {
-      return 1f / (1f + (float) Math.exp(-x));
-    }
   }
 }

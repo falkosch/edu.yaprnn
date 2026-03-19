@@ -17,12 +17,6 @@ public final class OnlyInputDataSelector implements DataSelector {
   }
 
   @Override
-  public float[] postprocessOutput(float[] v, float[] h,
-      ActivationFunction outputActivationFunction) {
-    return v;
-  }
-
-  @Override
   public int getOutputWidth(ImageSample sample) {
     return sample.getInputWidth();
   }

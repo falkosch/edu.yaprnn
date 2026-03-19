@@ -3,11 +3,9 @@ package edu.yaprnn.networks.activation;
 import edu.yaprnn.networks.weights.Initialization;
 import edu.yaprnn.networks.weights.UniformInitializer;
 import java.util.Random;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@AllArgsConstructor
 public final class ThresholdActivationFunction implements ActivationFunction {
 
   private float threshold = 0.1f;
@@ -21,11 +19,6 @@ public final class ThresholdActivationFunction implements ActivationFunction {
       h[i] = x > threshold ? x : value;
     }
     return h;
-  }
-
-  @Override
-  public float[] derivative(float[] h, float[] v) {
-    return derivative(v);
   }
 
   @Override

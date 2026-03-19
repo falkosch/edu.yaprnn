@@ -17,13 +17,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Builder;
 
 public class NewMultiLayerNetworkPanel extends JPanel {
 
   private static final String TITLE = "New Multilayer Network";
 
-  private static int counter = 0;
+  private static final AtomicInteger counter = new AtomicInteger();
 
   @Inject
   ControlsService controlsService;
@@ -40,7 +41,7 @@ public class NewMultiLayerNetworkPanel extends JPanel {
     var nameLabel = new JLabel("Name");
     var templateLabel = new JLabel("Multilayer Network Template");
 
-    nameTextField = new JTextField("%s %d".formatted(TITLE, ++counter));
+    nameTextField = new JTextField("%s %d".formatted(TITLE, counter.incrementAndGet()));
 
     multiLayerNetworkTemplatesComboBox = new JComboBox<>(
         repository.getMultiLayerNetworkTemplates().toArray(MultiLayerNetworkTemplate[]::new));

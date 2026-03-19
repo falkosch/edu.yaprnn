@@ -2,6 +2,10 @@ package edu.yaprnn.support;
 
 public final class Floats {
 
+  /**
+   * Finds the first index of an exact float match. Only safe for constant literals (e.g. {@code
+   * 1f}); do not use with computed values due to floating-point precision.
+   */
   public static int indexOf(float[] array, float target) {
     for (var i = 0; i < array.length; i++) {
       if (array[i] == target) {

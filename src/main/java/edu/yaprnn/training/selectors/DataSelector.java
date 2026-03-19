@@ -14,7 +14,10 @@ public sealed interface DataSelector permits ClassifierDataSelector, OnlyInputDa
 
   float[] target(Sample sample, ActivationFunction outputActivationFunction);
 
-  float[] postprocessOutput(float[] v, float[] h, ActivationFunction outputActivationFunction);
+  default float[] postprocessOutput(float[] v, float[] h,
+      ActivationFunction outputActivationFunction) {
+    return v;
+  }
 
   int getOutputWidth(ImageSample sample);
 }

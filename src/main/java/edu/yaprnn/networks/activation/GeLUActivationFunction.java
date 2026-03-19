@@ -17,11 +17,6 @@ public final class GeLUActivationFunction implements ActivationFunction {
   }
 
   @Override
-  public float[] derivative(float[] h, float[] v) {
-    return derivative(v);
-  }
-
-  @Override
   public float[] derivative(float[] v) {
     var d = new float[v.length];
     for (var i = 0; i < v.length; i++) {
@@ -50,6 +45,7 @@ public final class GeLUActivationFunction implements ActivationFunction {
 
     private static final float SQRT_2_DIVIDED_BY_PI = 0.7978845608028654f;
 
+    /** Approximation constant from Hendrycks & Gimpel (2016), Section 2. */
     private static final float ALPHA = 0.044715f;
     private static final float DERIVATIVE_ALPHA = SQRT_2_DIVIDED_BY_PI * 3f * ALPHA;
 
