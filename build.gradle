@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow' version '9.4.0'
 }
 
 repositories {
@@ -8,41 +8,52 @@ repositories {
 }
 
 ext {
-    javaVersion = 22
+    javaVersion = 26
 
-    lombokVersion = '1.18.34'
-    mapStructVersion = '1.6.0.Beta1'
+    apacheCommonsMath3Version = '3.6.1'
+    jacksonVersion = '2.21.1'
+    jfreechartVersion = '1.0.19'
+    jtransformVersion = '3.2'
+    lombokMapstructBindingVersion = '0.2.0'
+    lombokVersion = '1.18.44'
+    mapStructVersion = '1.6.3'
+    weldCoreVersion = '6.0.4.Final'
+
+    assertjVersion = '3.27.7'
+    junitVersion = '6.0.3'
 }
 
 dependencies {
-    implementation platform('com.fasterxml.jackson:jackson-bom:2.17.2')
-    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation platform("com.fasterxml.jackson:jackson-bom:${jacksonVersion}")
+    implementation "com.fasterxml.jackson.core:jackson-databind"
 
-    implementation platform('org.jboss.weld:weld-core-bom:6.0.0.Beta4')
-    implementation 'org.jboss.weld.se:weld-se-core'
+    implementation platform("org.jboss.weld:weld-core-bom:${weldCoreVersion}")
+    implementation "org.jboss.weld.se:weld-se-core"
 
-    implementation 'com.github.wendykierp:JTransforms:3.1'
-    implementation 'org.jfree:jfreechart:1.0.19'
+    implementation "com.github.wendykierp:JTransforms:${jtransformVersion}"
+    implementation "org.jfree:jfreechart:${jfreechartVersion}"
+
+    implementation "org.apache.commons:commons-math3:${apacheCommonsMath3Version}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "org.mapstruct:mapstruct:${mapStructVersion}"
-    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
-    testImplementation platform('org.junit:junit-bom:5.11.3')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation platform("org.junit:junit-bom:${junitVersion}")
+    testImplementation "org.junit.jupiter:junit-jupiter"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 
-    testImplementation platform('org.assertj:assertj-bom:3.26.3')
-    testImplementation 'org.assertj:assertj-core'
+    testImplementation platform("org.assertj:assertj-bom:${assertjVersion}")
+    testImplementation "org.assertj:assertj-core"
 
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 }
 
 application {
-    applicationDefaultJvmArgs = ['-XX:+UseZGC', '-XX:+ZGenerational', '-Xmx4G', '-XX:MaxDirectMemorySize=1G']
+    applicationDefaultJvmArgs = ['-XX:+UseZGC']
     mainClass = 'org.jboss.weld.environment.se.StartMain'
 }
 
