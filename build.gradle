@@ -1,5 +1,6 @@
 plugins {
     id 'application'
+    id 'jacoco'
     id 'com.gradleup.shadow' version '9.4.0'
 }
 
@@ -74,4 +75,13 @@ sourceSets {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    ignoreFailures = true
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.outputLocation = layout.projectDirectory.dir('coverage')
+    }
 }
