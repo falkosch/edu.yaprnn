@@ -22,6 +22,7 @@ ext {
 
     assertjVersion = '3.27.7'
     junitVersion = '6.0.3'
+    mockitoVersion = '5.23.0'
 }
 
 dependencies {
@@ -48,6 +49,10 @@ dependencies {
 
     testImplementation platform("org.assertj:assertj-bom:${assertjVersion}")
     testImplementation "org.assertj:assertj-core"
+
+    testImplementation platform("org.mockito:mockito-bom:${mockitoVersion}")
+    testImplementation "org.mockito:mockito-core"
+    testImplementation "org.mockito:mockito-junit-jupiter"
 
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"

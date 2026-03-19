@@ -50,6 +50,12 @@ public final class MultiLayerNetwork {
   public void learnOnline(GradientMatrixService gradientMatrixService,
       List<? extends Sample> trainingSamples, DataSelector dataSelector, int maxParallelism,
       float learningRate, float momentum, float decayL1, float decayL2) {
+    Objects.requireNonNull(gradientMatrixService, "gradientMatrixService");
+    Objects.requireNonNull(trainingSamples, "trainingSamples");
+    Objects.requireNonNull(dataSelector, "dataSelector");
+    if (maxParallelism < 1) {
+      throw new IllegalArgumentException("maxParallelism must be >= 1");
+    }
 
     var tasks = trainingSamples.parallelStream().<Callable<Sample>>map(sample -> () -> {
       var input = dataSelector.input(sample);
@@ -171,6 +177,15 @@ public final class MultiLayerNetwork {
   public void learnMiniBatch(GradientMatrixService gradientMatrixService,
       List<? extends Sample> trainingSamples, DataSelector dataSelector, int maxParallelism,
       int batchSize, float learningRate, float momentum, float decayL1, float decayL2) {
+    Objects.requireNonNull(gradientMatrixService, "gradientMatrixService");
+    Objects.requireNonNull(trainingSamples, "trainingSamples");
+    Objects.requireNonNull(dataSelector, "dataSelector");
+    if (maxParallelism < 1) {
+      throw new IllegalArgumentException("maxParallelism must be >= 1");
+    }
+    if (batchSize < 1) {
+      throw new IllegalArgumentException("batchSize must be >= 1");
+    }
 
     try (var executor = newFixedThreadPool(maxParallelism, Thread.ofVirtual().factory())) {
       for (var batchStart = 0; batchStart < trainingSamples.size(); batchStart += batchSize) {
@@ -203,6 +218,9 @@ public final class MultiLayerNetwork {
 
   public AccuracyResult computeAccuracy(Collection<? extends Sample> samples,
       DataSelector dataSelector) {
+    Objects.requireNonNull(samples, "samples");
+    Objects.requireNonNull(dataSelector, "dataSelector");
+
     var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
 
     return samples.parallelStream().map(sample -> {

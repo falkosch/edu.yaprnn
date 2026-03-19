@@ -79,7 +79,7 @@ public final class ImagesImportService {
     var imageSize = height * width;
     var samples = new ImageSample[labels.length];
     for (int i = 0; i < samples.length; i++) {
-      var original = process(readRawImage(stream, imagesPackageFile, imageSize));
+      var original = process(readRawImage(stream, imageSize));
       var name = "%s_%d".formatted(imagesPackageFile.getName(), i);
       var label = labels[i];
       var target = importService.toTarget(label, ImageSample.LABELS);
@@ -97,18 +97,10 @@ public final class ImagesImportService {
     return processed;
   }
 
-  private byte[] readRawImage(DataInputStream stream, File imagesPackageFile, int imageSize) {
+  private byte[] readRawImage(DataInputStream stream, int imageSize) {
     try {
       var data = new byte[imageSize];
-      var offset = 0;
-      while (offset != data.length) {
-        var read = stream.read(data, offset, data.length - offset);
-        if (read == -1) {
-          throw new IllegalArgumentException(
-              "End of file. Images package %s is malformed".formatted(imagesPackageFile.getPath()));
-        }
-        offset += read;
-      }
+      stream.readFully(data);
       return data;
     } catch (IOException e) {
       throw new UncheckedIOException(e);

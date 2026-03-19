@@ -1,6 +1,9 @@
 package edu.yaprnn.networks;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import edu.yaprnn.networks.activation.ActivationFunction;
 import edu.yaprnn.networks.activation.GeLUActivationFunction;
 import edu.yaprnn.networks.activation.LinearActivationFunction;
@@ -442,6 +445,125 @@ class MultiLayerNetworkTest {
               Offset.offset(0.499f));
         }
       }
+    }
+  }
+
+  @Nested
+  class LearnOnlineValidation {
+
+    final MultiLayerNetwork validationNetwork = MultiLayerNetwork.builder()
+        .layerSizes(new int[]{2, 1})
+        .activationFunctions(new ActivationFunction[]{linear, linear})
+        .bias(1f)
+        .lossFunction(lossFunction)
+        .build();
+
+    @Test
+    void shouldThrowOnNullGradientMatrixService() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.learnOnline(null, List.of(), dataSelector, 1,
+              0.1f, 0f, 0f, 0f))
+          .withMessageContaining("gradientMatrixService");
+    }
+
+    @Test
+    void shouldThrowOnNullTrainingSamples() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.learnOnline(gradientMatrixService, null,
+              dataSelector, 1, 0.1f, 0f, 0f, 0f))
+          .withMessageContaining("trainingSamples");
+    }
+
+    @Test
+    void shouldThrowOnNullDataSelector() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.learnOnline(gradientMatrixService, List.of(),
+              null, 1, 0.1f, 0f, 0f, 0f))
+          .withMessageContaining("dataSelector");
+    }
+
+    @Test
+    void shouldThrowOnInvalidMaxParallelism() {
+      assertThatThrownBy(() -> validationNetwork.learnOnline(gradientMatrixService, List.of(),
+          dataSelector, 0, 0.1f, 0f, 0f, 0f))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("maxParallelism");
+    }
+  }
+
+  @Nested
+  class LearnMiniBatchValidation {
+
+    final MultiLayerNetwork validationNetwork = MultiLayerNetwork.builder()
+        .layerSizes(new int[]{2, 1})
+        .activationFunctions(new ActivationFunction[]{linear, linear})
+        .bias(1f)
+        .lossFunction(lossFunction)
+        .build();
+
+    @Test
+    void shouldThrowOnNullGradientMatrixService() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.learnMiniBatch(null, List.of(), dataSelector, 1,
+              10, 0.1f, 0f, 0f, 0f))
+          .withMessageContaining("gradientMatrixService");
+    }
+
+    @Test
+    void shouldThrowOnNullTrainingSamples() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, null,
+              dataSelector, 1, 10, 0.1f, 0f, 0f, 0f))
+          .withMessageContaining("trainingSamples");
+    }
+
+    @Test
+    void shouldThrowOnNullDataSelector() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, List.of(),
+              null, 1, 10, 0.1f, 0f, 0f, 0f))
+          .withMessageContaining("dataSelector");
+    }
+
+    @Test
+    void shouldThrowOnInvalidMaxParallelism() {
+      assertThatThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, List.of(),
+          dataSelector, 0, 10, 0.1f, 0f, 0f, 0f))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("maxParallelism");
+    }
+
+    @Test
+    void shouldThrowOnInvalidBatchSize() {
+      assertThatThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, List.of(),
+          dataSelector, 1, 0, 0.1f, 0f, 0f, 0f))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("batchSize");
+    }
+  }
+
+  @Nested
+  class ComputeAccuracyValidation {
+
+    final MultiLayerNetwork validationNetwork = MultiLayerNetwork.builder()
+        .layerSizes(new int[]{2, 1})
+        .activationFunctions(new ActivationFunction[]{linear, linear})
+        .bias(1f)
+        .lossFunction(lossFunction)
+        .build();
+
+    @Test
+    void shouldThrowOnNullSamples() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.computeAccuracy(null, dataSelector))
+          .withMessageContaining("samples");
+    }
+
+    @Test
+    void shouldThrowOnNullDataSelector() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.computeAccuracy(List.of(), null))
+          .withMessageContaining("dataSelector");
     }
   }
 

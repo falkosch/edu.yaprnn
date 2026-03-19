@@ -1,6 +1,7 @@
 package edu.yaprnn.support;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,12 @@ class FloatsTest {
     void shouldHandleNegativeValues() {
       assertThat(Floats.argMax(new float[]{-3f, -1f, -2f})).isEqualTo(1);
     }
+
+    @Test
+    void shouldThrowOnEmptyArray() {
+      assertThatThrownBy(() -> Floats.argMax(new float[]{}))
+          .isInstanceOf(IllegalArgumentException.class);
+    }
   }
 
   @Nested
@@ -71,6 +78,12 @@ class FloatsTest {
     @Test
     void shouldHandleAllNegative() {
       assertThat(Floats.max(new float[]{-5f, -1f, -3f})).isEqualTo(-1f);
+    }
+
+    @Test
+    void shouldThrowOnEmptyArray() {
+      assertThatThrownBy(() -> Floats.max(new float[]{}))
+          .isInstanceOf(IllegalArgumentException.class);
     }
   }
 
@@ -99,6 +112,27 @@ class FloatsTest {
           new float[]{5f},
           new float[]{3f}
       )).isTrue();
+    }
+
+    @Test
+    void shouldReturnFirstMaxOnTie() {
+      // With > (not >=), ties should keep the first index
+      assertThat(Floats.haveMaxAtSameIndex(
+          new float[]{1f, 1f},
+          new float[]{1f, 1f}
+      )).isTrue();
+    }
+
+    @Test
+    void shouldThrowOnEmptyArrays() {
+      assertThatThrownBy(() -> Floats.haveMaxAtSameIndex(new float[]{}, new float[]{}))
+          .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void shouldThrowOnDifferentLengthArrays() {
+      assertThatThrownBy(() -> Floats.haveMaxAtSameIndex(new float[]{1f}, new float[]{1f, 2f}))
+          .isInstanceOf(IllegalArgumentException.class);
     }
   }
 }

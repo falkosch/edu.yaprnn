@@ -171,26 +171,31 @@ public class ClassifyFrame extends JFrame {
   }
 
   private void classify() {
-    var selectedSample = getSelectedSample();
-    var selectedDataSelector = getSelectedDataSelector();
-    var selectedMultiLayerNetwork = getSelectedMultiLayerNetwork();
-    var layers = selectedMultiLayerNetwork.feedForward(selectedSample, selectedDataSelector);
-    var outputLayer = Layer.output(layers);
-    var output = selectedDataSelector.postprocessOutput(outputLayer.v(), outputLayer.h(),
-        outputLayer.activationFunction());
-    var labels = selectedSample.getLabels();
-    var tableModel = visualizationService.classificationTableModel(labels, layers, output);
-    layersTable.setModel(tableModel);
+    classifyButton.setEnabled(false);
+    try {
+      var selectedSample = getSelectedSample();
+      var selectedDataSelector = getSelectedDataSelector();
+      var selectedMultiLayerNetwork = getSelectedMultiLayerNetwork();
+      var layers = selectedMultiLayerNetwork.feedForward(selectedSample, selectedDataSelector);
+      var outputLayer = Layer.output(layers);
+      var output = selectedDataSelector.postprocessOutput(outputLayer.v(), outputLayer.h(),
+          outputLayer.activationFunction());
+      var labels = selectedSample.getLabels();
+      var tableModel = visualizationService.classificationTableModel(labels, layers, output);
+      layersTable.setModel(tableModel);
 
-    if (selectedSample instanceof ImageSample imageSample) {
-      var outputWidth = selectedDataSelector.getOutputWidth(imageSample);
+      if (selectedSample instanceof ImageSample imageSample) {
+        var outputWidth = selectedDataSelector.getOutputWidth(imageSample);
 
-      var reconstruction = visualizationService.fromOutput(output, outputWidth,
-          onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
-          onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma());
-      outputReconstructionImagePanel.setImage(reconstruction);
-    } else {
-      outputReconstructionImagePanel.setImage(null);
+        var reconstruction = visualizationService.fromOutput(output, outputWidth,
+            onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
+            onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma());
+        outputReconstructionImagePanel.setImage(reconstruction);
+      } else {
+        outputReconstructionImagePanel.setImage(null);
+      }
+    } finally {
+      classifyButton.setEnabled(true);
     }
   }
 

@@ -53,7 +53,7 @@ public class TrainingFrame extends JFrame {
 
   public static final String TITLE = "Training";
 
-  private static TrainingWorker trainingWorker;
+  private TrainingWorker trainingWorker;
   @Inject
   ControlsService controlsService;
   @Inject

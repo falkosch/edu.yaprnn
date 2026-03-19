@@ -33,7 +33,17 @@ public final class AudiosImportService {
     var target = importService.toTarget(label, SoundSample.LABELS);
 
     try (var audioInput = AudioSystem.getAudioInputStream(file)) {
-      var readSize = audioInput.getFormat().getFrameSize() * audioInput.getFrameLength();
+      var format = audioInput.getFormat();
+      if (format.getFrameSize() != 2) {
+        throw new IllegalArgumentException(
+            "Expected 16-bit audio (frame size 2), got frame size %d for file %s".formatted(
+                format.getFrameSize(), file.getPath()));
+      }
+      if (!format.isBigEndian()) {
+        throw new IllegalArgumentException(
+            "Expected big-endian audio format for file %s".formatted(file.getPath()));
+      }
+      var readSize = format.getFrameSize() * audioInput.getFrameLength();
       var rawData = new byte[(int) readSize];
       var readTotal = audioInput.read(rawData);
       if (readTotal < readSize) {

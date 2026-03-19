@@ -1,6 +1,7 @@
 package edu.yaprnn.networks;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import edu.yaprnn.networks.activation.ActivationFunction;
 import edu.yaprnn.networks.activation.LinearActivationFunction;
@@ -78,5 +79,40 @@ class GradientMatrixServiceTest {
     assertThat(result[0]).hasSize(9);
     // (3+1)*1 = 4
     assertThat(result[1]).hasSize(4);
+  }
+
+  @Test
+  void shouldThrowWhenLayerSizesAndActivationFunctionsMismatch() {
+    var layerSizes = new int[]{2, 3};
+    var activationFunctions = new ActivationFunction[]{
+        new LinearActivationFunction(),
+        new SigmoidActivationFunction(),
+        new LinearActivationFunction()
+    };
+
+    assertThatThrownBy(() -> service.resetLayerWeights(new Random(42L), layerSizes,
+        activationFunctions))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("same length");
+  }
+
+  @Test
+  void shouldThrowWhenAccumulatorAndGradientsMismatchLength() {
+    var accumulator = new float[][]{{1f, 2f}};
+    var gradients = new float[][]{{1f}, {2f}};
+
+    assertThatThrownBy(() -> service.accumulateGradients(accumulator, gradients))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("same length");
+  }
+
+  @Test
+  void shouldThrowWhenAccumulatorAndGradientsMismatchInnerLength() {
+    var accumulator = new float[][]{{1f, 2f}};
+    var gradients = new float[][]{{1f, 2f, 3f}};
+
+    assertThatThrownBy(() -> service.accumulateGradients(accumulator, gradients))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessageContaining("same length");
   }
 }

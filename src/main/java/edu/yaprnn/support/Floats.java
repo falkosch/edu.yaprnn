@@ -16,7 +16,9 @@ public final class Floats {
   }
 
   public static int argMax(float[] array) {
-    assert array.length > 0;
+    if (array.length == 0) {
+      throw new IllegalArgumentException("array must not be empty");
+    }
 
     var argMax = 0;
     var max = array[0];
@@ -29,7 +31,9 @@ public final class Floats {
   }
 
   public static float max(float[] array) {
-    assert array.length > 0;
+    if (array.length == 0) {
+      throw new IllegalArgumentException("array must not be empty");
+    }
 
     var max = array[0];
     for (var i = 1; i < array.length; i++) {
@@ -39,8 +43,12 @@ public final class Floats {
   }
 
   public static boolean haveMaxAtSameIndex(float[] h, float[] target) {
-    assert h.length >= 1;
-    assert h.length == target.length;
+    if (h.length == 0) {
+      throw new IllegalArgumentException("arrays must not be empty");
+    }
+    if (h.length != target.length) {
+      throw new IllegalArgumentException("arrays must have same length");
+    }
 
     var argMaxH = 0;
     var maxH = h[0];
@@ -52,7 +60,7 @@ public final class Floats {
         maxH = h[i];
         argMaxH = i;
       }
-      if (target[i] >= maxT) {
+      if (target[i] > maxT) {
         maxT = target[i];
         argMaxT = i;
       }

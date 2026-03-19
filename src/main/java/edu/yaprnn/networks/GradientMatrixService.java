@@ -21,7 +21,9 @@ public class GradientMatrixService {
 
   protected float[][] resetLayerWeights(Random random, int[] layerSizes,
       ActivationFunction[] activationFunctions) {
-    assert layerSizes.length == activationFunctions.length;
+    if (layerSizes.length != activationFunctions.length) {
+      throw new IllegalArgumentException("layerSizes and activationFunctions must have same length");
+    }
 
     var newLayerWeights = zeroMatrices(layerSizes);
     for (int w = 0, l = 1; w < newLayerWeights.length; w++, l++) {
@@ -41,13 +43,18 @@ public class GradientMatrixService {
   }
 
   public float[][] accumulateGradients(float[][] accumulator, float[][] layersGradients) {
-    assert accumulator.length == layersGradients.length;
+    if (accumulator.length != layersGradients.length) {
+      throw new IllegalArgumentException("accumulator and layersGradients must have same length");
+    }
 
     var result = new float[accumulator.length][];
     for (var i = 0; i < accumulator.length; i++) {
       var accumulatorGradients = accumulator[i];
       var layerGradients = layersGradients[i];
-      assert accumulatorGradients.length == layerGradients.length;
+      if (accumulatorGradients.length != layerGradients.length) {
+        throw new IllegalArgumentException(
+            "accumulator and layerGradients at index %d must have same length".formatted(i));
+      }
 
       var resultGradients = new float[accumulatorGradients.length];
       for (var w = 0; w < resultGradients.length; w++) {
