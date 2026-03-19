@@ -1,7 +1,6 @@
 package edu.yaprnn.networks.loss;
 
 import edu.yaprnn.networks.activation.ActivationFunction;
-import java.util.Arrays;
 
 /**
  * Computes the Mean Squared Error (MSE) and gradients for training neural networks. The MSE is
@@ -29,16 +28,14 @@ public final class MeanSquaredErrorLossFunction implements LossFunction {
 
   @Override
   public float computeNetworkError(float[] h, float[] target) {
-    var maxLength = Math.max(h.length, target.length);
-    var safeH = Arrays.copyOf(h, maxLength);
-    var safeT = Arrays.copyOf(target, maxLength);
+    var aligned = AlignedArrays.of(h, target);
 
     var sumSquaredError = 0f;
-    for (var i = 0; i < maxLength; i++) {
-      var residual = safeT[i] - safeH[i];
+    for (var i = 0; i < aligned.length(); i++) {
+      var residual = aligned.target()[i] - aligned.h()[i];
       sumSquaredError += residual * residual;
     }
-    return sumSquaredError / maxLength;
+    return sumSquaredError / aligned.length();
   }
 
   @Override

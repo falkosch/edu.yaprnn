@@ -6,7 +6,9 @@ import java.util.Random;
 
 public final class QuickGeLUActivationFunction implements ActivationFunction {
 
-  /** Scaling constant from the QuickGeLU formulation. */
+  /**
+   * Scaling constant from the QuickGeLU formulation.
+   */
   private static final float ALPHA = 1.702f;
 
   @Override

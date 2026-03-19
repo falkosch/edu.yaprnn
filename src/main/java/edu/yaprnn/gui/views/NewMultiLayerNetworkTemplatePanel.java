@@ -2,7 +2,6 @@ package edu.yaprnn.gui.views;
 
 import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
-
 import edu.yaprnn.gui.services.ActivationFunctionControlsService;
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.services.LossFunctionControlsService;
@@ -13,6 +12,7 @@ import edu.yaprnn.support.swing.DialogsService;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.awt.Component;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import javax.swing.ComboBoxModel;
 import javax.swing.GroupLayout;
@@ -23,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Builder;
 
 public class NewMultiLayerNetworkTemplatePanel extends JPanel {
@@ -128,6 +127,10 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
             .build();
 
         nameTextField.setBackground(controlsService.validationColor(parameters.isNameValid()));
+
+        if (!parameters.isNameValid()) {
+          nameTextField.requestFocusInWindow();
+        }
 
         if (parameters.isValid()) {
           consumer.accept(parameters);

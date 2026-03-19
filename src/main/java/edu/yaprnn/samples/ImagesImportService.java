@@ -6,10 +6,12 @@ import jakarta.inject.Singleton;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
-import lombok.SneakyThrows;
 
 @Singleton
 public final class ImagesImportService {
@@ -20,52 +22,55 @@ public final class ImagesImportService {
   @Inject
   ImportService importService;
 
-  @SneakyThrows
   public List<ImageSample> fromImagesLabelsPackage(URL imagesPackageUrl, URL labelsPackageUrl) {
-    var labelsPackageFile = Paths.get(labelsPackageUrl.toURI()).toFile();
-    return List.of(readImages(Paths.get(imagesPackageUrl.toURI()).toFile(), labelsPackageFile,
-        readLabels(labelsPackageFile)));
-  }
-
-  @SneakyThrows
-  private ImageSample[] readImages(File imagesPackageFile, File labelsPackageFile,
-      String[] labels) {
-    try (var fileInputStream = new FileInputStream(imagesPackageFile)) {
-      try (var stream = new DataInputStream(fileInputStream)) {
-        if (stream.readInt() != IMAGES_PACKAGE_HEADER_SIGNATURE) {
-          throw new IllegalArgumentException(
-              "File %s is not an image package".formatted(imagesPackageFile.getPath()));
-        }
-
-        var countImages = stream.readInt();
-        if (countImages != labels.length) {
-          throw new IllegalArgumentException(
-              "Count of images %d does not match count of labels %d".formatted(countImages,
-                  labels.length));
-        }
-
-        var height = stream.readInt();
-        var width = stream.readInt();
-        return readImages(stream, imagesPackageFile, labelsPackageFile, labels, height, width);
-      }
+    try {
+      var labelsPackageFile = Paths.get(labelsPackageUrl.toURI()).toFile();
+      return List.of(readImages(Paths.get(imagesPackageUrl.toURI()).toFile(), labelsPackageFile,
+          readLabels(labelsPackageFile)));
+    } catch (URISyntaxException e) {
+      throw new IllegalArgumentException("Invalid URL", e);
     }
   }
 
-  @SneakyThrows
-  private String[] readLabels(File labelsPackageFile) {
-    try (var fileInputStream = new FileInputStream(labelsPackageFile)) {
-      try (var stream = new DataInputStream(fileInputStream)) {
-        if (stream.readInt() != LABELS_PACKAGE_HEADER_SIGNATURE) {
-          throw new IllegalArgumentException(
-              "File %s is not a label package".formatted(labelsPackageFile.getPath()));
-        }
-
-        var labels = new String[stream.readInt()];
-        for (var i = 0; i < labels.length; i++) {
-          labels[i] = String.valueOf(stream.readByte());
-        }
-        return labels;
+  private ImageSample[] readImages(File imagesPackageFile, File labelsPackageFile,
+      String[] labels) {
+    try (var fileInputStream = new FileInputStream(imagesPackageFile);
+        var stream = new DataInputStream(fileInputStream)) {
+      if (stream.readInt() != IMAGES_PACKAGE_HEADER_SIGNATURE) {
+        throw new IllegalArgumentException(
+            "File %s is not an image package".formatted(imagesPackageFile.getPath()));
       }
+
+      var countImages = stream.readInt();
+      if (countImages != labels.length) {
+        throw new IllegalArgumentException(
+            "Count of images %d does not match count of labels %d".formatted(countImages,
+                labels.length));
+      }
+
+      var height = stream.readInt();
+      var width = stream.readInt();
+      return readImages(stream, imagesPackageFile, labelsPackageFile, labels, height, width);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
+  private String[] readLabels(File labelsPackageFile) {
+    try (var fileInputStream = new FileInputStream(labelsPackageFile);
+        var stream = new DataInputStream(fileInputStream)) {
+      if (stream.readInt() != LABELS_PACKAGE_HEADER_SIGNATURE) {
+        throw new IllegalArgumentException(
+            "File %s is not a label package".formatted(labelsPackageFile.getPath()));
+      }
+
+      var labels = new String[stream.readInt()];
+      for (var i = 0; i < labels.length; i++) {
+        labels[i] = String.valueOf(stream.readByte());
+      }
+      return labels;
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
     }
   }
 
@@ -92,19 +97,22 @@ public final class ImagesImportService {
     return processed;
   }
 
-  @SneakyThrows
   private byte[] readRawImage(DataInputStream stream, File imagesPackageFile, int imageSize) {
-    var data = new byte[imageSize];
-    var offset = 0;
-    while (offset != data.length) {
-      var read = stream.read(data, offset, data.length - offset);
-      if (read == -1) {
-        throw new IllegalArgumentException(
-            "End of file. Images package %s is malformed".formatted(imagesPackageFile.getPath()));
+    try {
+      var data = new byte[imageSize];
+      var offset = 0;
+      while (offset != data.length) {
+        var read = stream.read(data, offset, data.length - offset);
+        if (read == -1) {
+          throw new IllegalArgumentException(
+              "End of file. Images package %s is malformed".formatted(imagesPackageFile.getPath()));
+        }
+        offset += read;
       }
-      offset += read;
+      return data;
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
     }
-    return data;
   }
 
   public List<ImageSample> fromImagesLabelsPackage(String pathImagesPackage,

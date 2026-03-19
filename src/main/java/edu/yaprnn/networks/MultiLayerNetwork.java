@@ -1,7 +1,6 @@
 package edu.yaprnn.networks;
 
 import static java.util.concurrent.Executors.newFixedThreadPool;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import edu.yaprnn.networks.activation.ActivationFunction;

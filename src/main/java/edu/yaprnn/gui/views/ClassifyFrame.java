@@ -2,7 +2,6 @@ package edu.yaprnn.gui.views;
 
 import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
-
 import edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModifiedRouter;
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.services.DataSelectorControlsService;

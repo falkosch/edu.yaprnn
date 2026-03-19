@@ -74,6 +74,12 @@ public class SamplePreprocessingFrame extends JFrame {
     getContentPane().add(toolBar, BorderLayout.NORTH);
     getContentPane().add(sampleDetailsViewContent);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    addWindowListener(new java.awt.event.WindowAdapter() {
+      @Override
+      public void windowClosing(java.awt.event.WindowEvent e) {
+        sampleDetailsView.dispose();
+      }
+    });
     pack();
     sampleDetailsView.doLayout();
   }

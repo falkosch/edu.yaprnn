@@ -2,7 +2,6 @@ package edu.yaprnn.gui.views;
 
 import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
-
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
@@ -10,6 +9,7 @@ import edu.yaprnn.support.swing.DialogsService;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.awt.Component;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import javax.swing.GroupLayout;
 import javax.swing.JComboBox;
@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Builder;
 
 public class NewMultiLayerNetworkPanel extends JPanel {
@@ -79,6 +78,10 @@ public class NewMultiLayerNetworkPanel extends JPanel {
             .build();
 
         nameTextField.setBackground(controlsService.validationColor(parameters.isNameValid()));
+
+        if (!parameters.isNameValid()) {
+          nameTextField.requestFocusInWindow();
+        }
 
         if (parameters.isValid()) {
           consumer.accept(parameters);

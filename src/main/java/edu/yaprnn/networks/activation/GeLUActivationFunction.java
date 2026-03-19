@@ -45,7 +45,9 @@ public final class GeLUActivationFunction implements ActivationFunction {
 
     private static final float SQRT_2_DIVIDED_BY_PI = 0.7978845608028654f;
 
-    /** Approximation constant from Hendrycks & Gimpel (2016), Section 2. */
+    /**
+     * Approximation constant from Hendrycks & Gimpel (2016), Section 2.
+     */
     private static final float ALPHA = 0.044715f;
     private static final float DERIVATIVE_ALPHA = SQRT_2_DIVIDED_BY_PI * 3f * ALPHA;
 

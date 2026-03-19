@@ -1,7 +1,6 @@
 package edu.yaprnn.networks;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import edu.yaprnn.networks.activation.ActivationFunction;
 import edu.yaprnn.networks.activation.GeLUActivationFunction;
 import edu.yaprnn.networks.activation.LinearActivationFunction;

@@ -88,6 +88,12 @@ public class ImportImagesPanel extends JPanel {
         var imagesExists = new File(imagesPackage).exists();
         imagesPackageTextField.setBackground(controlsService.validationColor(imagesExists));
 
+        if (!labelsExists) {
+          labelsPackageTextField.requestFocusInWindow();
+        } else if (!imagesExists) {
+          imagesPackageTextField.requestFocusInWindow();
+        }
+
         if (labelsExists && imagesExists) {
           parametersConsumer.accept(new Parameters(labelsPackage, imagesPackage));
           return;

@@ -8,7 +8,7 @@ import javax.swing.Icon;
 /**
  * Represents a node in the {@link NetworksTreeModel}.
  */
-public interface ModelNode {
+public sealed interface ModelNode permits DefaultNode {
 
   String getLabel();
 

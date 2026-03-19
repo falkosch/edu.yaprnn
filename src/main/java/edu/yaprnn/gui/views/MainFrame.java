@@ -423,27 +423,27 @@ public class MainFrame extends JFrame {
       detailsTabbedPane.setSelectedComponent(weightsDetailsTabbedPane);
     }
 
-    randomizedTrainingDataButton.setEnabled(isAllSamplesNode | isTrainingDataListNode);
-    samplePreprocessingButton.setEnabled(isAllSamplesNode | isTrainingDataNode);
+    randomizedTrainingDataButton.setEnabled(isAllSamplesNode || isTrainingDataListNode);
+    samplePreprocessingButton.setEnabled(isAllSamplesNode || isTrainingDataNode);
 
     saveTrainingDataMenuItem.setEnabled(isTrainingDataNode);
     saveMultiLayerNetworkTemplateMenuItem.setEnabled(
-        isMultiLayerNetworkTemplateNode | isLayerTemplateNode | isLayerSizeNode
-            | isActivationFunctionNode);
-    saveMultiLayerNetworkMenuItem.setEnabled(isMultiLayerNetworkNode | isWeightsNode);
+        isMultiLayerNetworkTemplateNode || isLayerTemplateNode || isLayerSizeNode
+            || isActivationFunctionNode);
+    saveMultiLayerNetworkMenuItem.setEnabled(isMultiLayerNetworkNode || isWeightsNode);
 
     classifyButton.setEnabled(true);
     trainButton.setEnabled(true);
     resetButton.setEnabled(isMultiLayerNetworkNode);
 
-    addButton.setEnabled(isTrainingDataListNode | isMultiLayerNetworkTemplateListNode
-        | isMultiLayerNetworkTemplateNode | isMultiLayerNetworkListNode);
+    addButton.setEnabled(isTrainingDataListNode || isMultiLayerNetworkTemplateListNode
+        || isMultiLayerNetworkTemplateNode || isMultiLayerNetworkListNode);
     editButton.setEnabled(networksTreeCellEditor.isCellEditable(selected));
 
     removeButton.setEnabled(
-        isAllSamplesNode | isSampleNode | isTrainingDataListNode | isTrainingDataNode
-            | isMultiLayerNetworkTemplateListNode | isMultiLayerNetworkTemplateNode
-            | isLayerTemplateNode | isMultiLayerNetworkListNode | isMultiLayerNetworkNode);
+        isAllSamplesNode || isSampleNode || isTrainingDataListNode || isTrainingDataNode
+            || isMultiLayerNetworkTemplateListNode || isMultiLayerNetworkTemplateNode
+            || isLayerTemplateNode || isMultiLayerNetworkListNode || isMultiLayerNetworkNode);
   }
 
   private void setSamplePreview(@Observes OnSamplePreviewModified event) {

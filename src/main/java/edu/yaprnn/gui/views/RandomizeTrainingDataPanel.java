@@ -2,7 +2,6 @@ package edu.yaprnn.gui.views;
 
 import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
-
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.services.DataSelectorControlsService;
 import edu.yaprnn.gui.services.NetworksControlsService;
@@ -11,6 +10,7 @@ import edu.yaprnn.training.selectors.DataSelector;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import java.awt.Component;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import javax.swing.ComboBoxModel;
 import javax.swing.GroupLayout;
@@ -19,7 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
@@ -100,6 +99,10 @@ public class RandomizeTrainingDataPanel extends JPanel {
 
         var isNameValid = !name.isBlank();
         nameTextField.setBackground(controlsService.validationColor(isNameValid));
+
+        if (!isNameValid) {
+          nameTextField.requestFocusInWindow();
+        }
 
         if (isNameValid) {
           parametersConsumer.accept(

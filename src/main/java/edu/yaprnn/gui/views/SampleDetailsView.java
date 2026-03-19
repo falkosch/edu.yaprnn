@@ -2,7 +2,6 @@ package edu.yaprnn.gui.views;
 
 import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
-
 import edu.yaprnn.events.OnSamplePreviewModifiedRouter;
 import edu.yaprnn.gui.services.ControlsService;
 import edu.yaprnn.gui.services.SampleControlsService;
@@ -190,6 +189,11 @@ public class SampleDetailsView {
     setSamplePreview();
   }
 
+  public void dispose() {
+    var adapter = (PlayAudioSampleMouseAdapter) previewImagePanel.getMouseListeners()[0];
+    adapter.stopClip();
+  }
+
   public void doLayout() {
     previewSplitPane.setDividerLocation(0.5);
   }
@@ -197,6 +201,14 @@ public class SampleDetailsView {
   private class PlayAudioSampleMouseAdapter extends MouseAdapter {
 
     private Clip clip;
+
+    void stopClip() {
+      if (clip != null) {
+        clip.stop();
+        clip.close();
+        clip = null;
+      }
+    }
 
     @Override
     public void mouseClicked(MouseEvent event) {

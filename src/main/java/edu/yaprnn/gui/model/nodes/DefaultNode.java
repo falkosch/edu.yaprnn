@@ -6,7 +6,7 @@ import javax.swing.Icon;
 import lombok.Getter;
 
 @Getter
-public class DefaultNode implements ModelNode {
+public non-sealed class DefaultNode implements ModelNode {
 
   private final Supplier<Icon> iconSupplier;
   private final Supplier<String> labelSupplier;

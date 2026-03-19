@@ -1,6 +1,6 @@
 package edu.yaprnn.samples.model;
 
-import java.awt.Dimension;
+import edu.yaprnn.networks.Dimension2d;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -55,31 +55,31 @@ public final class ImageSample implements Sample {
     var subSampled = subSample(subSampledSize, clampedResolution, overlap);
 
     return new ImageSample(imagesPackageFile, labelsPackageFile, indexInPackage, name, label,
-        target, originalWidth, originalHeight, original, subSampledSize.width,
-        subSampledSize.height, subSampled);
+        target, originalWidth, originalHeight, original, subSampledSize.cols(),
+        subSampledSize.rows(), subSampled);
   }
 
-  private Dimension getSubSampledSize(int resolution) {
+  private Dimension2d getSubSampledSize(int resolution) {
     var scale = Math.sqrt(resolution / (float) (originalWidth * originalHeight));
     var width = (int) (scale * originalWidth);
     var height = (int) (scale * originalHeight);
-    return new Dimension(width, height);
+    return new Dimension2d(height, width);
   }
 
-  private float[] subSample(Dimension subSampledSize, int resolution, float overlap) {
-    var subSampledStepX = originalWidth / (float) subSampledSize.width;
-    var subSampledStepY = originalHeight / (float) subSampledSize.height;
+  private float[] subSample(Dimension2d subSampledSize, int resolution, float overlap) {
+    var subSampledStepX = originalWidth / (float) subSampledSize.cols();
+    var subSampledStepY = originalHeight / (float) subSampledSize.rows();
     var stepX = originalWidth * overlap;
     var stepY = originalHeight * overlap;
 
     var subSampled = new float[resolution];
-    for (var subSampledY = 0; subSampledY < subSampledSize.height; subSampledY++) {
+    for (var subSampledY = 0; subSampledY < subSampledSize.rows(); subSampledY++) {
       var windowY = subSampledY * subSampledStepY - 0.5f * stepY;
       var startY = Math.max(0, (int) windowY);
       var endY = Math.max(startY + 1, Math.min(originalHeight, (int) (windowY + stepY)));
 
-      for (var subSampledX = 0; subSampledX < subSampledSize.width; subSampledX++) {
-        var i = subSampledY * subSampledSize.width + subSampledX;
+      for (var subSampledX = 0; subSampledX < subSampledSize.cols(); subSampledX++) {
+        var i = subSampledY * subSampledSize.cols() + subSampledX;
 
         var windowX = subSampledX * subSampledStepX - 0.5f * stepX;
         var startX = Math.max(0, (int) windowX);

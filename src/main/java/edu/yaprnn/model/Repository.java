@@ -36,6 +36,16 @@ public final class Repository {
   @Inject
   OnRepositoryElementsRemovedRouter onRepositoryElementsRemovedRouter;
 
+  private <T> void add(List<T> list, Class<T> type, Collection<? extends T> items) {
+    list.addAll(items);
+    onRepositoryElementsChangedRouter.fireEvent(type, List.copyOf(items));
+  }
+
+  private <T> void remove(List<T> list, Class<T> type, Collection<? extends T> items) {
+    list.removeAll(items);
+    onRepositoryElementsRemovedRouter.fireEvent(type, List.copyOf(items));
+  }
+
   public void addSamples(Collection<? extends Sample> items) {
     samples.addAll(items);
     items.forEach(sample -> samplesGroupedByName.put(sample.getName(), sample));
@@ -53,35 +63,27 @@ public final class Repository {
   }
 
   public void addTrainingData(Collection<? extends TrainingData> items) {
-    trainingDataList.addAll(items);
-    onRepositoryElementsChangedRouter.fireEvent(TrainingData.class, List.copyOf(items));
+    add(trainingDataList, TrainingData.class, items);
   }
 
   public void removeTrainingData(Collection<? extends TrainingData> items) {
-    trainingDataList.removeAll(items);
-    onRepositoryElementsRemovedRouter.fireEvent(TrainingData.class, List.copyOf(items));
+    remove(trainingDataList, TrainingData.class, items);
   }
 
   public void addMultiLayerNetworkTemplates(Collection<? extends MultiLayerNetworkTemplate> items) {
-    multiLayerNetworkTemplates.addAll(items);
-    onRepositoryElementsChangedRouter.fireEvent(MultiLayerNetworkTemplate.class,
-        List.copyOf(items));
+    add(multiLayerNetworkTemplates, MultiLayerNetworkTemplate.class, items);
   }
 
   public void removeMultiLayerNetworkTemplates(
       Collection<? extends MultiLayerNetworkTemplate> items) {
-    multiLayerNetworkTemplates.removeAll(items);
-    onRepositoryElementsRemovedRouter.fireEvent(MultiLayerNetworkTemplate.class,
-        List.copyOf(items));
+    remove(multiLayerNetworkTemplates, MultiLayerNetworkTemplate.class, items);
   }
 
   public void addMultiLayerNetworks(Collection<? extends MultiLayerNetwork> items) {
-    multiLayerNetworks.addAll(items);
-    onRepositoryElementsChangedRouter.fireEvent(MultiLayerNetwork.class, List.copyOf(items));
+    add(multiLayerNetworks, MultiLayerNetwork.class, items);
   }
 
   public void removeMultiLayerNetworks(Collection<? extends MultiLayerNetwork> items) {
-    multiLayerNetworks.removeAll(items);
-    onRepositoryElementsRemovedRouter.fireEvent(MultiLayerNetwork.class, List.copyOf(items));
+    remove(multiLayerNetworks, MultiLayerNetwork.class, items);
   }
 }

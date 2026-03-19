@@ -2,7 +2,6 @@ package edu.yaprnn.gui.views;
 
 import static javax.swing.GroupLayout.DEFAULT_SIZE;
 import static javax.swing.GroupLayout.PREFERRED_SIZE;
-
 import edu.yaprnn.events.OnMultiLayerNetworkWeightsPreviewModifiedRouter;
 import edu.yaprnn.gui.services.NetworksControlsService;
 import edu.yaprnn.gui.services.VisualizationService;
@@ -11,7 +10,6 @@ import edu.yaprnn.networks.MultiLayerNetwork;
 import edu.yaprnn.support.swing.ImagePanel;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
-import java.util.Objects;
 import java.util.stream.IntStream;
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
@@ -39,7 +37,7 @@ public class WeightsDetailsTabbedPane extends JPanel {
 
   public void setWeightsPreview(MultiLayerNetwork multiLayerNetwork, int weightsIndex, float zoom,
       float gamma) {
-    if (!Objects.nonNull(multiLayerNetwork) || weightsIndex < 0) {
+    if (multiLayerNetwork == null || weightsIndex < 0) {
       weightsTable.setModel(networksControlsService.emptyTableModel());
       weightsImagePanel.setImage(null);
       return;

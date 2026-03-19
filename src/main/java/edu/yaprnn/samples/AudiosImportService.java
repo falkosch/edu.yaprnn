@@ -5,10 +5,12 @@ import edu.yaprnn.samples.model.SoundSample;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Arrays;
 import java.util.List;
 import javax.sound.sampled.AudioSystem;
-import lombok.SneakyThrows;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import org.jtransforms.fft.FloatFFT_1D;
 
 @Singleton
@@ -25,7 +27,6 @@ public final class AudiosImportService {
     return Arrays.stream(files).map(this::fromAiff).toList();
   }
 
-  @SneakyThrows
   private SoundSample fromAiff(File file) {
     var name = file.getName();
     var label = name.toUpperCase().substring(0, 1);
@@ -44,6 +45,11 @@ public final class AudiosImportService {
       return new SoundSample(file, name, label, target, input, input).subSample(
           onSamplePreviewModifiedRouter.getResolution(),
           onSamplePreviewModifiedRouter.getOverlap());
+    } catch (UnsupportedAudioFileException e) {
+      throw new IllegalArgumentException(
+          "File %s is not a supported audio format".formatted(file.getPath()), e);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
     }
   }
 

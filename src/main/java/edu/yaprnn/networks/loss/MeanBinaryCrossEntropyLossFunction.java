@@ -1,7 +1,6 @@
 package edu.yaprnn.networks.loss;
 
 import edu.yaprnn.networks.activation.ActivationFunction;
-import java.util.Arrays;
 
 /**
  * Computes the Mean Binary Cross-Entropy (BCE) loss and gradients for binary classification tasks.
@@ -34,18 +33,16 @@ public final class MeanBinaryCrossEntropyLossFunction implements LossFunction {
 
   @Override
   public float computeNetworkError(float[] h, float[] target) {
-    var maxLength = Math.max(h.length, target.length);
-    var safeH = Arrays.copyOf(h, maxLength);
-    var safeT = Arrays.copyOf(target, maxLength);
+    var aligned = AlignedArrays.of(h, target);
 
     var loss = 0f;
-    for (var i = 0; i < maxLength; i++) {
-      var x = safeH[i];
-      var y = safeT[i];
+    for (var i = 0; i < aligned.length(); i++) {
+      var x = aligned.h()[i];
+      var y = aligned.target()[i];
       loss -= y * (float) Math.log(x) + (1f - y) * (float) Math.log(1f - x);
     }
 
-    return Float.isNaN(loss) ? Float.POSITIVE_INFINITY : loss / maxLength;
+    return Float.isNaN(loss) ? Float.POSITIVE_INFINITY : loss / aligned.length();
   }
 
   @Override
