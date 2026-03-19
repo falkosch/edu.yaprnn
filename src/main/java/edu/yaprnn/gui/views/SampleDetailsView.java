@@ -212,10 +212,7 @@ public class SampleDetailsView {
 
     @Override
     public void mouseClicked(MouseEvent event) {
-      if (clip != null) {
-        clip.stop();
-        clip = null;
-      }
+      stopClip();
 
       try {
         clip = from(sample);

@@ -449,6 +449,34 @@ class MultiLayerNetworkTest {
   }
 
   @Nested
+  class ToString {
+
+    @Test
+    void shouldFormatWithNameAndLayerSizes() {
+      var net = MultiLayerNetwork.builder()
+          .name("myNet")
+          .layerSizes(new int[]{2, 3, 1})
+          .activationFunctions(new ActivationFunction[]{linear, linear, linear})
+          .bias(1f)
+          .lossFunction(lossFunction)
+          .build();
+
+      assertThat(net.toString()).isEqualTo("myNet ([2, 3, 1])");
+    }
+
+    @Test
+    void shouldHandleNullLayerSizes() {
+      var net = MultiLayerNetwork.builder()
+          .name("noLayers")
+          .bias(1f)
+          .lossFunction(lossFunction)
+          .build();
+
+      assertThat(net.toString()).isEqualTo("noLayers ([])");
+    }
+  }
+
+  @Nested
   class LearnOnlineValidation {
 
     final MultiLayerNetwork validationNetwork = MultiLayerNetwork.builder()

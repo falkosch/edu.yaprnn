@@ -322,6 +322,8 @@ public class TrainingFrame extends JFrame {
         decayL1SpinnerNumberModel.getNumber().floatValue(),
         decayL2SpinnerNumberModel.getNumber().floatValue(), getSelectedTrainingData(),
         getSelectedMultiLayerNetwork());
+    startTrainingButton.setEnabled(false);
+    stopTrainingButton.setEnabled(true);
     trainingWorker.execute();
   }
 
@@ -391,9 +393,6 @@ public class TrainingFrame extends JFrame {
 
     @Override
     protected MultiLayerNetwork doInBackground() {
-      startTrainingButton.setEnabled(false);
-      stopTrainingButton.setEnabled(true);
-
       try {
         train((samples, dataSelector, iteration, learningRate) -> {
           if (Objects.requireNonNull(trainingMethod) == TrainingMethod.ONLINE) {
@@ -408,11 +407,14 @@ public class TrainingFrame extends JFrame {
         dialogsService.showError(TrainingFrame.this, TITLE, throwable);
       }
 
+      return multiLayerNetwork;
+    }
+
+    @Override
+    protected void done() {
       trainingWorker = null;
       startTrainingButton.setEnabled(true);
       stopTrainingButton.setEnabled(false);
-
-      return multiLayerNetwork;
     }
 
     private void train(LearnSamplesConsumer learnSamplesConsumer) {

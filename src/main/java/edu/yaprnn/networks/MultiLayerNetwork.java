@@ -70,7 +70,9 @@ public final class MultiLayerNetwork {
 
     try (var executor = newFixedThreadPool(maxParallelism, Thread.ofVirtual().factory())) {
       executor.invokeAll(tasks);
-    } catch (InterruptedException _) {
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException("Training interrupted", e);
     }
   }
 
@@ -212,7 +214,9 @@ public final class MultiLayerNetwork {
         applyGradients(batchLayerGradients, layerWeights, batchSize, learningRate, momentum,
             decayL1, decayL2);
       }
-    } catch (InterruptedException _) {
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException("Training interrupted", e);
     }
   }
 
