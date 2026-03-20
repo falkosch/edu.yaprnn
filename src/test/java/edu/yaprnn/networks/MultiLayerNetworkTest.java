@@ -269,6 +269,10 @@ class MultiLayerNetworkTest {
           SimpleSample.builder().input(new float[]{1f, 1f}).target(new float[]{0f}).build());
     }
 
+    /**
+     * A single-layer linear perceptron cannot solve XOR because XOR is not linearly separable.
+     * The network converges to outputting ~0.5 for all inputs (the mean target value).
+     */
     @Nested
     class BadPerceptronLinearCase {
 
@@ -301,18 +305,29 @@ class MultiLayerNetworkTest {
       }
 
       @Test
-      void shouldClassifySamplesWithLowError() {
+      void shouldNotClassifyAllSamplesCorrectly() {
         train(500);
 
+        var misclassified = false;
         for (Sample sample : samples) {
           var layers = network.feedForward(sample, dataSelector);
-
-          assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
-              Offset.offset(0.499f));
+          var output = Layer.output(layers).h()[0];
+          var target = sample.getTarget()[0];
+          if (Math.abs(output - target) > 0.499f) {
+            misclassified = true;
+            break;
+          }
         }
+        assertThat(misclassified)
+            .as("Linear perceptron should not solve XOR (not linearly separable)")
+            .isTrue();
       }
     }
 
+    /**
+     * A single-layer perceptron with nonlinear activation still cannot solve XOR because it has
+     * only one decision boundary.
+     */
     @Nested
     class BadPerceptronNonLinearCase {
 
@@ -345,18 +360,29 @@ class MultiLayerNetworkTest {
       }
 
       @Test
-      void shouldClassifySamplesWithLowError() {
+      void shouldNotClassifyAllSamplesCorrectly() {
         train(500);
 
+        var misclassified = false;
         for (Sample sample : samples) {
           var layers = network.feedForward(sample, dataSelector);
-
-          assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
-              Offset.offset(0.499f));
+          var output = Layer.output(layers).h()[0];
+          var target = sample.getTarget()[0];
+          if (Math.abs(output - target) > 0.499f) {
+            misclassified = true;
+            break;
+          }
         }
+        assertThat(misclassified)
+            .as("Single-neuron output layer should not solve XOR")
+            .isTrue();
       }
     }
 
+    /**
+     * A multi-layer network with all linear activations collapses to a single linear
+     * transformation and thus cannot solve XOR.
+     */
     @Nested
     class BadMultiLayerLinearCase {
 
@@ -390,18 +416,29 @@ class MultiLayerNetworkTest {
       }
 
       @Test
-      void shouldClassifySamplesWithLowError() {
+      void shouldNotClassifyAllSamplesCorrectly() {
         train(500);
 
+        var misclassified = false;
         for (Sample sample : samples) {
           var layers = network.feedForward(sample, dataSelector);
-
-          assertThat(Layer.output(layers).h()).containsExactly(sample.getTarget(),
-              Offset.offset(0.499f));
+          var output = Layer.output(layers).h()[0];
+          var target = sample.getTarget()[0];
+          if (Math.abs(output - target) > 0.499f) {
+            misclassified = true;
+            break;
+          }
         }
+        assertThat(misclassified)
+            .as("All-linear multi-layer network should not solve XOR")
+            .isTrue();
       }
     }
 
+    /**
+     * A multi-layer network with nonlinear hidden activations CAN solve XOR. The hidden layer
+     * creates two decision boundaries that combine to separate the XOR regions.
+     */
     @Nested
     class GoodMultiLayerNonLinearCase {
 
@@ -409,7 +446,7 @@ class MultiLayerNetworkTest {
           .bias(-1f)
           .lossFunction(lossFunction)
           .layers(List.of(LayerTemplate.builder().size(2).activationFunction(linear).build(),
-              LayerTemplate.builder().size(2).activationFunction(nonlinear).build(),
+              LayerTemplate.builder().size(4).activationFunction(nonlinear).build(),
               LayerTemplate.builder().size(1).activationFunction(nonlinear).build()))
           .build();
 
@@ -428,7 +465,7 @@ class MultiLayerNetworkTest {
       void shouldMinimizeTrainingErrorWhenTrained() {
         var initial = network.computeAccuracy(samples, dataSelector);
 
-        train(500);
+        train(1000);
 
         var actual = network.computeAccuracy(samples, dataSelector);
         assertThat(actual.error()).isLessThan(initial.error());
@@ -436,7 +473,7 @@ class MultiLayerNetworkTest {
 
       @Test
       void shouldClassifySamplesWithLowError() {
-        train(500);
+        train(1000);
 
         for (Sample sample : samples) {
           var layers = network.feedForward(sample, dataSelector);

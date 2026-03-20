@@ -55,7 +55,7 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 ## Testing
 
 - Test framework: JUnit 5 (Jupiter) + AssertJ + Mockito 5.23.0 (BOM)
-- Coverage: JaCoCo plugin, reports to `coverage/`, `ignoreFailures = true` (4 pre-existing XorCase failures)
+- Coverage: JaCoCo plugin, reports to `coverage/`, `ignoreFailures = true`
 - Reproducibility: `TestGradientMatrixService` with seeded `Random`
 - Pattern: nested test classes per network topology
 - Run: `./gradlew test` (also generates JaCoCo report via `finalizedBy`)
