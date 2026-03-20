@@ -29,24 +29,6 @@ class GradientMatrixServiceTest {
   }
 
   @Test
-  void shouldAccumulateGradients() {
-    var accumulator = new float[][]{
-        {1f, 2f, 3f},
-        {4f, 5f}
-    };
-    var gradients = new float[][]{
-        {0.1f, 0.2f, 0.3f},
-        {0.4f, 0.5f}
-    };
-
-    var result = service.accumulateGradients(accumulator, gradients);
-
-    assertThat(result.length).isEqualTo(2);
-    assertThat(result[0]).containsExactly(1.1f, 2.2f, 3.3f);
-    assertThat(result[1]).containsExactly(4.4f, 5.5f);
-  }
-
-  @Test
   void shouldCopyMatrices() {
     var source = new float[][]{
         {1f, 2f},
@@ -97,22 +79,61 @@ class GradientMatrixServiceTest {
   }
 
   @Test
-  void shouldThrowWhenAccumulatorAndGradientsMismatchLength() {
+  void shouldAccumulateGradientsInPlace() {
+    var accumulator = new float[][]{
+        {1f, 2f, 3f},
+        {4f, 5f}
+    };
+    var gradients = new float[][]{
+        {0.1f, 0.2f, 0.3f},
+        {0.4f, 0.5f}
+    };
+
+    service.accumulateGradientsInPlace(accumulator, gradients);
+
+    assertThat(accumulator[0]).containsExactly(1.1f, 2.2f, 3.3f);
+    assertThat(accumulator[1]).containsExactly(4.4f, 5.5f);
+  }
+
+  @Test
+  void shouldThrowWhenInPlaceAccumulatorAndGradientsMismatchLength() {
     var accumulator = new float[][]{{1f, 2f}};
     var gradients = new float[][]{{1f}, {2f}};
 
-    assertThatThrownBy(() -> service.accumulateGradients(accumulator, gradients))
+    assertThatThrownBy(() -> service.accumulateGradientsInPlace(accumulator, gradients))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("same length");
   }
 
   @Test
-  void shouldThrowWhenAccumulatorAndGradientsMismatchInnerLength() {
+  void shouldThrowWhenInPlaceAccumulatorAndGradientsMismatchInnerLength() {
     var accumulator = new float[][]{{1f, 2f}};
     var gradients = new float[][]{{1f, 2f, 3f}};
 
-    assertThatThrownBy(() -> service.accumulateGradients(accumulator, gradients))
+    assertThatThrownBy(() -> service.accumulateGradientsInPlace(accumulator, gradients))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("same length");
+  }
+
+  @Test
+  void shouldZeroFillMatrices() {
+    var matrices = new float[][]{
+        {1f, 2f, 3f},
+        {4f, 5f}
+    };
+
+    service.zeroFillMatrices(matrices);
+
+    assertThat(matrices[0]).containsOnly(0f);
+    assertThat(matrices[1]).containsOnly(0f);
+  }
+
+  @Test
+  void shouldZeroFillEmptyMatrices() {
+    var matrices = new float[0][];
+
+    service.zeroFillMatrices(matrices);
+
+    assertThat(matrices).isEmpty();
   }
 }

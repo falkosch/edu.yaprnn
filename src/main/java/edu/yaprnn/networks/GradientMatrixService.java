@@ -6,6 +6,7 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import java.util.Arrays;
 import java.util.Random;
 
 @Singleton
@@ -42,12 +43,11 @@ public class GradientMatrixService {
     return result;
   }
 
-  public float[][] accumulateGradients(float[][] accumulator, float[][] layersGradients) {
+  public void accumulateGradientsInPlace(float[][] accumulator, float[][] layersGradients) {
     if (accumulator.length != layersGradients.length) {
       throw new IllegalArgumentException("accumulator and layersGradients must have same length");
     }
 
-    var result = new float[accumulator.length][];
     for (var i = 0; i < accumulator.length; i++) {
       var accumulatorGradients = accumulator[i];
       var layerGradients = layersGradients[i];
@@ -56,13 +56,16 @@ public class GradientMatrixService {
             "accumulator and layerGradients at index %d must have same length".formatted(i));
       }
 
-      var resultGradients = new float[accumulatorGradients.length];
-      for (var w = 0; w < resultGradients.length; w++) {
-        resultGradients[w] = accumulatorGradients[w] + layerGradients[w];
+      for (var w = 0; w < accumulatorGradients.length; w++) {
+        accumulatorGradients[w] += layerGradients[w];
       }
-      result[i] = resultGradients;
     }
-    return result;
+  }
+
+  public void zeroFillMatrices(float[][] matrices) {
+    for (var matrix : matrices) {
+      Arrays.fill(matrix, 0f);
+    }
   }
 
   public float[][] copyMatrices(float[][] source) {

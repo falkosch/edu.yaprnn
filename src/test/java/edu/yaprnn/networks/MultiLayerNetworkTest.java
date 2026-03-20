@@ -43,6 +43,7 @@ class MultiLayerNetworkTest {
     }
   }
 
+
   @BeforeEach
   void createRandom() {
     random = new SecureRandom(new byte[42]);
@@ -510,49 +511,6 @@ class MultiLayerNetworkTest {
           .build();
 
       assertThat(net.toString()).isEqualTo("noLayers ([])");
-    }
-  }
-
-  @Nested
-  class LearnOnlineValidation {
-
-    final MultiLayerNetwork validationNetwork = MultiLayerNetwork.builder()
-        .layerSizes(new int[]{2, 1})
-        .activationFunctions(new ActivationFunction[]{linear, linear})
-        .bias(1f)
-        .lossFunction(lossFunction)
-        .build();
-
-    @Test
-    void shouldThrowOnNullGradientMatrixService() {
-      assertThatNullPointerException()
-          .isThrownBy(() -> validationNetwork.learnOnline(null, List.of(), dataSelector, 1,
-              0.1f, 0f, 0f, 0f))
-          .withMessageContaining("gradientMatrixService");
-    }
-
-    @Test
-    void shouldThrowOnNullTrainingSamples() {
-      assertThatNullPointerException()
-          .isThrownBy(() -> validationNetwork.learnOnline(gradientMatrixService, null,
-              dataSelector, 1, 0.1f, 0f, 0f, 0f))
-          .withMessageContaining("trainingSamples");
-    }
-
-    @Test
-    void shouldThrowOnNullDataSelector() {
-      assertThatNullPointerException()
-          .isThrownBy(() -> validationNetwork.learnOnline(gradientMatrixService, List.of(),
-              null, 1, 0.1f, 0f, 0f, 0f))
-          .withMessageContaining("dataSelector");
-    }
-
-    @Test
-    void shouldThrowOnInvalidMaxParallelism() {
-      assertThatThrownBy(() -> validationNetwork.learnOnline(gradientMatrixService, List.of(),
-          dataSelector, 0, 0.1f, 0f, 0f, 0f))
-          .isInstanceOf(IllegalArgumentException.class)
-          .hasMessageContaining("maxParallelism");
     }
   }
 

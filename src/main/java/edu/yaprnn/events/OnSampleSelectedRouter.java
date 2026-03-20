@@ -1,47 +1,38 @@
 package edu.yaprnn.events;
 
+import edu.yaprnn.gui.model.nodes.ModelNode;
 import edu.yaprnn.samples.model.Sample;
 import jakarta.enterprise.event.Event;
-import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.Objects;
-import lombok.Getter;
+import java.util.function.Function;
 
 @Singleton
-public final class OnSampleSelectedRouter {
+public class OnSampleSelectedRouter
+    extends AbstractSelectionRouter<Sample, OnSampleSelected> {
 
   @Inject
   EventsMapper eventsMapper;
   @Inject
   Event<OnSampleSelected> onSampleSelectedEvent;
 
-  @Getter
-  private Sample selected;
-
-  void unselectIfRemoved(@Observes OnRepositoryElementsRemoved event) {
-    if (Objects.isNull(selected)) {
-      return;
-    }
-    if (event.elementTypeClass() != Sample.class) {
-      return;
-    }
-    if (event.removed().contains(selected)) {
-      setSelected((Sample) null);
-    }
+  @Override
+  protected Class<Sample> elementType() {
+    return Sample.class;
   }
 
-  public void setSelected(Sample value) {
-    selected = value;
-    fireEvent();
+  @Override
+  protected OnSampleSelected createEvent(Sample selected) {
+    return new OnSampleSelected(selected);
   }
 
-  private void fireEvent() {
-    var event = new OnSampleSelected(selected);
-    onSampleSelectedEvent.fire(event);
+  @Override
+  protected Event<OnSampleSelected> event() {
+    return onSampleSelectedEvent;
   }
 
-  void setSelected(@Observes OnModelNodeSelected event) {
-    setSelected(eventsMapper.toSample(event.value()));
+  @Override
+  protected Function<ModelNode, Sample> modelNodeMapper() {
+    return eventsMapper::toSample;
   }
 }

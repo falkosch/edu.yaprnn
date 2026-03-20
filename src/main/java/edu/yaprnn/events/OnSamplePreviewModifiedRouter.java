@@ -19,11 +19,7 @@ public final class OnSamplePreviewModifiedRouter {
   private float overlap = 0.1f;
 
   public void setZoom(double value) {
-    setZoom((float) value);
-  }
-
-  public void setZoom(float value) {
-    zoom = value;
+    zoom = (float) value;
     fireEvent();
   }
 
@@ -41,11 +37,7 @@ public final class OnSamplePreviewModifiedRouter {
   }
 
   public void setOverlap(double value) {
-    setOverlap((float) value);
-  }
-
-  public void setOverlap(float value) {
-    overlap = value;
+    overlap = (float) value;
     fireEvent();
   }
 }

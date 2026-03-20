@@ -34,7 +34,7 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 - **Sealed interfaces**: ActivationFunction (12 impls), LossFunction (4 impls), Sample (3 impls), ModelNode
 - **Records + Lombok @Builder**: immutable data objects
 - **MapStruct**: event/model mapping
-- **Virtual threads**: parallel training (GradientMatrixService)
+- **Virtual threads**: parallel training (MultiLayerNetwork.learnMiniBatch)
 - **Float precision**: all network computations use `float[]`
 
 ## Conventions
@@ -47,15 +47,17 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 ## Key Patterns
 
 - Event routing: CDI `@Observes` with EventsRouter/EventsMapper
-- Repository: singleton `Repository` with grouped lookups
+- Repository: singleton `Repository` with grouped lookups, unmodifiable collection views
 - Tree model: `NetworksTreeModel` for Swing JTree with lazy-loading node suppliers
 - Network creation: `MultiLayerNetworkTemplate` -> `MultiLayerNetwork` (builder pattern)
-- Training modes: online learning, mini-batch learning (with momentum, L1/L2 regularization)
+- Training mode: chunked mini-batch learning (with momentum, L1/L2 regularization)
+- Gradient parallelism: batch partitioned into `maxParallelism` chunks, each accumulating in one pre-allocated buffer
 
 ## Testing
 
 - Test framework: JUnit 5 (Jupiter) + AssertJ + Mockito 5.23.0 (BOM)
-- Coverage: JaCoCo plugin, reports to `coverage/`, `ignoreFailures = true`
+- Coverage: JaCoCo plugin, HTML to `coverage/`, CSV to `build/reports/jacoco/`, `ignoreFailures = true`
 - Reproducibility: `TestGradientMatrixService` with seeded `Random`
-- Pattern: nested test classes per network topology
+- Pattern: nested test classes per concern (e.g., `SubSample`, `Accessors`, `QuerySamplesByName`)
+- CDI beans: inject mocks via reflection for `@Inject` fields (no CDI container in tests)
 - Run: `./gradlew test` (also generates JaCoCo report via `finalizedBy`)

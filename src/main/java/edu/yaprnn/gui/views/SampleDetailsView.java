@@ -12,9 +12,9 @@ import edu.yaprnn.support.swing.DialogsService;
 import edu.yaprnn.support.swing.ImagePanel;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Objects;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent.Type;
@@ -25,8 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.SwingWorker;
 import lombok.Getter;
-import lombok.SneakyThrows;
+
 
 public class SampleDetailsView {
 
@@ -70,6 +71,7 @@ public class SampleDetailsView {
   private JEditorPane sampleMetaEditorPane;
   private JSplitPane previewSplitPane;
 
+  private PlayAudioSampleMouseAdapter playAudioAdapter;
   private Sample sample;
   private float zoom;
   private int resolution;
@@ -91,7 +93,8 @@ public class SampleDetailsView {
         onSamplePreviewModifiedRouter::setOverlap);
 
     previewImagePanel = new ImagePanel();
-    previewImagePanel.addMouseListener(new PlayAudioSampleMouseAdapter());
+    playAudioAdapter = new PlayAudioSampleMouseAdapter();
+    previewImagePanel.addMouseListener(playAudioAdapter);
     subSampledPreviewImagePanel = new ImagePanel();
     sampleMetaEditorPane = sampleControlsService.sampleMetaEditorPane();
 
@@ -167,15 +170,41 @@ public class SampleDetailsView {
   }
 
   private void setSamplePreview() {
-    if (Objects.nonNull(sample)) {
-      var subSampled = samplesService.subSample(sample, resolution, overlap);
-      sampleMetaEditorPane.setText(META_TEMPLATE.formatted(subSampled.getMetaDescription()));
-      previewImagePanel.setImage(samplesService.from(subSampled::createPreviewFromOriginal, zoom));
-      subSampledPreviewImagePanel.setImage(
-          samplesService.from(subSampled::createPreviewFromInput, zoom));
-    } else {
+    if (sample == null) {
       clear();
+      return;
     }
+
+    var currentSample = sample;
+    var currentZoom = zoom;
+    var currentResolution = resolution;
+    var currentOverlap = overlap;
+
+    new SwingWorker<Void, Void>() {
+      private String metaDescription;
+      private Image originalPreview;
+      private Image inputPreview;
+
+      @Override
+      protected Void doInBackground() {
+        var subSampled = samplesService.subSample(currentSample, currentResolution, currentOverlap);
+        metaDescription = META_TEMPLATE.formatted(subSampled.getMetaDescription());
+        originalPreview = samplesService.from(subSampled::createPreviewFromOriginal, currentZoom);
+        inputPreview = samplesService.from(subSampled::createPreviewFromInput, currentZoom);
+        return null;
+      }
+
+      @Override
+      protected void done() {
+        try {
+          get();
+          sampleMetaEditorPane.setText(metaDescription);
+          previewImagePanel.setImage(originalPreview);
+          subSampledPreviewImagePanel.setImage(inputPreview);
+        } catch (Exception ignored) {
+        }
+      }
+    }.execute();
   }
 
   public void clear() {
@@ -190,8 +219,7 @@ public class SampleDetailsView {
   }
 
   public void dispose() {
-    var adapter = (PlayAudioSampleMouseAdapter) previewImagePanel.getMouseListeners()[0];
-    adapter.stopClip();
+    playAudioAdapter.stopClip();
   }
 
   public void doLayout() {
@@ -221,9 +249,8 @@ public class SampleDetailsView {
       }
     }
 
-    @SneakyThrows
-    private Clip from(Sample sample) {
-      if (Objects.isNull(sample)) {
+    private Clip from(Sample sample) throws Exception {
+      if (sample == null) {
         return null;
       }
 

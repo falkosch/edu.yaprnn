@@ -13,6 +13,7 @@ public final class RandomConfigurer {
 
   @Named(YAPRNN_RANDOM_BEAN)
   @Produces
+  @Singleton
   public Random getRandom() {
     return new SecureRandom();
   }

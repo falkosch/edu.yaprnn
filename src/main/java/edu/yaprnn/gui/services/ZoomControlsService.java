@@ -41,7 +41,7 @@ public class ZoomControlsService {
 
   public ComboBoxModel<String> zoomComboBoxModel() {
     var model = new DefaultComboBoxModel<>(ZOOM_LEVELS);
-    model.setSelectedItem(onSamplePreviewModifiedRouter.getZoom());
+    model.setSelectedItem(String.valueOf(onSamplePreviewModifiedRouter.getZoom()));
     return model;
   }
 }

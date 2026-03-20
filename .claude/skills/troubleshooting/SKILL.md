@@ -32,6 +32,54 @@ static void assertAllFinite(float[] values) {
 **Reason:** Gradle fails the build on test failures before running finalized tasks.
 **Resolution:** Add `ignoreFailures = true` to the `test` task.
 
+### Mockito cannot mock sealed interfaces
+
+**Symptom:** `MockitoException: Sealed interfaces or abstract classes can't be mocked` when using `@Mock ModelNode`.
+**Reason:** `ModelNode` is a sealed interface. Mockito cannot subclass sealed types.
+**Resolution:** Mock the non-sealed subclass `DefaultNode` instead:
+```java
+@Mock
+DefaultNode modelNode;
+```
+
+### Ambiguous method reference with `setSelected(null)` on generic overloads
+
+**Symptom:** `Referenz zu setSelected ist mehrdeutig` when calling `setSelected(null)` on a class with both `setSelected(T)` and `setSelected(SomeType)`.
+**Reason:** Java cannot resolve `null` when multiple overloads accept reference types.
+**Resolution:** Cast the null: `setSelected((T) null)` or `setSelected((String) null)`.
+
+### Test OOM with large network performance tests
+
+**Symptom:** `Could not complete execution for Gradle Test Executor — Java heap space` when running `MultiLayerNetworkPerformanceTest`.
+**Reason:** Test JVM has `-Xmx512m`. Mini-batch learning allocates per-sample gradient matrices in parallel; with 999×999×999 layers and batch size 100, this exceeds heap.
+**Resolution:** Use a smaller batch size (e.g., 10) in performance tests, or increase test JVM heap in `build.gradle`:
+```groovy
+test { jvmArgs '-Xmx2g' }
+```
+
+### ArrayBlockingQueue deadlock in learnMiniBatch with pooled gradient buffers
+
+**Symptom:** Training hangs indefinitely when `batchSize > maxParallelism` using `ArrayBlockingQueue.take()` inside `invokeAll` tasks.
+**Reason:** `invokeAll` blocks until all tasks complete. With a pool of `maxParallelism` buffers and `batchSize` tasks, tasks beyond `maxParallelism` block on `take()` waiting for buffers that are only returned after `invokeAll` — classic deadlock.
+**Resolution:** Do not use a blocking pool inside `invokeAll` tasks. Instead, assign buffers by index (one per task) or partition work into `maxParallelism` chunks with one buffer each.
+
+### P1 weight snapshot breaks L1/L2 regularization correctness
+
+**Symptom:** Training produces different (worse) results after adding `copyMatrices(layerWeights)` snapshot before each batch.
+**Reason:** `applyGradients` reads the `layerWeights` parameter for L1/L2 decay computation but writes to `this.layerWeights`. With a snapshot, decay reads stale weights. Also unnecessary: `invokeAll` + `LinkedBlockingQueue` already provides happens-before ordering.
+**Resolution:** Use `this.layerWeights` directly. The thread pool's work queue establishes happens-before between `applyGradients` writes and subsequent batch reads.
+
+### `File("").getName()` returns empty string, `File("/path/").getName()` does not
+
+**Symptom:** Test expects `IllegalArgumentException` for empty filename but gets `NullPointerException` because `File("/some/path/").getName()` returns `"path"`, not `""`.
+**Reason:** `File.getName()` returns the last path component. Only `new File("")` yields an empty name.
+**Resolution:** Use `new File("")` in tests to trigger empty-name guards:
+```java
+var file = new File("");
+assertThatThrownBy(() -> service.fromAiff(new File[]{file}))
+    .isInstanceOf(IllegalArgumentException.class);
+```
+
 ## Build
 
 ### Python not found on MSYS2/Windows

@@ -101,7 +101,10 @@ public class ControlsService {
       Runnable runnable) {
     var dataListeners = List.of(model.getListDataListeners());
     dataListeners.forEach(model::removeListDataListener);
-    runnable.run();
-    dataListeners.forEach(model::addListDataListener);
+    try {
+      runnable.run();
+    } finally {
+      dataListeners.forEach(model::addListDataListener);
+    }
   }
 }

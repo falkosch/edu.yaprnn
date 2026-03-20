@@ -9,10 +9,10 @@ import java.util.List;
 public final class OnRepositoryElementsRemovedRouter {
 
   @Inject
-  Event<OnRepositoryElementsRemoved> onRepositoryElementRemovedEvent;
+  Event<OnRepositoryElementsRemoved> onRepositoryElementsRemovedEvent;
 
   public void fireEvent(Class<?> elementTypeClass, List<?> removed) {
     var event = new OnRepositoryElementsRemoved(elementTypeClass, removed);
-    onRepositoryElementRemovedEvent.fire(event);
+    onRepositoryElementsRemovedEvent.fire(event);
   }
 }

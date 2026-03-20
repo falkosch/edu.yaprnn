@@ -29,6 +29,9 @@ public final class AudiosImportService {
 
   private SoundSample fromAiff(File file) {
     var name = file.getName();
+    if (name.isEmpty()) {
+      throw new IllegalArgumentException("Audio file has no name: %s".formatted(file.getPath()));
+    }
     var label = name.toUpperCase().substring(0, 1);
     var target = importService.toTarget(label, SoundSample.LABELS);
 

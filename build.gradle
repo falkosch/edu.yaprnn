@@ -59,7 +59,7 @@ dependencies {
 }
 
 application {
-    applicationDefaultJvmArgs = ['-XX:+UseZGC']
+    applicationDefaultJvmArgs = ['-XX:+UseZGC', '-XX:StartFlightRecording=duration=60s,filename=training.jfr']
     mainClass = 'org.jboss.weld.environment.se.StartMain'
 }
 
@@ -87,6 +87,7 @@ test {
 jacocoTestReport {
     dependsOn test
     reports {
+        csv.required = true
         html.outputLocation = layout.projectDirectory.dir('coverage')
     }
 }

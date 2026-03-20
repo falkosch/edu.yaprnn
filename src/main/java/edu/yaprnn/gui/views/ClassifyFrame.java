@@ -21,6 +21,7 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +38,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.SwingWorker;
+import javax.swing.table.TableModel;
 
 @Singleton
 public class ClassifyFrame extends JFrame {
@@ -172,31 +175,44 @@ public class ClassifyFrame extends JFrame {
 
   private void classify() {
     classifyButton.setEnabled(false);
-    try {
-      var selectedSample = getSelectedSample();
-      var selectedDataSelector = getSelectedDataSelector();
-      var selectedMultiLayerNetwork = getSelectedMultiLayerNetwork();
-      var layers = selectedMultiLayerNetwork.feedForward(selectedSample, selectedDataSelector);
-      var outputLayer = Layer.output(layers);
-      var output = selectedDataSelector.postprocessOutput(outputLayer.v(), outputLayer.h(),
-          outputLayer.activationFunction());
-      var labels = selectedSample.getLabels();
-      var tableModel = visualizationService.classificationTableModel(labels, layers, output);
-      layersTable.setModel(tableModel);
+    var selectedSample = getSelectedSample();
+    var selectedDataSelector = getSelectedDataSelector();
+    var selectedMultiLayerNetwork = getSelectedMultiLayerNetwork();
 
-      if (selectedSample instanceof ImageSample imageSample) {
-        var outputWidth = selectedDataSelector.getOutputWidth(imageSample);
+    new SwingWorker<Void, Void>() {
+      private TableModel tableModel;
+      private Image reconstruction;
 
-        var reconstruction = visualizationService.fromOutput(output, outputWidth,
-            onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
-            onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma());
-        outputReconstructionImagePanel.setImage(reconstruction);
-      } else {
-        outputReconstructionImagePanel.setImage(null);
+      @Override
+      protected Void doInBackground() {
+        var layers = selectedMultiLayerNetwork.feedForward(selectedSample, selectedDataSelector);
+        var outputLayer = Layer.output(layers);
+        var output = selectedDataSelector.postprocessOutput(outputLayer.v(), outputLayer.h(),
+            outputLayer.activationFunction());
+        var labels = selectedSample.getLabels();
+        tableModel = visualizationService.classificationTableModel(labels, layers, output);
+
+        if (selectedSample instanceof ImageSample imageSample) {
+          var outputWidth = selectedDataSelector.getOutputWidth(imageSample);
+          reconstruction = visualizationService.fromOutput(output, outputWidth,
+              onMultiLayerNetworkWeightsPreviewModifiedRouter.getZoom(),
+              onMultiLayerNetworkWeightsPreviewModifiedRouter.getGamma());
+        }
+        return null;
       }
-    } finally {
-      classifyButton.setEnabled(true);
-    }
+
+      @Override
+      protected void done() {
+        try {
+          get();
+          layersTable.setModel(tableModel);
+          outputReconstructionImagePanel.setImage(reconstruction);
+        } catch (Exception ignored) {
+        } finally {
+          classifyButton.setEnabled(true);
+        }
+      }
+    }.execute();
   }
 
   private void syncViewOnSampleSelectionChanged(ItemEvent event) {

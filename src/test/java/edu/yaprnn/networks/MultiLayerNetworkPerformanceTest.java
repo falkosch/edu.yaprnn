@@ -84,20 +84,20 @@ class MultiLayerNetworkPerformanceTest {
   }
 
   @Test
-  void measureLearnOnline() {
-    learnOnline();
+  void measureLearnMiniBatch() {
+    learnMiniBatch();
 
     var t = System.nanoTime();
 
-    learnOnline();
+    learnMiniBatch();
 
     var d = System.nanoTime() - t;
     System.out.printf("Time delta: %s s", (d / 1_000_000_000.0));
   }
 
-  void learnOnline() {
-    network.learnOnline(gradientMatrixService, samples, dataSelector, 1, 0.02f, 0.2f, 0.001f,
-        0.001f);
+  void learnMiniBatch() {
+    network.learnMiniBatch(gradientMatrixService, samples, dataSelector, 1, 10, 0.02f, 0.2f,
+        0.001f, 0.001f);
   }
 
   final class TestGradientMatrixService extends GradientMatrixService {

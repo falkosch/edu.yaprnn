@@ -1,47 +1,38 @@
 package edu.yaprnn.events;
 
+import edu.yaprnn.gui.model.nodes.ModelNode;
 import edu.yaprnn.training.TrainingData;
 import jakarta.enterprise.event.Event;
-import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.Objects;
-import lombok.Getter;
+import java.util.function.Function;
 
 @Singleton
-public final class OnTrainingDataSelectedRouter {
+public class OnTrainingDataSelectedRouter
+    extends AbstractSelectionRouter<TrainingData, OnTrainingDataSelected> {
 
   @Inject
   EventsMapper eventsMapper;
   @Inject
   Event<OnTrainingDataSelected> onTrainingDataSelectedEvent;
 
-  @Getter
-  private TrainingData selected;
-
-  void unselectIfRemoved(@Observes OnRepositoryElementsRemoved event) {
-    if (Objects.isNull(selected)) {
-      return;
-    }
-    if (event.elementTypeClass() != TrainingData.class) {
-      return;
-    }
-    if (event.removed().contains(selected)) {
-      setSelected((TrainingData) null);
-    }
+  @Override
+  protected Class<TrainingData> elementType() {
+    return TrainingData.class;
   }
 
-  public void setSelected(TrainingData value) {
-    selected = value;
-    fireEvent();
+  @Override
+  protected OnTrainingDataSelected createEvent(TrainingData selected) {
+    return new OnTrainingDataSelected(selected);
   }
 
-  private void fireEvent() {
-    var event = new OnTrainingDataSelected(selected);
-    onTrainingDataSelectedEvent.fire(event);
+  @Override
+  protected Event<OnTrainingDataSelected> event() {
+    return onTrainingDataSelectedEvent;
   }
 
-  void setSelected(@Observes OnModelNodeSelected event) {
-    setSelected(eventsMapper.toTrainingData(event.value()));
+  @Override
+  protected Function<ModelNode, TrainingData> modelNodeMapper() {
+    return eventsMapper::toTrainingData;
   }
 }

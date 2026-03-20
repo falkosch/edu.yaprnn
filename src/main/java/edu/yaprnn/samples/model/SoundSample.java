@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public final class SoundSample implements Sample {
 
   public static final List<String> LABELS = List.of("A", "E", "I", "O", "U");
+  private static final String[] LABELS_ARRAY = LABELS.toArray(String[]::new);
 
   private static final int COLOR_BASE = 16765440;
   private static final int PREVIEW_HEIGHT = 256;
@@ -51,8 +52,12 @@ public final class SoundSample implements Sample {
    * @return sampled version
    */
   public SoundSample subSample(int resolution, float overlap, float lambda) {
-    assert overlap >= 0f && overlap < 1f : "Overlap must be in the range [0, 1)";
-    assert lambda > 1f : "Window sizing 'lambda' must be greater than 1";
+    if (overlap < 0f || overlap >= 1f) {
+      throw new IllegalArgumentException("Overlap must be in [0, 1), got: " + overlap);
+    }
+    if (lambda <= 1f) {
+      throw new IllegalArgumentException("Lambda must be > 1, got: " + lambda);
+    }
 
     var windowWidth = initialWindowWidthFrom(resolution, lambda);
     var windowStart = 0f;
@@ -92,7 +97,7 @@ public final class SoundSample implements Sample {
 
   @Override
   public String[] getLabels() {
-    return LABELS.toArray(String[]::new);
+    return LABELS_ARRAY;
   }
 
   @Override

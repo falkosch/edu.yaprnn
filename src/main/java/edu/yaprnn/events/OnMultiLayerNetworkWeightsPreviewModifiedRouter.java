@@ -32,6 +32,7 @@ public final class OnMultiLayerNetworkWeightsPreviewModifiedRouter {
     fireEvent();
   }
 
+  /** Public so TrainingFrame can trigger a preview refresh after each training iteration. */
   public void fireEvent() {
     onMultiLayerNetworkWeightsPreviewModifiedEvent.fire(current());
   }
@@ -42,20 +43,12 @@ public final class OnMultiLayerNetworkWeightsPreviewModifiedRouter {
   }
 
   public void setZoom(double value) {
-    setZoom((float) value);
-  }
-
-  public void setZoom(float value) {
-    zoom = value;
+    zoom = (float) value;
     fireEvent();
   }
 
   public void setGamma(double value) {
-    setGamma((float) value);
-  }
-
-  public void setGamma(float value) {
-    gamma = value;
+    gamma = (float) value;
     fireEvent();
   }
 }

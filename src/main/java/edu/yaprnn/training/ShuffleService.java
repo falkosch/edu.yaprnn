@@ -30,6 +30,7 @@ public final class ShuffleService {
     var trainingSize = (int) (size * (trainingPercentage / normalization));
     var devTestSize = (int) (size * (devTestPercentage / normalization));
 
+    // Sort for deterministic sample lookup order after random partitioning
     var trainingList = new ArrayList<>(shuffledNames.subList(0, trainingSize));
     trainingList.sort(String::compareTo);
     var devTestList = new ArrayList<>(

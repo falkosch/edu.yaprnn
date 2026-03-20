@@ -74,7 +74,6 @@ public class TrainingFrame extends JFrame {
   private DefaultComboBoxModel<MultiLayerNetwork> multiLayerNetworksComboBoxModel;
   private SpinnerNumberModel maxIterationsSpinnerNumberModel;
   private SpinnerNumberModel maxTrainingErrorSpinnerNumberModel;
-  private JComboBox<TrainingMethod> trainingMethodComboBox;
   private SpinnerNumberModel batchSizeSpinnerNumberModel;
   private SpinnerNumberModel maxParallelismSpinnerNumberModel;
   private SpinnerNumberModel learningRateSpinnerNumberModel;
@@ -131,7 +130,6 @@ public class TrainingFrame extends JFrame {
   void initialize() {
     var maxIterationsLabel = new JLabel("Max iterations");
     var maxTrainingErrorLabel = new JLabel("Max error");
-    var trainingMethodLabel = new JLabel("Training method");
     var batchSizeLabel = new JLabel("Batch size");
     var maxParallelismLabel = new JLabel("Max parallelism");
     var learningRateLabel = new JLabel("Learning rate");
@@ -172,8 +170,6 @@ public class TrainingFrame extends JFrame {
     maxIterationsSpinnerNumberModel = new SpinnerNumberModel(50, 1, null, 1000);
     var maxIterationsSpinner = new JSpinner(maxIterationsSpinnerNumberModel);
 
-    trainingMethodComboBox = new JComboBox<>(TrainingMethod.values());
-    trainingMethodComboBox.getModel().setSelectedItem(TrainingMethod.BATCH);
     batchSizeSpinnerNumberModel = new SpinnerNumberModel(100, 1, null, 1);
     var batchSizeSpinner = new JSpinner(batchSizeSpinnerNumberModel);
     maxParallelismSpinnerNumberModel = new SpinnerNumberModel(
@@ -220,8 +216,6 @@ public class TrainingFrame extends JFrame {
             .addComponent(maxTrainingErrorLabel)
             .addComponent(maxTrainingErrorSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100))
         .addGroup(preferencesGroupLayout.createParallelGroup()
-            .addComponent(trainingMethodLabel)
-            .addComponent(trainingMethodComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 200)
             .addComponent(batchSizeLabel)
             .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 100)
             .addComponent(maxParallelismLabel)
@@ -251,8 +245,6 @@ public class TrainingFrame extends JFrame {
             .addComponent(maxTrainingErrorLabel)
             .addComponent(maxTrainingErrorSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28))
         .addGroup(preferencesGroupLayout.createSequentialGroup()
-            .addComponent(trainingMethodLabel)
-            .addComponent(trainingMethodComboBox, PREFERRED_SIZE, DEFAULT_SIZE, 28)
             .addComponent(batchSizeLabel)
             .addComponent(batchSizeSpinner, PREFERRED_SIZE, DEFAULT_SIZE, 28)
             .addComponent(maxParallelismLabel)
@@ -310,7 +302,6 @@ public class TrainingFrame extends JFrame {
   private void startTraining() {
     trainingWorker = new TrainingWorker(maxIterationsSpinnerNumberModel.getNumber().intValue(),
         maxTrainingErrorSpinnerNumberModel.getNumber().floatValue(),
-        (TrainingMethod) trainingMethodComboBox.getSelectedItem(),
         batchSizeSpinnerNumberModel.getNumber().intValue(),
         maxParallelismSpinnerNumberModel.getNumber().intValue(),
         learningRateSpinnerNumberModel.getNumber().floatValue(),
@@ -356,8 +347,6 @@ public class TrainingFrame extends JFrame {
     trainingDataComboBoxModel.addAll(items);
   }
 
-  private enum TrainingMethod {ONLINE, BATCH}
-
   private enum LearningRateModifier {CONSTANT, PERIODIC, ADAPTIVE}
 
   private interface LearnSamplesConsumer {
@@ -370,7 +359,6 @@ public class TrainingFrame extends JFrame {
 
     private final int maxIterations;
     private final float maxTrainingError;
-    private final TrainingMethod trainingMethod;
     private final int batchSize;
     private final int maxParallelism;
     private final float learningRate;
@@ -384,7 +372,7 @@ public class TrainingFrame extends JFrame {
     private final TrainingData trainingData;
     private final MultiLayerNetwork multiLayerNetwork;
 
-    private boolean stopped = false;
+    private volatile boolean stopped = false;
 
     private void stop() {
       stopped = true;
@@ -393,28 +381,24 @@ public class TrainingFrame extends JFrame {
 
     @Override
     protected MultiLayerNetwork doInBackground() {
-      try {
-        train((samples, dataSelector, iteration, learningRate) -> {
-          if (Objects.requireNonNull(trainingMethod) == TrainingMethod.ONLINE) {
-            multiLayerNetwork.learnOnline(gradientMatrixService, samples, dataSelector,
-                maxParallelism, learningRate, momentum, decayL1, decayL2);
-          } else {
-            multiLayerNetwork.learnMiniBatch(gradientMatrixService, samples, dataSelector,
-                maxParallelism, batchSize, learningRate, momentum, decayL1, decayL2);
-          }
-        });
-      } catch (Throwable throwable) {
-        dialogsService.showError(TrainingFrame.this, TITLE, throwable);
-      }
-
+      train((samples, dataSelector, iteration, learningRate) ->
+          multiLayerNetwork.learnMiniBatch(gradientMatrixService, samples, dataSelector,
+              maxParallelism, batchSize, learningRate, momentum, decayL1, decayL2));
       return multiLayerNetwork;
     }
 
     @Override
     protected void done() {
-      trainingWorker = null;
-      startTrainingButton.setEnabled(true);
-      stopTrainingButton.setEnabled(false);
+      try {
+        get();
+      } catch (Exception exception) {
+        var cause = exception.getCause() != null ? exception.getCause() : exception;
+        dialogsService.showError(TrainingFrame.this, TITLE, cause);
+      } finally {
+        trainingWorker = null;
+        startTrainingButton.setEnabled(true);
+        stopTrainingButton.setEnabled(false);
+      }
     }
 
     private void train(LearnSamplesConsumer learnSamplesConsumer) {

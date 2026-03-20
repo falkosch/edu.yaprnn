@@ -13,7 +13,7 @@ public class DataSelectorNode extends DefaultNode {
   private final Supplier<TrainingData> trainingDataSupplier;
 
   public DataSelectorNode(Supplier<TrainingData> trainingDataSupplier) {
-    super(Providers.constant(IconsService.ICON_ACTIVATION_FUNCTION),
+    super(Providers.constant(IconsService.ICON_TRAINING_DATA_NODE),
         Providers.mapped(trainingDataSupplier, DataSelectorNode::labelFrom),
         Collections::emptyList);
     this.trainingDataSupplier = trainingDataSupplier;

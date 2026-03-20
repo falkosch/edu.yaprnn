@@ -25,7 +25,7 @@ public class IconsService {
   public static final Icon ICON_LAYER_TEMPLATE = smallIconFromResource(
       "/edu/yaprnn/gui/views/symbols/mayor-icons-layer-template.png");
   public static final Icon ICON_LOSS_FUNCTION = smallIconFromResource(
-      "/edu/yaprnn/gui/views/old/activation-function.png");
+      "/edu/yaprnn/gui/views/old/configuration.png");
   public static final Icon ICON_MULTI_LAYER_NETWORK = smallIconFromResource(
       "/edu/yaprnn/gui/views/symbols/vectorslab-network.png");
   public static final Icon ICON_MULTI_LAYER_NETWORK_TEMPLATE = smallIconFromResource(
@@ -39,8 +39,37 @@ public class IconsService {
   public static final Icon ICON_TRAINING_SAMPLES_NODE = smallIconFromResource(
       "/edu/yaprnn/gui/views/old/training-set-node.png");
 
+  private final Icon visitIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-visit.png");
+  private final Icon addIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-add.png");
+  private final Icon editIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-edit.png");
+  private final Icon removeIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-remove.png");
+  private final Icon subSampleIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-sub-sample.png");
+  private final Icon randomizeTrainingDataIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/buandesign-randomize.png");
+  private final Icon classifyIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-classify.png");
+  private final Icon trainIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-train.png");
+  private final Icon resetIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-reset.png");
+  private final Icon loadIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-open.png");
+  private final Icon saveIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-save.png");
+  private final Icon importAudioIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-import-audio.png");
+  private final Icon importImagesIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/action/srip-import-images.png");
+  private final Icon sampleSetNodeIcon = smallIconFromResource(
+      "/edu/yaprnn/gui/views/old/sample-set-node.png");
+
   public Icon visitIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-visit.png");
+    return visitIcon;
   }
 
   private static Icon smallIconFromResource(String location) {
@@ -60,54 +89,54 @@ public class IconsService {
   }
 
   public Icon addIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-add.png");
+    return addIcon;
   }
 
   public Icon editIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-edit.png");
+    return editIcon;
   }
 
   public Icon removeIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-remove.png");
+    return removeIcon;
   }
 
   public Icon subSampleIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-sub-sample.png");
+    return subSampleIcon;
   }
 
   public Icon randomizeTrainingDataIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/buandesign-randomize.png");
+    return randomizeTrainingDataIcon;
   }
 
   public Icon classifyIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-classify.png");
+    return classifyIcon;
   }
 
   public Icon trainIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-train.png");
+    return trainIcon;
   }
 
   public Icon resetIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-reset.png");
+    return resetIcon;
   }
 
   public Icon loadIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-open.png");
+    return loadIcon;
   }
 
   public Icon saveIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-save.png");
+    return saveIcon;
   }
 
   public Icon importAudioIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-import-audio.png");
+    return importAudioIcon;
   }
 
   public Icon importImagesIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/action/srip-import-images.png");
+    return importImagesIcon;
   }
 
   public Icon sampleSetNodeIcon() {
-    return smallIconFromResource("/edu/yaprnn/gui/views/old/sample-set-node.png");
+    return sampleSetNodeIcon;
   }
 }

@@ -7,12 +7,12 @@ import edu.yaprnn.networks.activation.ActivationFunction;
 import edu.yaprnn.networks.loss.LossFunction;
 import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.training.selectors.DataSelector;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,41 +39,6 @@ public final class MultiLayerNetwork {
   public void resetLayerWeights(GradientMatrixService gradientMatrixService) {
     layerWeights = gradientMatrixService.resetLayerWeights(layerSizes, activationFunctions);
     previousLayerGradients = gradientMatrixService.zeroMatrices(layerSizes);
-  }
-
-  /**
-   * It is hard to parallelize online learning, since weights are immediately updated after each
-   * visited sample. Computation of gradients would be affected by "outdated" error vectors, thus
-   * may overshoot, undershoot, or even nullify weight changes. This strongly depends on the chosen
-   * activation function though, e.g. the identity function is very sensible to this.
-   */
-  public void learnOnline(GradientMatrixService gradientMatrixService,
-      List<? extends Sample> trainingSamples, DataSelector dataSelector, int maxParallelism,
-      float learningRate, float momentum, float decayL1, float decayL2) {
-    Objects.requireNonNull(gradientMatrixService, "gradientMatrixService");
-    Objects.requireNonNull(trainingSamples, "trainingSamples");
-    Objects.requireNonNull(dataSelector, "dataSelector");
-    if (maxParallelism < 1) {
-      throw new IllegalArgumentException("maxParallelism must be >= 1");
-    }
-
-    var tasks = trainingSamples.parallelStream().<Callable<Sample>>map(sample -> () -> {
-      var input = dataSelector.input(sample);
-      var target = dataSelector.target(sample, activationFunctions[activationFunctions.length - 1]);
-
-      var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
-      var layerWeights1 = gradientMatrixService.copyMatrices(this.layerWeights);
-      computeGradients(layerGradients, layerWeights1, input, target);
-      applyGradients(layerGradients, layerWeights1, 1, learningRate, momentum, decayL1, decayL2);
-      return sample;
-    }).toList();
-
-    try (var executor = newFixedThreadPool(maxParallelism, Thread.ofVirtual().factory())) {
-      executor.invokeAll(tasks);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new RuntimeException("Training interrupted", e);
-    }
   }
 
   private void computeGradients(float[][] layerGradients, float[][] layerWeights, float[] input,
@@ -133,8 +98,8 @@ public final class MultiLayerNetwork {
     var inputActivationFunction = activationFunctions[0];
     layers[0] = new Layer(0, v, inputActivationFunction.apply(v), inputActivationFunction);
 
-    for (int i = 1, k = 0; i < layers.length; i++, k++) {
-      layers[i] = feedForward(layers[k], layerWeights[k], i);
+    for (int i = 1; i < layers.length; i++) {
+      layers[i] = feedForward(layers[i - 1], layerWeights[i - 1], i);
     }
 
     return layers;
@@ -189,29 +154,45 @@ public final class MultiLayerNetwork {
       throw new IllegalArgumentException("batchSize must be >= 1");
     }
 
+    // Pre-allocate per-chunk gradient buffers (P3 fix)
+    var chunkGradients = new float[maxParallelism][][];
+    for (var t = 0; t < maxParallelism; t++) {
+      chunkGradients[t] = gradientMatrixService.zeroMatrices(layerSizes);
+    }
+
     try (var executor = newFixedThreadPool(maxParallelism, Thread.ofVirtual().factory())) {
       for (var batchStart = 0; batchStart < trainingSamples.size(); batchStart += batchSize) {
         var batchEnd = Math.min(batchStart + batchSize, trainingSamples.size());
-        var batch = trainingSamples.subList(batchStart, batchEnd)
-            .stream()
-            .<Callable<float[][]>>map(sample -> () -> {
+        var batchSamples = trainingSamples.subList(batchStart, batchEnd);
+
+        // Each chunk processes multiple samples, accumulating gradients in one buffer
+        var chunkCount = Math.min(maxParallelism, batchSamples.size());
+        var chunkTasks = new ArrayList<Callable<float[][]>>(chunkCount);
+        for (var c = 0; c < chunkCount; c++) {
+          var chunkStart = c * batchSamples.size() / chunkCount;
+          var chunkEnd = (c + 1) * batchSamples.size() / chunkCount;
+          var gradients = chunkGradients[c];
+          chunkTasks.add(() -> {
+            gradientMatrixService.zeroFillMatrices(gradients);
+            for (var s = chunkStart; s < chunkEnd; s++) {
+              var sample = batchSamples.get(s);
               var input = dataSelector.input(sample);
               var target = dataSelector.target(sample,
                   activationFunctions[activationFunctions.length - 1]);
+              computeGradients(gradients, layerWeights, input, target);
+            }
+            return gradients;
+          });
+        }
 
-              var layerGradients = gradientMatrixService.zeroMatrices(layerSizes);
-              computeGradients(layerGradients, layerWeights, input, target);
-              return layerGradients;
-            })
-            .toList();
+        executor.invokeAll(chunkTasks);
 
-        var batchLayerGradients = executor.invokeAll(batch)
-            .parallelStream()
-            .map(Future::resultNow)
-            .reduce(gradientMatrixService.zeroMatrices(layerSizes),
-                gradientMatrixService::accumulateGradients);
+        // Merge chunk results — only maxParallelism buffers to reduce
+        for (var c = 1; c < chunkCount; c++) {
+          gradientMatrixService.accumulateGradientsInPlace(chunkGradients[0], chunkGradients[c]);
+        }
 
-        applyGradients(batchLayerGradients, layerWeights, batchSize, learningRate, momentum,
+        applyGradients(chunkGradients[0], layerWeights, batchSize, learningRate, momentum,
             decayL1, decayL2);
       }
     } catch (InterruptedException e) {

@@ -1,47 +1,39 @@
 package edu.yaprnn.events;
 
+import edu.yaprnn.gui.model.nodes.ModelNode;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import jakarta.enterprise.event.Event;
-import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.Objects;
-import lombok.Getter;
+import java.util.function.Function;
 
 @Singleton
-public final class OnMultiLayerNetworkTemplateSelectedRouter {
+public class OnMultiLayerNetworkTemplateSelectedRouter
+    extends AbstractSelectionRouter<MultiLayerNetworkTemplate, OnMultiLayerNetworkTemplateSelected> {
 
   @Inject
   EventsMapper eventsMapper;
   @Inject
   Event<OnMultiLayerNetworkTemplateSelected> onMultiLayerNetworkTemplateSelectedEvent;
 
-  @Getter
-  private MultiLayerNetworkTemplate selected;
-
-  void unselectIfRemoved(@Observes OnRepositoryElementsRemoved event) {
-    if (Objects.isNull(selected)) {
-      return;
-    }
-    if (event.elementTypeClass() != MultiLayerNetworkTemplate.class) {
-      return;
-    }
-    if (event.removed().contains(selected)) {
-      setSelected((MultiLayerNetworkTemplate) null);
-    }
+  @Override
+  protected Class<MultiLayerNetworkTemplate> elementType() {
+    return MultiLayerNetworkTemplate.class;
   }
 
-  public void setSelected(MultiLayerNetworkTemplate value) {
-    selected = value;
-    fireEvent();
+  @Override
+  protected OnMultiLayerNetworkTemplateSelected createEvent(
+      MultiLayerNetworkTemplate selected) {
+    return new OnMultiLayerNetworkTemplateSelected(selected);
   }
 
-  private void fireEvent() {
-    var event = new OnMultiLayerNetworkTemplateSelected(selected);
-    onMultiLayerNetworkTemplateSelectedEvent.fire(event);
+  @Override
+  protected Event<OnMultiLayerNetworkTemplateSelected> event() {
+    return onMultiLayerNetworkTemplateSelectedEvent;
   }
 
-  void setSelected(@Observes OnModelNodeSelected event) {
-    setSelected(eventsMapper.toMultiLayerNetworkTemplate(event.value()));
+  @Override
+  protected Function<ModelNode, MultiLayerNetworkTemplate> modelNodeMapper() {
+    return eventsMapper::toMultiLayerNetworkTemplate;
   }
 }

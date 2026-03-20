@@ -1,10 +1,13 @@
 package edu.yaprnn.samples.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.File;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class SoundSampleTest {
 
@@ -97,6 +100,44 @@ class SoundSampleTest {
 
       assertThat(result.getInput()).hasSize(3);
     }
+
+    @ParameterizedTest
+    @ValueSource(floats = {-0.1f, 1.0f, 1.5f})
+    void shouldRejectInvalidOverlap(float overlap) {
+      var sample = create(new float[]{1f, 2f, 3f, 4f, 5f});
+
+      assertThatThrownBy(() -> sample.subSample(3, overlap, 1.005f))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("Overlap");
+    }
+
+    @ParameterizedTest
+    @ValueSource(floats = {0.5f, 1.0f, 0.0f, -1.0f})
+    void shouldRejectInvalidLambda(float lambda) {
+      var sample = create(new float[]{1f, 2f, 3f, 4f, 5f});
+
+      assertThatThrownBy(() -> sample.subSample(3, 0f, lambda))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("Lambda");
+    }
+
+    @Test
+    void shouldAcceptBoundaryOverlapZero() {
+      var sample = create(new float[]{1f, 2f, 3f, 4f, 5f});
+
+      var result = sample.subSample(3, 0f, 1.005f);
+
+      assertThat(result.getInput()).hasSize(3);
+    }
+
+    @Test
+    void shouldAcceptOverlapJustBelowOne() {
+      var sample = create(new float[]{1f, 2f, 3f, 4f, 5f});
+
+      var result = sample.subSample(3, 0.99f, 1.005f);
+
+      assertThat(result.getInput()).hasSize(3);
+    }
   }
 
   @Nested
@@ -107,6 +148,11 @@ class SoundSampleTest {
     @Test
     void shouldReturnLabels() {
       assertThat(sample.getLabels()).containsExactly("A", "E", "I", "O", "U");
+    }
+
+    @Test
+    void shouldReturnCachedLabelsArray() {
+      assertThat(sample.getLabels()).isSameAs(sample.getLabels());
     }
 
     @Test

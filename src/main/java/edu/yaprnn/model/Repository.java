@@ -11,17 +11,17 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
+import java.util.Objects;
 
 /**
  * Represents the data of the artificial neural networks.
  *
  * @see NetworksTreeModel is the UI representation of this data
  */
-@Getter
 @Singleton
 public final class Repository {
 
@@ -30,6 +30,26 @@ public final class Repository {
   private final List<TrainingData> trainingDataList = new ArrayList<>();
   private final List<MultiLayerNetworkTemplate> multiLayerNetworkTemplates = new ArrayList<>();
   private final List<MultiLayerNetwork> multiLayerNetworks = new ArrayList<>();
+
+  public List<Sample> getSamples() {
+    return Collections.unmodifiableList(samples);
+  }
+
+  public List<TrainingData> getTrainingDataList() {
+    return Collections.unmodifiableList(trainingDataList);
+  }
+
+  public List<MultiLayerNetworkTemplate> getMultiLayerNetworkTemplates() {
+    return Collections.unmodifiableList(multiLayerNetworkTemplates);
+  }
+
+  public List<MultiLayerNetwork> getMultiLayerNetworks() {
+    return Collections.unmodifiableList(multiLayerNetworks);
+  }
+
+  public Map<String, Sample> getSamplesGroupedByName() {
+    return Collections.unmodifiableMap(samplesGroupedByName);
+  }
 
   @Inject
   OnRepositoryElementsChangedRouter onRepositoryElementsChangedRouter;
@@ -47,19 +67,17 @@ public final class Repository {
   }
 
   public void addSamples(Collection<? extends Sample> items) {
-    samples.addAll(items);
     items.forEach(sample -> samplesGroupedByName.put(sample.getName(), sample));
-    onRepositoryElementsChangedRouter.fireEvent(Sample.class, List.copyOf(items));
+    add(samples, Sample.class, items);
   }
 
   public List<Sample> querySamplesByName(List<String> sampleNames) {
-    return sampleNames.stream().map(samplesGroupedByName::get).toList();
+    return sampleNames.stream().map(samplesGroupedByName::get).filter(Objects::nonNull).toList();
   }
 
   public void removeSamples(Collection<? extends Sample> items) {
-    samples.removeAll(items);
     items.forEach(sample -> samplesGroupedByName.remove(sample.getName(), sample));
-    onRepositoryElementsRemovedRouter.fireEvent(Sample.class, List.copyOf(items));
+    remove(samples, Sample.class, items);
   }
 
   public void addTrainingData(Collection<? extends TrainingData> items) {

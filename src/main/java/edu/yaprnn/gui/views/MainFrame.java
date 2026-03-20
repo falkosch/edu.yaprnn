@@ -447,6 +447,9 @@ public class MainFrame extends JFrame {
   }
 
   private void setSamplePreview(@Observes OnSamplePreviewModified event) {
+    if (sampleDetailsView == null) {
+      return;
+    }
     setSamplePreview(event.zoom(), event.resolution(), event.overlap());
   }
 
@@ -479,10 +482,16 @@ public class MainFrame extends JFrame {
   }
 
   private void setEnabledOfCommands(@Observes OnModelNodeSelected event) {
+    if (detailsTabbedPane == null) {
+      return;
+    }
     setEnabledOfCommands(event.value());
   }
 
   private void setSelectedSample(@Observes OnSampleSelected event) {
+    if (sampleDetailsView == null) {
+      return;
+    }
     setSelectedSample(event.value());
   }
 
@@ -493,6 +502,9 @@ public class MainFrame extends JFrame {
   }
 
   private void setWeightsPreview(@Observes OnMultiLayerNetworkWeightsPreviewModified event) {
+    if (weightsDetailsTabbedPane == null) {
+      return;
+    }
     setWeightsPreview(event.multiLayerNetwork(), event.weightsIndex(), event.zoom(), event.gamma());
   }
 
@@ -502,6 +514,9 @@ public class MainFrame extends JFrame {
   }
 
   private void setSelectedMultiLayerNetwork(@Observes OnMultiLayerNetworkSelected event) {
+    if (classifyFrame == null) {
+      return;
+    }
     setSelectedMultiLayerNetwork(event.value());
   }
 
@@ -511,10 +526,16 @@ public class MainFrame extends JFrame {
   }
 
   private void setSelectedTrainingData(@Observes OnTrainingDataSelected event) {
+    if (trainingFrame == null) {
+      return;
+    }
     trainingFrame.setSelectedTrainingData(event.value());
   }
 
   private void prepareSelectionControls(@Observes OnRepositoryElementsChanged event) {
+    if (classifyFrame == null) {
+      return;
+    }
     var elementTypeClass = event.elementTypeClass();
 
     if (elementTypeClass == Sample.class) {
@@ -541,6 +562,9 @@ public class MainFrame extends JFrame {
   }
 
   private void removeFromSelectionControls(@Observes OnRepositoryElementsRemoved event) {
+    if (classifyFrame == null) {
+      return;
+    }
     var elementTypeClass = event.elementTypeClass();
 
     if (elementTypeClass == Sample.class) {
