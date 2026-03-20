@@ -22,22 +22,22 @@ public final class GaussianInitializer {
 
   public static void xavier(Random random, float[] weights, int inputSize, int outputSize) {
     var generator = createGaussianRandomGenerator(random);
-    var xavier = 2f / (inputSize + outputSize);
+    var std = (float) Math.sqrt(2.0 / (inputSize + outputSize));
 
     for (int row = 0, w = 0; row < inputSize; row++) {
       for (var col = 0; col < outputSize; col++, w++) {
-        weights[w] = xavier * (float) generator.nextNormalizedDouble();
+        weights[w] = std * (float) generator.nextNormalizedDouble();
       }
     }
   }
 
   public static void he(Random random, float[] weights, int inputSize, int outputSize) {
     var generator = createGaussianRandomGenerator(random);
-    var xavier = 2f / inputSize;
+    var std = (float) Math.sqrt(2.0 / inputSize);
 
     for (int row = 0, w = 0; row < inputSize; row++) {
       for (var col = 0; col < outputSize; col++, w++) {
-        weights[w] = xavier * (float) generator.nextNormalizedDouble();
+        weights[w] = std * (float) generator.nextNormalizedDouble();
       }
     }
   }

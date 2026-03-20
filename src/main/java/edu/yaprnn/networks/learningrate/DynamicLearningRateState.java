@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Increases the learning rate when the error resulting from the last training iteration increased.
- * Decreases the learning rate when the error decreased.
+ * Increases the learning rate when the training error decreased (accelerate on progress). Decreases
+ * the learning rate when the training error increased (brake on overshoot).
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DynamicLearningRateState implements LearningRateState {

@@ -3,6 +3,7 @@ package edu.yaprnn.networks.weights;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Random;
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,21 @@ class WeightInitializerTest {
     for (var v : values) {
       assertThat(v).isFinite();
     }
+  }
+
+  static float computeStd(float[] values) {
+    var mean = 0.0;
+    for (var v : values) {
+      mean += v;
+    }
+    mean /= values.length;
+
+    var variance = 0.0;
+    for (var v : values) {
+      variance += (v - mean) * (v - mean);
+    }
+    variance /= values.length;
+    return (float) Math.sqrt(variance);
   }
 
   static void assertAnyNonZero(float[] values) {
@@ -63,6 +79,32 @@ class WeightInitializerTest {
       GaussianInitializer.gaussian(new Random(42L), w2, 3, 2);
 
       assertThat(w1).containsExactly(w2);
+    }
+
+    @Test
+    void shouldScaleXavierWithCorrectStandardDeviation() {
+      var inputSize = 100;
+      var outputSize = 50;
+      var weights = new float[inputSize * outputSize];
+      GaussianInitializer.xavier(new Random(42L), weights, inputSize, outputSize);
+
+      var expectedStd = (float) Math.sqrt(2.0 / (inputSize + outputSize));
+      var empiricalStd = computeStd(weights);
+
+      assertThat(empiricalStd).isCloseTo(expectedStd, Offset.offset(0.01f));
+    }
+
+    @Test
+    void shouldScaleHeWithCorrectStandardDeviation() {
+      var inputSize = 100;
+      var outputSize = 50;
+      var weights = new float[inputSize * outputSize];
+      GaussianInitializer.he(new Random(42L), weights, inputSize, outputSize);
+
+      var expectedStd = (float) Math.sqrt(2.0 / inputSize);
+      var empiricalStd = computeStd(weights);
+
+      assertThat(empiricalStd).isCloseTo(expectedStd, Offset.offset(0.01f));
     }
   }
 

@@ -8,6 +8,8 @@ import edu.yaprnn.networks.activation.ActivationFunction;
  */
 public final class BinaryCrossEntropyLossFunction implements LossFunction {
 
+  private static final float EPS = 1e-7f;
+
   @Override
   public float[] computeOutputError(float[] v, float[] h, float[] target,
       ActivationFunction activationFunction) {
@@ -36,12 +38,12 @@ public final class BinaryCrossEntropyLossFunction implements LossFunction {
 
     var loss = 0f;
     for (var i = 0; i < aligned.length(); i++) {
-      var x = aligned.h()[i];
+      var x = Math.max(EPS, Math.min(1f - EPS, aligned.h()[i]));
       var y = aligned.target()[i];
       loss -= y * (float) Math.log(x) + (1f - y) * (float) Math.log(1f - x);
     }
 
-    return Float.isNaN(loss) ? Float.POSITIVE_INFINITY : loss;
+    return loss;
   }
 
   @Override

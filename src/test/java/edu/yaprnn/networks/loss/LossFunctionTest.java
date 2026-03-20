@@ -158,21 +158,36 @@ class LossFunctionTest {
     }
 
     @Test
-    void shouldReturnInfinityWhenLossIsInfinite() {
-      // y=1, x=0: -1*log(0) = -(-Inf) = +Inf, isNaN(Inf)=false but Inf is returned
+    void shouldReturnFiniteErrorForBoundaryPredictionOne() {
+      // h=0, target=1: clamped to eps, log(eps) is finite
       var h = new float[]{0f};
       var target = new float[]{1f};
 
-      assertThat(loss.computeNetworkError(h, target)).isEqualTo(Float.POSITIVE_INFINITY);
+      var error = loss.computeNetworkError(h, target);
+      assertThat(error).isFinite();
+      assertThat(error).isGreaterThan(0f);
     }
 
     @Test
-    void shouldReturnInfinityWhenLossIsNaN() {
-      // y=0, x=0: 0*log(0) = 0*(-Inf) = NaN, isNaN check catches this
+    void shouldReturnFiniteErrorForBoundaryPredictionZero() {
+      // h=0, target=0: clamped to eps, finite result
       var h = new float[]{0f};
       var target = new float[]{0f};
 
-      assertThat(loss.computeNetworkError(h, target)).isEqualTo(Float.POSITIVE_INFINITY);
+      var error = loss.computeNetworkError(h, target);
+      assertThat(error).isFinite();
+      assertThat(error).isGreaterThanOrEqualTo(0f);
+    }
+
+    @Test
+    void shouldReturnNearZeroErrorForPerfectBoundaryPredictions() {
+      // h={0,1}, target={0,1}: perfect predictions at boundaries
+      var h = new float[]{0f, 1f};
+      var target = new float[]{0f, 1f};
+
+      var error = loss.computeNetworkError(h, target);
+      assertThat(error).isFinite();
+      assertThat(error).isCloseTo(0f, Offset.offset(0.01f));
     }
 
     @Test
@@ -372,12 +387,24 @@ class LossFunctionTest {
     }
 
     @Test
-    void shouldReturnInfinityWhenLossIsNaN() {
-      // y=0, x=0: 0*log(0) = NaN
+    void shouldReturnFiniteErrorForBoundaryPrediction() {
+      // h=0, target=0: clamped to eps, finite result
       var h = new float[]{0f};
       var target = new float[]{0f};
 
-      assertThat(loss.computeNetworkError(h, target)).isEqualTo(Float.POSITIVE_INFINITY);
+      var error = loss.computeNetworkError(h, target);
+      assertThat(error).isFinite();
+      assertThat(error).isGreaterThanOrEqualTo(0f);
+    }
+
+    @Test
+    void shouldReturnNearZeroErrorForPerfectBoundaryPredictions() {
+      var h = new float[]{0f, 1f};
+      var target = new float[]{0f, 1f};
+
+      var error = loss.computeNetworkError(h, target);
+      assertThat(error).isFinite();
+      assertThat(error).isCloseTo(0f, Offset.offset(0.01f));
     }
 
     @Test

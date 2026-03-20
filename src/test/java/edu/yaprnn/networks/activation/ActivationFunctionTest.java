@@ -255,6 +255,38 @@ class ActivationFunctionTest {
     }
 
     @Test
+    void shouldHandleLargeInputsWithoutOverflow() {
+      var h = fn.apply(new float[]{100f, 200f, 300f});
+      var sum = 0f;
+      for (var v : h) {
+        assertThat(v).isFinite();
+        sum += v;
+      }
+      assertThat(sum).isCloseTo(1f, PRECISION);
+      // Largest input should dominate
+      assertThat(h[2]).isCloseTo(1f, PRECISION);
+    }
+
+    @Test
+    void shouldHandleLargeNegativeInputs() {
+      var h = fn.apply(new float[]{-100f, -200f, -300f});
+      var sum = 0f;
+      for (var v : h) {
+        assertThat(v).isFinite();
+        sum += v;
+      }
+      assertThat(sum).isCloseTo(1f, PRECISION);
+    }
+
+    @Test
+    void shouldHandleIdenticalInputs() {
+      var h = fn.apply(new float[]{5f, 5f, 5f});
+      for (var v : h) {
+        assertThat(v).isCloseTo(1f / 3f, PRECISION);
+      }
+    }
+
+    @Test
     void shouldFormatToString() {
       assertThat(fn.toString()).contains("SoftMax");
     }
