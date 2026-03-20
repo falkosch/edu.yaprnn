@@ -18,6 +18,8 @@ import edu.yaprnn.training.selectors.DataSelector;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -31,6 +33,7 @@ class MultiLayerNetworkTest {
   final LossFunction lossFunction = new HalfSquaredErrorLossFunction();
 
   final TestGradientMatrixService gradientMatrixService = new TestGradientMatrixService();
+  final ExecutorService executor = Executors.newFixedThreadPool(1, Thread.ofVirtual().factory());
   Random random;
 
   MultiLayerNetwork network;
@@ -38,8 +41,8 @@ class MultiLayerNetworkTest {
 
   void train(int epochs) {
     for (var i = 0; i < epochs; i++) {
-      network.learnMiniBatch(gradientMatrixService, samples, dataSelector, 1, samples.size(), 0.2f,
-          0.2f, 0f, 0f);
+      network.learnMiniBatch(gradientMatrixService, executor, samples, dataSelector, 1,
+          samples.size(), 0.2f, 0.2f, 0f, 0f);
     }
   }
 
@@ -527,39 +530,47 @@ class MultiLayerNetworkTest {
     @Test
     void shouldThrowOnNullGradientMatrixService() {
       assertThatNullPointerException()
-          .isThrownBy(() -> validationNetwork.learnMiniBatch(null, List.of(), dataSelector, 1,
-              10, 0.1f, 0f, 0f, 0f))
+          .isThrownBy(() -> validationNetwork.learnMiniBatch(null, executor, List.of(),
+              dataSelector, 1, 10, 0.1f, 0f, 0f, 0f))
           .withMessageContaining("gradientMatrixService");
+    }
+
+    @Test
+    void shouldThrowOnNullExecutor() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, null,
+              List.of(), dataSelector, 1, 10, 0.1f, 0f, 0f, 0f))
+          .withMessageContaining("executor");
     }
 
     @Test
     void shouldThrowOnNullTrainingSamples() {
       assertThatNullPointerException()
-          .isThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, null,
-              dataSelector, 1, 10, 0.1f, 0f, 0f, 0f))
+          .isThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, executor,
+              null, dataSelector, 1, 10, 0.1f, 0f, 0f, 0f))
           .withMessageContaining("trainingSamples");
     }
 
     @Test
     void shouldThrowOnNullDataSelector() {
       assertThatNullPointerException()
-          .isThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, List.of(),
-              null, 1, 10, 0.1f, 0f, 0f, 0f))
+          .isThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, executor,
+              List.of(), null, 1, 10, 0.1f, 0f, 0f, 0f))
           .withMessageContaining("dataSelector");
     }
 
     @Test
     void shouldThrowOnInvalidMaxParallelism() {
-      assertThatThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, List.of(),
-          dataSelector, 0, 10, 0.1f, 0f, 0f, 0f))
+      assertThatThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, executor,
+          List.of(), dataSelector, 0, 10, 0.1f, 0f, 0f, 0f))
           .isInstanceOf(IllegalArgumentException.class)
           .hasMessageContaining("maxParallelism");
     }
 
     @Test
     void shouldThrowOnInvalidBatchSize() {
-      assertThatThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, List.of(),
-          dataSelector, 1, 0, 0.1f, 0f, 0f, 0f))
+      assertThatThrownBy(() -> validationNetwork.learnMiniBatch(gradientMatrixService, executor,
+          List.of(), dataSelector, 1, 0, 0.1f, 0f, 0f, 0f))
           .isInstanceOf(IllegalArgumentException.class)
           .hasMessageContaining("batchSize");
     }

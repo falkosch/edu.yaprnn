@@ -47,7 +47,7 @@ public class SamplesService {
             files -> {
               try {
                 soundSamplesConsumer.accept(audiosImportService.fromAiff(files));
-              } catch (Throwable throwable) {
+              } catch (Exception throwable) {
                 dialogsService.showError(parent, title, throwable);
               }
             }));
@@ -66,7 +66,7 @@ public class SamplesService {
     try {
       imageSamplesConsumer.accept(
           imagesImportService.fromImagesLabelsPackage(imagesPackage, labelsPackage));
-    } catch (Throwable throwable) {
+    } catch (Exception throwable) {
       dialogsService.showError(parent, ImportImagesPanel.TITLE, throwable);
     }
   }
@@ -76,7 +76,7 @@ public class SamplesService {
     try {
       imageSamplesConsumer.accept(
           imagesImportService.fromImagesLabelsPackage(imagesPackage, labelsPackage));
-    } catch (Throwable throwable) {
+    } catch (Exception throwable) {
       dialogsService.showError(parent, ImportImagesPanel.TITLE, throwable);
     }
   }

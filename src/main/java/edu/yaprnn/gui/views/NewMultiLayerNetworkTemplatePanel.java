@@ -136,7 +136,7 @@ public class NewMultiLayerNetworkTemplatePanel extends JPanel {
           consumer.accept(parameters);
           return;
         }
-      } catch (Throwable throwable) {
+      } catch (Exception throwable) {
         dialogsService.showError(parent, TITLE, throwable);
         return;
       }

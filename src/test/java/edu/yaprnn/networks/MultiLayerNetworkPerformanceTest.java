@@ -12,6 +12,8 @@ import edu.yaprnn.training.selectors.ClassifierDataSelector;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,7 @@ class MultiLayerNetworkPerformanceTest {
           LayerTemplate.builder().size(999).activationFunction(sigmoid).build()))
       .build();
   final TestGradientMatrixService gradientMatrixService = new TestGradientMatrixService();
+  final ExecutorService executor = Executors.newFixedThreadPool(1, Thread.ofVirtual().factory());
 
   Random random;
   List<SimpleSample> samples;
@@ -96,8 +99,8 @@ class MultiLayerNetworkPerformanceTest {
   }
 
   void learnMiniBatch() {
-    network.learnMiniBatch(gradientMatrixService, samples, dataSelector, 1, 10, 0.02f, 0.2f,
-        0.001f, 0.001f);
+    network.learnMiniBatch(gradientMatrixService, executor, samples, dataSelector, 1, 10, 0.02f,
+        0.2f, 0.001f, 0.001f);
   }
 
   final class TestGradientMatrixService extends GradientMatrixService {

@@ -51,7 +51,7 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 - Tree model: `NetworksTreeModel` for Swing JTree with lazy-loading node suppliers
 - Network creation: `MultiLayerNetworkTemplate` -> `MultiLayerNetwork` (builder pattern)
 - Training mode: chunked mini-batch learning (with momentum, L1/L2 regularization)
-- Gradient parallelism: batch partitioned into `maxParallelism` chunks, each accumulating in one pre-allocated buffer
+- Gradient parallelism: caller-provided `ExecutorService` reused across iterations; batch partitioned into `maxParallelism` chunks, each accumulating in one pre-allocated buffer
 
 ## Testing
 

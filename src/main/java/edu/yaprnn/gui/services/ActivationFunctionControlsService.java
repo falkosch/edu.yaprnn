@@ -35,7 +35,7 @@ public class ActivationFunctionControlsService {
         if (comboBox.getSelectedItem() instanceof ActivationFunction value) {
           consumer.accept(value);
         }
-      } catch (Throwable throwable) {
+      } catch (Exception throwable) {
         dialogsService.showError(comboBox, "Activation Function", throwable);
       }
     });

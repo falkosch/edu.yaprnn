@@ -34,7 +34,7 @@ public class LossFunctionControlsService {
         if (comboBox.getSelectedItem() instanceof LossFunction value) {
           consumer.accept(value);
         }
-      } catch (Throwable throwable) {
+      } catch (Exception throwable) {
         dialogsService.showError(comboBox, "Loss Function", throwable);
       }
     });

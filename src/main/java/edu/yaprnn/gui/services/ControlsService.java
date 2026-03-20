@@ -54,7 +54,7 @@ public class ControlsService {
             if (isSaveAction) {
               dialogsService.showFinished(parent, title);
             }
-          } catch (Throwable throwable) {
+          } catch (Exception throwable) {
             dialogsService.showError(parent, title, throwable);
           }
         }));

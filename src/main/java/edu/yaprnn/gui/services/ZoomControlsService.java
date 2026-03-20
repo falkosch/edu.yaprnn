@@ -31,7 +31,7 @@ public class ZoomControlsService {
       try {
         var text = String.valueOf(comboBox.getSelectedItem());
         consumer.accept(Double.parseDouble(text));
-      } catch (Throwable throwable) {
+      } catch (Exception throwable) {
         dialogsService.showError(comboBox, "Zoom", throwable);
       }
     });

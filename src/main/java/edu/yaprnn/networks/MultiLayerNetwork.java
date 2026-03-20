@@ -1,6 +1,5 @@
 package edu.yaprnn.networks;
 
-import static java.util.concurrent.Executors.newFixedThreadPool;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import edu.yaprnn.networks.activation.ActivationFunction;
@@ -13,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -142,9 +142,11 @@ public final class MultiLayerNetwork {
   }
 
   public void learnMiniBatch(GradientMatrixService gradientMatrixService,
-      List<? extends Sample> trainingSamples, DataSelector dataSelector, int maxParallelism,
-      int batchSize, float learningRate, float momentum, float decayL1, float decayL2) {
+      ExecutorService executor, List<? extends Sample> trainingSamples,
+      DataSelector dataSelector, int maxParallelism, int batchSize, float learningRate,
+      float momentum, float decayL1, float decayL2) {
     Objects.requireNonNull(gradientMatrixService, "gradientMatrixService");
+    Objects.requireNonNull(executor, "executor");
     Objects.requireNonNull(trainingSamples, "trainingSamples");
     Objects.requireNonNull(dataSelector, "dataSelector");
     if (maxParallelism < 1) {
@@ -160,7 +162,7 @@ public final class MultiLayerNetwork {
       chunkGradients[t] = gradientMatrixService.zeroMatrices(layerSizes);
     }
 
-    try (var executor = newFixedThreadPool(maxParallelism, Thread.ofVirtual().factory())) {
+    try {
       for (var batchStart = 0; batchStart < trainingSamples.size(); batchStart += batchSize) {
         var batchEnd = Math.min(batchStart + batchSize, trainingSamples.size());
         var batchSamples = trainingSamples.subList(batchStart, batchEnd);
@@ -208,7 +210,7 @@ public final class MultiLayerNetwork {
 
     var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
 
-    return samples.parallelStream().map(sample -> {
+    return samples.stream().map(sample -> {
       var layers = feedForward(dataSelector.input(sample), layerWeights);
       var h = Layer.output(layers).h();
 

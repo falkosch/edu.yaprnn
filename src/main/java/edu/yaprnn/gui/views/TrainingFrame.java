@@ -39,6 +39,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -381,9 +382,12 @@ public class TrainingFrame extends JFrame {
 
     @Override
     protected MultiLayerNetwork doInBackground() {
-      train((samples, dataSelector, iteration, learningRate) ->
-          multiLayerNetwork.learnMiniBatch(gradientMatrixService, samples, dataSelector,
-              maxParallelism, batchSize, learningRate, momentum, decayL1, decayL2));
+      try (var executor = java.util.concurrent.Executors.newFixedThreadPool(maxParallelism,
+          Thread.ofVirtual().factory())) {
+        train((samples, dataSelector, iteration, learningRate) ->
+            multiLayerNetwork.learnMiniBatch(gradientMatrixService, executor, samples, dataSelector,
+                maxParallelism, batchSize, learningRate, momentum, decayL1, decayL2));
+      }
       return multiLayerNetwork;
     }
 
@@ -440,10 +444,12 @@ public class TrainingFrame extends JFrame {
         List<Sample> devTestSamples, DataSelector dataSelector) {
       var trainingAccuracy = multiLayerNetwork.computeAccuracy(samples, dataSelector);
       var devTestAccuracy = multiLayerNetwork.computeAccuracy(devTestSamples, dataSelector);
-      trainingError.add(trainingError.getItemCount(), trainingAccuracy.error());
-      trainingHitRate.add(trainingHitRate.getItemCount(), trainingAccuracy.hits());
-      devTestError.add(devTestError.getItemCount(), devTestAccuracy.error());
-      devTestHitRate.add(devTestHitRate.getItemCount(), devTestAccuracy.hits());
+      SwingUtilities.invokeLater(() -> {
+        trainingError.add(trainingError.getItemCount(), trainingAccuracy.error());
+        trainingHitRate.add(trainingHitRate.getItemCount(), trainingAccuracy.hits());
+        devTestError.add(devTestError.getItemCount(), devTestAccuracy.error());
+        devTestHitRate.add(devTestHitRate.getItemCount(), devTestAccuracy.hits());
+      });
 
       log.info(
           "[%s] lr=%s | training: accuracy=%s, error=%s | test: accuracy=%s, error=%s".formatted(

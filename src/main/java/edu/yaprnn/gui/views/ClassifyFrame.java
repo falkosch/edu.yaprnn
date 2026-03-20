@@ -42,6 +42,7 @@ import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
 
 @Singleton
+@lombok.extern.java.Log
 public class ClassifyFrame extends JFrame {
 
   public static final String TITLE = "Classify";
@@ -207,7 +208,8 @@ public class ClassifyFrame extends JFrame {
           get();
           layersTable.setModel(tableModel);
           outputReconstructionImagePanel.setImage(reconstruction);
-        } catch (Exception ignored) {
+        } catch (Exception exception) {
+          log.log(java.util.logging.Level.WARNING, "Classification failed", exception);
         } finally {
           classifyButton.setEnabled(true);
         }

@@ -74,7 +74,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
-import lombok.SneakyThrows;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
 
 @Singleton
@@ -163,10 +162,9 @@ public class MainFrame extends JFrame {
     return networksTree;
   }
 
-  @SneakyThrows
   void start(@Observes ContainerInitialized event) {
     initializeComponents();
-    EventQueue.invokeAndWait(() -> setVisible(true));
+    EventQueue.invokeLater(() -> setVisible(true));
   }
 
   private void initializeComponents() {
@@ -309,7 +307,7 @@ public class MainFrame extends JFrame {
   private void visitWebsite() {
     try {
       Desktop.getDesktop().browse(new URI("https://github.com/falkosch/edu.yaprnn"));
-    } catch (Throwable throwable) {
+    } catch (Exception throwable) {
       dialogsService.showError(this, "Visit code repository", throwable);
     }
   }
@@ -353,7 +351,10 @@ public class MainFrame extends JFrame {
   }
 
   private void resetMultiLayerNetwork() {
-    onMultiLayerNetworkSelectedRouter.getSelected().resetLayerWeights(gradientMatrixService);
+    var selected = onMultiLayerNetworkSelectedRouter.getSelected();
+    if (selected != null) {
+      selected.resetLayerWeights(gradientMatrixService);
+    }
   }
 
   private void setupDigitsScenario() {

@@ -43,7 +43,7 @@ public class SampleControlsService {
         } else {
           consumer.accept(Integer.parseInt(String.valueOf(value)));
         }
-      } catch (Throwable throwable) {
+      } catch (Exception throwable) {
         dialogsService.showError(spinner, "Resolution", throwable);
       }
     });
@@ -69,7 +69,7 @@ public class SampleControlsService {
         } else {
           consumer.accept(Double.parseDouble(String.valueOf(value)));
         }
-      } catch (Throwable throwable) {
+      } catch (Exception throwable) {
         dialogsService.showError(spinner, "Overlap", throwable);
       }
     });

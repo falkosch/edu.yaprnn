@@ -47,6 +47,10 @@ public final class AudiosImportService {
             "Expected big-endian audio format for file %s".formatted(file.getPath()));
       }
       var readSize = format.getFrameSize() * audioInput.getFrameLength();
+      if (readSize > Integer.MAX_VALUE) {
+        throw new IllegalArgumentException(
+            "Audio file too large: %s".formatted(file.getPath()));
+      }
       var rawData = new byte[(int) readSize];
       var readTotal = audioInput.read(rawData);
       if (readTotal < readSize) {

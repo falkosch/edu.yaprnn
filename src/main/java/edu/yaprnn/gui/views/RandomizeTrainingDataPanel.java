@@ -110,7 +110,7 @@ public class RandomizeTrainingDataPanel extends JPanel {
                   getSizePercentage(devTestSizeSpinnerNumberModel), dataSelector));
           return;
         }
-      } catch (Throwable throwable) {
+      } catch (Exception throwable) {
         dialogsService.showError(parent, TITLE, throwable);
         return;
       }

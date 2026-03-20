@@ -34,7 +34,7 @@ public class DataSelectorControlsService {
         if (comboBox.getSelectedItem() instanceof DataSelector value) {
           consumer.accept(value);
         }
-      } catch (Throwable throwable) {
+      } catch (Exception throwable) {
         dialogsService.showError(comboBox, "Data Selector", throwable);
       }
     });

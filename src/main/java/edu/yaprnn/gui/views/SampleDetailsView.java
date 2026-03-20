@@ -16,6 +16,7 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.sound.sampled.AudioSystem;
+import java.util.concurrent.atomic.AtomicReference;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent.Type;
 import javax.swing.BorderFactory;
@@ -27,8 +28,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingWorker;
 import lombok.Getter;
+import lombok.extern.java.Log;
 
-
+@Log
 public class SampleDetailsView {
 
   public static final String TITLE = "Sample Details";
@@ -201,7 +203,8 @@ public class SampleDetailsView {
           sampleMetaEditorPane.setText(metaDescription);
           previewImagePanel.setImage(originalPreview);
           subSampledPreviewImagePanel.setImage(inputPreview);
-        } catch (Exception ignored) {
+        } catch (Exception exception) {
+          log.log(java.util.logging.Level.WARNING, "Sample preview failed", exception);
         }
       }
     }.execute();
@@ -228,13 +231,13 @@ public class SampleDetailsView {
 
   private class PlayAudioSampleMouseAdapter extends MouseAdapter {
 
-    private Clip clip;
+    private final AtomicReference<Clip> clipRef = new AtomicReference<>();
 
     void stopClip() {
-      if (clip != null) {
-        clip.stop();
-        clip.close();
-        clip = null;
+      var c = clipRef.getAndSet(null);
+      if (c != null) {
+        c.stop();
+        c.close();
       }
     }
 
@@ -243,9 +246,9 @@ public class SampleDetailsView {
       stopClip();
 
       try {
-        clip = from(sample);
-      } catch (Throwable throwable) {
-        dialogsService.showError(SampleDetailsView.this.content, TITLE, throwable);
+        clipRef.set(from(sample));
+      } catch (Exception exception) {
+        dialogsService.showError(SampleDetailsView.this.content, TITLE, exception);
       }
     }
 
@@ -260,10 +263,7 @@ public class SampleDetailsView {
         clip.addLineListener(event -> {
           if (event.getType() == Type.STOP) {
             clip.close();
-
-            if (this.clip == clip) {
-              this.clip = null;
-            }
+            clipRef.compareAndSet(clip, null);
           }
         });
 
