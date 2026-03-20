@@ -407,10 +407,28 @@ public class TrainingFrame extends JFrame {
 
     private void train(java.util.concurrent.ExecutorService executor,
         LearnSamplesConsumer learnSamplesConsumer) {
-      var learningRateState = getLearningRateState();
+      Objects.requireNonNull(trainingData, "Training data must be selected");
+      Objects.requireNonNull(multiLayerNetwork, "Network must be selected");
+
       var dataSelector = trainingData.getDataSelector();
+      Objects.requireNonNull(dataSelector, "Training data has no data selector configured");
+
       var devTestSamples = repository.querySamplesByName(trainingData.getDevTestSampleNames());
       var trainingSamples = repository.querySamplesByName(trainingData.getTrainingSampleNames());
+
+      if (trainingSamples.isEmpty()) {
+        throw new IllegalStateException(
+            "Training sample set is empty. None of the configured sample names match loaded samples");
+      }
+      if (devTestSamples.isEmpty()) {
+        throw new IllegalStateException(
+            "Dev/test sample set is empty. None of the configured sample names match loaded samples");
+      }
+      if (learningRate <= 0f) {
+        throw new IllegalStateException("Learning rate must be greater than 0");
+      }
+
+      var learningRateState = getLearningRateState();
 
       var trainingError = trackError(executor, -1, learningRate, trainingSamples, devTestSamples,
           dataSelector);
