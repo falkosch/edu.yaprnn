@@ -1,6 +1,8 @@
 ---
 name: code-review
 description: Perform a comprehensive code review of the Java app. Finds cleanup opportunities, UI bugs, and general code improvements. Writes findings to .planning/ grouped by severity.
+rules:
+  - .claude/rules/code-quality.md
 ---
 
 Perform a code review of the Java application. Read all non-generated source files under
@@ -57,24 +59,9 @@ Use this template for each finding within a severity file:
 
 ## Rules
 
+- Use @.claude/rules/code-quality.md for coding guidelines
 - Read source files thoroughly before writing any findings. Use Explore agents for broad search
 - Do **not** review generated code (MapStruct `*Impl.java`, Lombok-generated methods)
 - Cross-reference with `troubleshooting/SKILL.md` to avoid documenting already-known issues
 - If a `.planning/` file already exists, consolidate the existing and the fresh findings, remove
   redundant ones
-- Code Quality:
-    - Files should not be bigger than 500 lines.
-    - Ideally, one class or record per file.
-    - Not more than 50 lines per method.
-    - Prefer composition to inheritance.
-    - Prefer immutable objects, e.g. records or value objects.
-    - Avoid preemptive abstraction with only low benefit.
-    - Prefer lombok annotations over boilerplate code.
-    - Prefer MapStruct to complex manual mapping.
-    - Use concise strategic comments.
-    - Use strategic logging for debugging.
-- Test Quality:
-    - Near 100% branch coverage wanted. GUI packages are exempt from this.
-    - Prefer simple tests following the Arrange-Act-Assert pattern.
-    - Use Mockito for mocking, jassert for assertions.
-    - Avoid abstractions in test code.

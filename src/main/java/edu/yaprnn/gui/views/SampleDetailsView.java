@@ -245,32 +245,35 @@ public class SampleDetailsView {
     public void mouseClicked(MouseEvent event) {
       stopClip();
 
+      var currentSample = SampleDetailsView.this.sample;
       try {
-        clipRef.set(from(sample));
+        clipRef.set(from(currentSample));
       } catch (Exception exception) {
         dialogsService.showError(SampleDetailsView.this.content, TITLE, exception);
       }
     }
 
     private Clip from(Sample sample) throws Exception {
-      if (sample == null) {
+      if (sample == null || sample.getFile() == null) {
         return null;
       }
 
       var clip = AudioSystem.getClip();
+      var stream = AudioSystem.getAudioInputStream(sample.getFile());
 
-      try (var stream = AudioSystem.getAudioInputStream(sample.getFile())) {
-        clip.addLineListener(event -> {
-          if (event.getType() == Type.STOP) {
-            clip.close();
-            clipRef.compareAndSet(clip, null);
+      clip.addLineListener(event -> {
+        if (event.getType() == Type.STOP) {
+          clip.close();
+          try {
+            stream.close();
+          } catch (java.io.IOException ignored) {
           }
-        });
+          clipRef.compareAndSet(clip, null);
+        }
+      });
 
-        clip.open(stream);
-        clip.start();
-      }
-
+      clip.open(stream);
+      clip.start();
       return clip;
     }
   }

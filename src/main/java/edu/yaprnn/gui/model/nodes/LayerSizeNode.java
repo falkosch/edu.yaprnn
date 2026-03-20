@@ -25,6 +25,14 @@ public class LayerSizeNode extends DefaultNode {
     this.layerTemplateSupplier = layerTemplateSupplier;
   }
 
+  @Override
+  public void applyValueChange(Object newValue) {
+    var template = multiLayerNetworkTemplateSupplier.get();
+    var layerTemplate = layerTemplateSupplier.get();
+    var layerIndex = template.getLayers().indexOf(layerTemplate);
+    template.getLayers().get(layerIndex).setSize((Integer) newValue);
+  }
+
   private static String labelFrom(LayerTemplate layerTemplate) {
     return "Size %d".formatted(layerTemplate.getSize());
   }

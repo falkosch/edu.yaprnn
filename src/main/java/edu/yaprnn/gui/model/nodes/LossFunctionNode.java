@@ -23,6 +23,11 @@ public class LossFunctionNode extends DefaultNode {
     this.multiLayerNetworkTemplateSupplier = multiLayerNetworkTemplateSupplier;
   }
 
+  @Override
+  public void applyValueChange(Object newValue) {
+    multiLayerNetworkTemplateSupplier.get().setLossFunction((LossFunction) newValue);
+  }
+
   private static String labelFrom(MultiLayerNetworkTemplate multiLayerNetworkTemplate) {
     return "L(x) %s".formatted(multiLayerNetworkTemplate.getLossFunction());
   }

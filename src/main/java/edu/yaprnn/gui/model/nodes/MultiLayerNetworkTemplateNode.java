@@ -26,6 +26,11 @@ public class MultiLayerNetworkTemplateNode extends DefaultNode {
     this.templateSupplier = templateSupplier;
   }
 
+  @Override
+  public void applyValueChange(Object newValue) {
+    templateSupplier.get().setName(String.valueOf(newValue));
+  }
+
   private static String labelFrom(MultiLayerNetworkTemplate template) {
     return template.getName();
   }

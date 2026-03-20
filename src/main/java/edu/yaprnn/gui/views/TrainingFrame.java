@@ -373,10 +373,7 @@ public class TrainingFrame extends JFrame {
     private final TrainingData trainingData;
     private final MultiLayerNetwork multiLayerNetwork;
 
-    private volatile boolean stopped = false;
-
     private void stop() {
-      stopped = true;
       super.cancel(true);
     }
 
@@ -433,17 +430,18 @@ public class TrainingFrame extends JFrame {
       var trainingError = trackError(executor, -1, learningRate, trainingSamples, devTestSamples,
           dataSelector);
 
-      for (var i = 0; i < maxIterations && trainingError > maxTrainingError && !stopped; i++) {
+      for (var i = 0; i < maxIterations && trainingError > maxTrainingError && !isCancelled(); i++) {
         var samples = shuffleService.shuffleList(trainingSamples);
-        var learningRate = learningRateState.current();
+        var currentLearningRate = learningRateState.current();
 
         var iteration = i;
         measureIterationTime(
-            () -> learnSamplesConsumer.accept(samples, dataSelector, iteration, learningRate));
+            () -> learnSamplesConsumer.accept(samples, dataSelector, iteration,
+                currentLearningRate));
 
         learningRateState = learningRateState.updateRate(trainingError);
-        trainingError = trackError(executor, iteration, learningRate, samples, devTestSamples,
-            dataSelector);
+        trainingError = trackError(executor, iteration, currentLearningRate, samples,
+            devTestSamples, dataSelector);
 
         onMultiLayerNetworkWeightsPreviewModifiedRouter.fireEvent();
       }

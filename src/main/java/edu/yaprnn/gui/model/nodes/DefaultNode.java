@@ -35,4 +35,9 @@ public non-sealed class DefaultNode implements ModelNode {
     thisRefresh();
     ModelNode.super.refresh();
   }
+
+  public void applyValueChange(Object newValue) {
+    throw new UnsupportedOperationException(
+        "Value change not supported for %s".formatted(getClass().getSimpleName()));
+  }
 }

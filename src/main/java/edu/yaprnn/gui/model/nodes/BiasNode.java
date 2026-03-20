@@ -22,6 +22,11 @@ public class BiasNode extends DefaultNode {
     this.multiLayerNetworkTemplateSupplier = multiLayerNetworkTemplateSupplier;
   }
 
+  @Override
+  public void applyValueChange(Object newValue) {
+    multiLayerNetworkTemplateSupplier.get().setBias((Float) newValue);
+  }
+
   private static String labelFrom(MultiLayerNetworkTemplate multiLayerNetworkTemplate) {
     return "Bias %s".formatted(multiLayerNetworkTemplate.getBias());
   }

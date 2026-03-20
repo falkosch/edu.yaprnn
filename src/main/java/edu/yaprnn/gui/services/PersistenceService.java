@@ -21,75 +21,67 @@ public class PersistenceService {
   ObjectMapper objectMapper;
 
   public void saveTrainingData(TrainingData trainingData, String path) {
-    try {
-      objectMapper.writeValue(new File(path), trainingData);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    write(() -> objectMapper.writeValue(new File(path), trainingData));
   }
 
   public TrainingData loadTrainingData(String path) {
-    try {
-      return objectMapper.readValue(new File(path), TrainingData.class);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    return read(() -> objectMapper.readValue(new File(path), TrainingData.class));
   }
 
   public TrainingData loadTrainingData(URL url) {
-    try {
-      return objectMapper.readValue(url, TrainingData.class);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    return read(() -> objectMapper.readValue(url, TrainingData.class));
   }
 
   public void saveMultiLayerNetworkTemplate(MultiLayerNetworkTemplate multiLayerNetworkTemplate,
       String path) {
-    try {
-      objectMapper.writeValue(new File(path), multiLayerNetworkTemplate);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    write(() -> objectMapper.writeValue(new File(path), multiLayerNetworkTemplate));
   }
 
   public MultiLayerNetworkTemplate loadMultiLayerNetworkTemplate(String path) {
-    try {
-      return objectMapper.readValue(new File(path), MultiLayerNetworkTemplate.class);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    return read(() -> objectMapper.readValue(new File(path), MultiLayerNetworkTemplate.class));
   }
 
   public MultiLayerNetworkTemplate loadMultiLayerNetworkTemplate(URL url) {
-    try {
-      return objectMapper.readValue(url, MultiLayerNetworkTemplate.class);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    return read(() -> objectMapper.readValue(url, MultiLayerNetworkTemplate.class));
   }
 
   public void saveMultiLayerNetwork(MultiLayerNetwork multiLayerNetwork, String path) {
-    try {
-      objectMapper.writeValue(new File(path), multiLayerNetwork);
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    write(() -> objectMapper.writeValue(new File(path), multiLayerNetwork));
   }
 
   public MultiLayerNetwork loadMultiLayerNetwork(String path) {
+    return read(() -> objectMapper.readValue(new File(path), MultiLayerNetwork.class));
+  }
+
+  public MultiLayerNetwork loadMultiLayerNetwork(URL url) {
+    return read(() -> objectMapper.readValue(url, MultiLayerNetwork.class));
+  }
+
+  private <T> T read(IOSupplier<T> supplier) {
     try {
-      return objectMapper.readValue(new File(path), MultiLayerNetwork.class);
+      return supplier.get();
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
   }
 
-  public MultiLayerNetwork loadMultiLayerNetwork(URL url) {
+  private void write(IORunnable runnable) {
     try {
-      return objectMapper.readValue(url, MultiLayerNetwork.class);
+      runnable.run();
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
+  }
+
+  @FunctionalInterface
+  interface IOSupplier<T> {
+
+    T get() throws IOException;
+  }
+
+  @FunctionalInterface
+  interface IORunnable {
+
+    void run() throws IOException;
   }
 }

@@ -1,10 +1,7 @@
 package edu.yaprnn.gui.model;
 
-import edu.yaprnn.gui.model.nodes.ActivationFunctionNode;
-import edu.yaprnn.gui.model.nodes.BiasNode;
-import edu.yaprnn.gui.model.nodes.LayerSizeNode;
+import edu.yaprnn.gui.model.nodes.DefaultNode;
 import edu.yaprnn.gui.model.nodes.LayerTemplateNode;
-import edu.yaprnn.gui.model.nodes.LossFunctionNode;
 import edu.yaprnn.gui.model.nodes.ModelNode;
 import edu.yaprnn.gui.model.nodes.MultiLayerNetworkNode;
 import edu.yaprnn.gui.model.nodes.MultiLayerNetworkTemplateNode;
@@ -12,8 +9,6 @@ import edu.yaprnn.gui.model.nodes.SampleNode;
 import edu.yaprnn.gui.model.nodes.TrainingDataNode;
 import edu.yaprnn.model.Repository;
 import edu.yaprnn.networks.MultiLayerNetwork;
-import edu.yaprnn.networks.activation.ActivationFunction;
-import edu.yaprnn.networks.loss.LossFunction;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import edu.yaprnn.samples.model.Sample;
@@ -175,62 +170,9 @@ public class NetworksTreeModel implements TreeModel {
 
   @Override
   public void valueForPathChanged(TreePath path, Object newValue) {
-    var component = path.getLastPathComponent();
-
-    switch (component) {
-      case TrainingDataNode node -> changeNameOfTrainingData(node, String.valueOf(newValue));
-      case MultiLayerNetworkTemplateNode node ->
-          changeNameOfMultiLayerNetworkTemplate(node, String.valueOf(newValue));
-      case BiasNode node -> changeBiasOfMultiLayerNetworkTemplate(node, (Float) newValue);
-      case LossFunctionNode node ->
-          changeLossFunctionOfMultiLayerNetworkTemplate(node, (LossFunction) newValue);
-      case LayerSizeNode node -> changeLayerSizeOfLayerTemplate(node, (Integer) newValue);
-      case ActivationFunctionNode node ->
-          changeActivationFunctionOfLayerTemplate(node, (ActivationFunction) newValue);
-      case MultiLayerNetworkNode node ->
-          changeNameOfMultiLayerNetwork(node, String.valueOf(newValue));
-      case null, default -> throw new UnsupportedOperationException(
-          "Update of unknown component: %s".formatted(component));
-    }
-
+    var component = (DefaultNode) path.getLastPathComponent();
+    component.applyValueChange(newValue);
     refreshNodes(path);
-  }
-
-  private void changeNameOfTrainingData(TrainingDataNode node, String newValue) {
-    node.getTrainingDataSupplier().get().setName(newValue);
-  }
-
-  private void changeNameOfMultiLayerNetworkTemplate(MultiLayerNetworkTemplateNode node,
-      String newValue) {
-    node.getTemplateSupplier().get().setName(newValue);
-  }
-
-  private void changeBiasOfMultiLayerNetworkTemplate(BiasNode node, float newValue) {
-    node.getMultiLayerNetworkTemplateSupplier().get().setBias(newValue);
-  }
-
-  private void changeLossFunctionOfMultiLayerNetworkTemplate(LossFunctionNode node,
-      LossFunction newValue) {
-    node.getMultiLayerNetworkTemplateSupplier().get().setLossFunction(newValue);
-  }
-
-  private void changeLayerSizeOfLayerTemplate(LayerSizeNode node, int newValue) {
-    var multiLayerNetworkTemplate = node.getMultiLayerNetworkTemplateSupplier().get();
-    var layerTemplate = node.getLayerTemplateSupplier().get();
-    var layerIndex = multiLayerNetworkTemplate.getLayers().indexOf(layerTemplate);
-    multiLayerNetworkTemplate.getLayers().get(layerIndex).setSize(newValue);
-  }
-
-  private void changeActivationFunctionOfLayerTemplate(ActivationFunctionNode node,
-      ActivationFunction newValue) {
-    var networkTemplate = node.getMultiLayerNetworkTemplateSupplier().get();
-    var layerTemplate = node.getLayerTemplateSupplier().get();
-    var layerIndex = networkTemplate.getLayers().indexOf(layerTemplate);
-    networkTemplate.getLayers().get(layerIndex).setActivationFunction(newValue);
-  }
-
-  private void changeNameOfMultiLayerNetwork(MultiLayerNetworkNode node, String newValue) {
-    node.getMultiLayerNetworkSupplier().get().setName(newValue);
   }
 
   public void refreshNodes(TreePath path) {

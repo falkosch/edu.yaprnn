@@ -29,6 +29,14 @@ public class ActivationFunctionNode extends DefaultNode {
     this.layerTemplateSupplier = layerTemplateSupplier;
   }
 
+  @Override
+  public void applyValueChange(Object newValue) {
+    var template = multiLayerNetworkTemplateSupplier.get();
+    var layerTemplate = layerTemplateSupplier.get();
+    var layerIndex = template.getLayers().indexOf(layerTemplate);
+    template.getLayers().get(layerIndex).setActivationFunction((ActivationFunction) newValue);
+  }
+
   private static String labelFrom(LayerTemplate layerTemplate) {
     return "f(x) %s".formatted(layerTemplate.getActivationFunction());
   }

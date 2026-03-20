@@ -48,10 +48,10 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 
 - Event routing: CDI `@Observes` with EventsRouter/EventsMapper
 - Repository: singleton `Repository` with grouped lookups, unmodifiable collection views
-- Tree model: `NetworksTreeModel` for Swing JTree with lazy-loading node suppliers
+- Tree model: `NetworksTreeModel` for Swing JTree with lazy-loading node suppliers; `DefaultNode.applyValueChange()` for polymorphic edits
 - Network creation: `MultiLayerNetworkTemplate` -> `MultiLayerNetwork` (builder pattern)
 - Training mode: chunked mini-batch learning (with momentum, L1/L2 regularization)
-- Gradient parallelism: caller-provided `ExecutorService` reused across iterations; batch partitioned into `maxParallelism` chunks with pipelined merge (`synchronized` accumulate as each chunk finishes); `computeAccuracy` also chunked across the same executor
+- Gradient parallelism: caller-provided `ExecutorService` reused across iterations; batch partitioned into `maxParallelism` chunks with pipelined merge (`synchronized` accumulate as each chunk finishes); calling thread uses dedicated buffer at index `maxParallelism` to avoid race with accumulator; `computeAccuracy` also chunked across the same executor
 - Caller-contributes pattern: submit N-1 tasks to executor, run chunk 0 on calling thread, then join
 
 ## Testing

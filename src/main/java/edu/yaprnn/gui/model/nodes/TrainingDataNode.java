@@ -22,6 +22,11 @@ public class TrainingDataNode extends DefaultNode {
     this.trainingDataSupplier = trainingDataSupplier;
   }
 
+  @Override
+  public void applyValueChange(Object newValue) {
+    trainingDataSupplier.get().setName(String.valueOf(newValue));
+  }
+
   private static String labelFrom(TrainingData trainingData) {
     var trainingSize = trainingData.getTrainingSampleNames().size();
     var devTestSize = trainingData.getDevTestSampleNames().size();

@@ -15,7 +15,8 @@ import javax.swing.table.DefaultTableModel;
 @Singleton
 public class VisualizationService {
 
-  private static final DecimalFormat TABLE_VALUE_FORMAT = new DecimalFormat(" 0.0###;-0.0###");
+  private static final ThreadLocal<DecimalFormat> TABLE_VALUE_FORMAT =
+      ThreadLocal.withInitial(() -> new DecimalFormat(" 0.0###;-0.0###"));
   private static final float[][] SCIENTIFIC_COLORS_BERLIN_LOOKUP = {
       // big negative
       {-1.25f, 158f, 176f, 255f},
@@ -170,6 +171,6 @@ public class VisualizationService {
   }
 
   public String formatTableValue(float value) {
-    return TABLE_VALUE_FORMAT.format(value);
+    return TABLE_VALUE_FORMAT.get().format(value);
   }
 }

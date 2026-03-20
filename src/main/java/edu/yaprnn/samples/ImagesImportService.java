@@ -92,7 +92,7 @@ public final class ImagesImportService {
   private float[] process(byte[] data) {
     var processed = new float[data.length];
     for (var i = 0; i < data.length; i++) {
-      processed[i] = (data[i] >= 0 ? data[i] : 128 + (data[i] & 0x7F)) / 255f;
+      processed[i] = (data[i] & 0xFF) / 255f;
     }
     return processed;
   }

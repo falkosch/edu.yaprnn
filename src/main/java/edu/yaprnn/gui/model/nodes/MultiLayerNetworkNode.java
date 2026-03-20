@@ -24,6 +24,11 @@ public class MultiLayerNetworkNode extends DefaultNode {
     this.multiLayerNetworkSupplier = multiLayerNetworkSupplier;
   }
 
+  @Override
+  public void applyValueChange(Object newValue) {
+    multiLayerNetworkSupplier.get().setName(String.valueOf(newValue));
+  }
+
   private static String labelFrom(MultiLayerNetwork multiLayerNetwork) {
     return multiLayerNetwork.getName();
   }

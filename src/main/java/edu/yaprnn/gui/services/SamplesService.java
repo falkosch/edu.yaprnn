@@ -5,6 +5,7 @@ import edu.yaprnn.samples.AudiosImportService;
 import edu.yaprnn.samples.ImagesImportService;
 import edu.yaprnn.samples.model.ImageSample;
 import edu.yaprnn.samples.model.Sample;
+import edu.yaprnn.samples.model.SimpleSample;
 import edu.yaprnn.samples.model.SoundSample;
 import edu.yaprnn.support.swing.DialogsService;
 import edu.yaprnn.support.swing.Images;
@@ -97,8 +98,9 @@ public class SamplesService {
     return switch (sample) {
       case ImageSample imageSample -> imageSample.subSample(resolution, overlap);
       case SoundSample soundSample -> soundSample.subSample(resolution, overlap);
-      case null, default ->
-          throw new UnsupportedOperationException("Unknowns sample type: %s".formatted(sample));
+      case SimpleSample simpleSample -> simpleSample;
+      case null ->
+          throw new UnsupportedOperationException("Unknown sample type: null");
     };
   }
 }
