@@ -31,7 +31,7 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 ## Architecture
 
 - **CDI (Weld SE)**: dependency injection, event-driven architecture
-- **Sealed interfaces**: ActivationFunction (12 impls), LossFunction (4 impls), Sample, ModelNode
+- **Sealed interfaces**: ActivationFunction (12 impls), LossFunction (4 impls), Sample (3 impls), ModelNode
 - **Records + Lombok @Builder**: immutable data objects
 - **MapStruct**: event/model mapping
 - **Virtual threads**: parallel training (GradientMatrixService)
@@ -54,7 +54,8 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 
 ## Testing
 
-- Test framework: JUnit 5 (Jupiter) + AssertJ
+- Test framework: JUnit 5 (Jupiter) + AssertJ + Mockito 5.23.0 (BOM)
+- Coverage: JaCoCo plugin, reports to `coverage/`, `ignoreFailures = true` (4 pre-existing XorCase failures)
 - Reproducibility: `TestGradientMatrixService` with seeded `Random`
 - Pattern: nested test classes per network topology
-- Run: `./gradlew test`
+- Run: `./gradlew test` (also generates JaCoCo report via `finalizedBy`)

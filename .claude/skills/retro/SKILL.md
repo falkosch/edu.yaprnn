@@ -1,7 +1,6 @@
 ---
 name: retro
 description: Review .claude/skills, CLAUDE.md files after a work session. Consolidate learnings, fix inconsistencies, reduce redundancies.
-disable-model-invocation: true
 ---
 
 After completing implementation or test work, review project documentation for gaps and

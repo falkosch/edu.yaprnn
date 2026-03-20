@@ -1,7 +1,6 @@
 ---
 name: run-tests
 description: Run the JUnit 5 test suite and report results
-disable-model-invocation: true
 ---
 
 Run the project tests and report results:
