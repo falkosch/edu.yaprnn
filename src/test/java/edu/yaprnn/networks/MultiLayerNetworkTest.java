@@ -87,11 +87,11 @@ class MultiLayerNetworkTest {
 
     @Test
     void shouldMinimizeTrainingErrorWhenTrained() {
-      var initial = network.computeAccuracy(samples, dataSelector);
+      var initial = network.computeAccuracy(executor, samples, dataSelector, 1);
 
       train(100);
 
-      var actual = network.computeAccuracy(samples, dataSelector);
+      var actual = network.computeAccuracy(executor, samples, dataSelector, 1);
       assertThat(actual.error()).isLessThan(initial.error());
     }
 
@@ -99,7 +99,7 @@ class MultiLayerNetworkTest {
     void shouldClassifyAllSamplesAccurately() {
       train(100);
 
-      var result = network.computeAccuracy(samples, dataSelector);
+      var result = network.computeAccuracy(executor, samples, dataSelector, 1);
       assertThat(result.hits()).isGreaterThan(0.9f);
     }
   }
@@ -154,11 +154,11 @@ class MultiLayerNetworkTest {
 
     @Test
     void shouldMinimizeTrainingErrorWhenTrained() {
-      var initial = network.computeAccuracy(samples, dataSelector);
+      var initial = network.computeAccuracy(executor, samples, dataSelector, 1);
 
       train(100);
 
-      var actual = network.computeAccuracy(samples, dataSelector);
+      var actual = network.computeAccuracy(executor, samples, dataSelector, 1);
       assertThat(actual.error()).isLessThan(initial.error());
     }
 
@@ -225,11 +225,11 @@ class MultiLayerNetworkTest {
 
     @Test
     void shouldMinimizeTrainingErrorWhenTrained() {
-      var initial = network.computeAccuracy(samples, dataSelector);
+      var initial = network.computeAccuracy(executor, samples, dataSelector, 1);
 
       train(100);
 
-      var actual = network.computeAccuracy(samples, dataSelector);
+      var actual = network.computeAccuracy(executor, samples, dataSelector, 1);
       assertThat(actual.error()).isLessThan(initial.error());
     }
 
@@ -300,11 +300,11 @@ class MultiLayerNetworkTest {
 
       @Test
       void shouldMinimizeTrainingErrorWhenTrained() {
-        var initial = network.computeAccuracy(samples, dataSelector);
+        var initial = network.computeAccuracy(executor, samples, dataSelector, 1);
 
         train(500);
 
-        var actual = network.computeAccuracy(samples, dataSelector);
+        var actual = network.computeAccuracy(executor, samples, dataSelector, 1);
         assertThat(actual.error()).isLessThan(initial.error());
       }
 
@@ -355,11 +355,11 @@ class MultiLayerNetworkTest {
 
       @Test
       void shouldMinimizeTrainingErrorWhenTrained() {
-        var initial = network.computeAccuracy(samples, dataSelector);
+        var initial = network.computeAccuracy(executor, samples, dataSelector, 1);
 
         train(500);
 
-        var actual = network.computeAccuracy(samples, dataSelector);
+        var actual = network.computeAccuracy(executor, samples, dataSelector, 1);
         assertThat(actual.error()).isLessThan(initial.error());
       }
 
@@ -411,11 +411,11 @@ class MultiLayerNetworkTest {
 
       @Test
       void shouldMinimizeTrainingErrorWhenTrained() {
-        var initial = network.computeAccuracy(samples, dataSelector);
+        var initial = network.computeAccuracy(executor, samples, dataSelector, 1);
 
         train(500);
 
-        var actual = network.computeAccuracy(samples, dataSelector);
+        var actual = network.computeAccuracy(executor, samples, dataSelector, 1);
         assertThat(actual.error()).isLessThan(initial.error());
       }
 
@@ -467,11 +467,11 @@ class MultiLayerNetworkTest {
 
       @Test
       void shouldMinimizeTrainingErrorWhenTrained() {
-        var initial = network.computeAccuracy(samples, dataSelector);
+        var initial = network.computeAccuracy(executor, samples, dataSelector, 1);
 
         train(1000);
 
-        var actual = network.computeAccuracy(samples, dataSelector);
+        var actual = network.computeAccuracy(executor, samples, dataSelector, 1);
         assertThat(actual.error()).isLessThan(initial.error());
       }
 
@@ -587,17 +587,32 @@ class MultiLayerNetworkTest {
         .build();
 
     @Test
+    void shouldThrowOnNullExecutor() {
+      assertThatNullPointerException()
+          .isThrownBy(() -> validationNetwork.computeAccuracy(null, List.of(), dataSelector, 1))
+          .withMessageContaining("executor");
+    }
+
+    @Test
     void shouldThrowOnNullSamples() {
       assertThatNullPointerException()
-          .isThrownBy(() -> validationNetwork.computeAccuracy(null, dataSelector))
+          .isThrownBy(() -> validationNetwork.computeAccuracy(executor, null, dataSelector, 1))
           .withMessageContaining("samples");
     }
 
     @Test
     void shouldThrowOnNullDataSelector() {
       assertThatNullPointerException()
-          .isThrownBy(() -> validationNetwork.computeAccuracy(List.of(), null))
+          .isThrownBy(() -> validationNetwork.computeAccuracy(executor, List.of(), null, 1))
           .withMessageContaining("dataSelector");
+    }
+
+    @Test
+    void shouldThrowOnInvalidMaxParallelism() {
+      assertThatThrownBy(
+          () -> validationNetwork.computeAccuracy(executor, List.of(), dataSelector, 0))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("maxParallelism");
     }
   }
 

@@ -34,7 +34,7 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 - **Sealed interfaces**: ActivationFunction (12 impls), LossFunction (4 impls), Sample (3 impls), ModelNode
 - **Records + Lombok @Builder**: immutable data objects
 - **MapStruct**: event/model mapping
-- **Virtual threads**: parallel training (MultiLayerNetwork.learnMiniBatch)
+- **Virtual threads**: parallel training and accuracy computation (MultiLayerNetwork)
 - **Float precision**: all network computations use `float[]`
 
 ## Conventions
@@ -51,7 +51,8 @@ notebooks/      Python Jupyter notebooks (TensorFlow, PyTorch, Flax, scikit-lear
 - Tree model: `NetworksTreeModel` for Swing JTree with lazy-loading node suppliers
 - Network creation: `MultiLayerNetworkTemplate` -> `MultiLayerNetwork` (builder pattern)
 - Training mode: chunked mini-batch learning (with momentum, L1/L2 regularization)
-- Gradient parallelism: caller-provided `ExecutorService` reused across iterations; batch partitioned into `maxParallelism` chunks, each accumulating in one pre-allocated buffer
+- Gradient parallelism: caller-provided `ExecutorService` reused across iterations; batch partitioned into `maxParallelism` chunks with pipelined merge (`synchronized` accumulate as each chunk finishes); `computeAccuracy` also chunked across the same executor
+- Caller-contributes pattern: submit N-1 tasks to executor, run chunk 0 on calling thread, then join
 
 ## Testing
 

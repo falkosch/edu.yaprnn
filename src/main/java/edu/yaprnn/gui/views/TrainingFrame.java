@@ -384,7 +384,7 @@ public class TrainingFrame extends JFrame {
     protected MultiLayerNetwork doInBackground() {
       try (var executor = java.util.concurrent.Executors.newFixedThreadPool(maxParallelism,
           Thread.ofVirtual().factory())) {
-        train((samples, dataSelector, iteration, learningRate) ->
+        train(executor, (samples, dataSelector, iteration, learningRate) ->
             multiLayerNetwork.learnMiniBatch(gradientMatrixService, executor, samples, dataSelector,
                 maxParallelism, batchSize, learningRate, momentum, decayL1, decayL2));
       }
@@ -405,13 +405,14 @@ public class TrainingFrame extends JFrame {
       }
     }
 
-    private void train(LearnSamplesConsumer learnSamplesConsumer) {
+    private void train(java.util.concurrent.ExecutorService executor,
+        LearnSamplesConsumer learnSamplesConsumer) {
       var learningRateState = getLearningRateState();
       var dataSelector = trainingData.getDataSelector();
       var devTestSamples = repository.querySamplesByName(trainingData.getDevTestSampleNames());
       var trainingSamples = repository.querySamplesByName(trainingData.getTrainingSampleNames());
 
-      var trainingError = trackError(-1, learningRate, trainingSamples, devTestSamples,
+      var trainingError = trackError(executor, -1, learningRate, trainingSamples, devTestSamples,
           dataSelector);
 
       for (var i = 0; i < maxIterations && trainingError > maxTrainingError && !stopped; i++) {
@@ -423,7 +424,8 @@ public class TrainingFrame extends JFrame {
             () -> learnSamplesConsumer.accept(samples, dataSelector, iteration, learningRate));
 
         learningRateState = learningRateState.updateRate(trainingError);
-        trainingError = trackError(iteration, learningRate, samples, devTestSamples, dataSelector);
+        trainingError = trackError(executor, iteration, learningRate, samples, devTestSamples,
+            dataSelector);
 
         onMultiLayerNetworkWeightsPreviewModifiedRouter.fireEvent();
       }
@@ -440,10 +442,13 @@ public class TrainingFrame extends JFrame {
       };
     }
 
-    private float trackError(int iteration, float learningRate, List<Sample> samples,
-        List<Sample> devTestSamples, DataSelector dataSelector) {
-      var trainingAccuracy = multiLayerNetwork.computeAccuracy(samples, dataSelector);
-      var devTestAccuracy = multiLayerNetwork.computeAccuracy(devTestSamples, dataSelector);
+    private float trackError(java.util.concurrent.ExecutorService executor, int iteration,
+        float learningRate, List<Sample> samples, List<Sample> devTestSamples,
+        DataSelector dataSelector) {
+      var trainingAccuracy = multiLayerNetwork.computeAccuracy(executor, samples, dataSelector,
+          maxParallelism);
+      var devTestAccuracy = multiLayerNetwork.computeAccuracy(executor, devTestSamples,
+          dataSelector, maxParallelism);
       SwingUtilities.invokeLater(() -> {
         trainingError.add(trainingError.getItemCount(), trainingAccuracy.error());
         trainingHitRate.add(trainingHitRate.getItemCount(), trainingAccuracy.hits());

@@ -80,6 +80,12 @@ assertThatThrownBy(() -> service.fromAiff(new File[]{file}))
     .isInstanceOf(IllegalArgumentException.class);
 ```
 
+### Lock-free multi-buffer gradient summation in applyGradients causes cache thrashing
+
+**Symptom:** CPU load drops from ~55% to ~24% after replacing pipelined `synchronized` merge with lock-free summation of all chunk gradient buffers in `applyGradients`.
+**Reason:** `applyGradients` iterates `chunkCount` separate `float[][]` buffers per weight (`chunkGradients[c][lw][w]`), causing cache-line thrashing across many arrays. The inner loop touches `chunkCount` distinct cache lines per iteration. This sequential multi-buffer scan is far slower than the pipelined merge which only reads 2 arrays at a time.
+**Resolution:** Keep the pipelined merge pattern: each chunk merges into `chunkGradients[0]` under `synchronized` as it finishes. `applyGradients` then reads a single accumulator — sequential, cache-friendly scan of 2 arrays (weights + gradients).
+
 ## Build
 
 ### Python not found on MSYS2/Windows

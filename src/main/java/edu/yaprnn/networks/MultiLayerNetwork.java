@@ -8,11 +8,10 @@ import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.training.selectors.DataSelector;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -156,7 +155,7 @@ public final class MultiLayerNetwork {
       throw new IllegalArgumentException("batchSize must be >= 1");
     }
 
-    // Pre-allocate per-chunk gradient buffers (P3 fix)
+    // Pre-allocate per-chunk gradient buffers
     var chunkGradients = new float[maxParallelism][][];
     for (var t = 0; t < maxParallelism; t++) {
       chunkGradients[t] = gradientMatrixService.zeroMatrices(layerSizes);
@@ -167,31 +166,32 @@ public final class MultiLayerNetwork {
         var batchEnd = Math.min(batchStart + batchSize, trainingSamples.size());
         var batchSamples = trainingSamples.subList(batchStart, batchEnd);
 
-        // Each chunk processes multiple samples, accumulating gradients in one buffer
         var chunkCount = Math.min(maxParallelism, batchSamples.size());
-        var chunkTasks = new ArrayList<Callable<float[][]>>(chunkCount);
-        for (var c = 0; c < chunkCount; c++) {
+
+        // Submit N-1 tasks to executor, run chunk 0 on the calling thread
+        var futures = new ArrayList<Future<?>>(chunkCount - 1);
+        for (var c = 1; c < chunkCount; c++) {
           var chunkStart = c * batchSamples.size() / chunkCount;
           var chunkEnd = (c + 1) * batchSamples.size() / chunkCount;
           var gradients = chunkGradients[c];
-          chunkTasks.add(() -> {
-            gradientMatrixService.zeroFillMatrices(gradients);
-            for (var s = chunkStart; s < chunkEnd; s++) {
-              var sample = batchSamples.get(s);
-              var input = dataSelector.input(sample);
-              var target = dataSelector.target(sample,
-                  activationFunctions[activationFunctions.length - 1]);
-              computeGradients(gradients, layerWeights, input, target);
+          futures.add(executor.submit(() -> {
+            computeChunkGradients(gradientMatrixService, gradients, batchSamples, dataSelector,
+                chunkStart, chunkEnd);
+            // Merge into accumulator under lock as soon as this chunk finishes
+            synchronized (chunkGradients[0]) {
+              gradientMatrixService.accumulateGradientsInPlace(chunkGradients[0], gradients);
             }
-            return gradients;
-          });
+          }));
         }
 
-        executor.invokeAll(chunkTasks);
+        // Calling thread computes chunk 0 (the accumulator)
+        var chunk0End = batchSamples.size() / chunkCount;
+        computeChunkGradients(gradientMatrixService, chunkGradients[0], batchSamples, dataSelector,
+            0, chunk0End);
 
-        // Merge chunk results — only maxParallelism buffers to reduce
-        for (var c = 1; c < chunkCount; c++) {
-          gradientMatrixService.accumulateGradientsInPlace(chunkGradients[0], chunkGradients[c]);
+        // Wait for all other chunks to finish (they already merged into chunkGradients[0])
+        for (var future : futures) {
+          future.get();
         }
 
         applyGradients(chunkGradients[0], layerWeights, batchSize, learningRate, momentum,
@@ -200,24 +200,88 @@ public final class MultiLayerNetwork {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new RuntimeException("Training interrupted", e);
+    } catch (java.util.concurrent.ExecutionException e) {
+      throw new RuntimeException("Training failed", e.getCause());
     }
   }
 
-  public AccuracyResult computeAccuracy(Collection<? extends Sample> samples,
-      DataSelector dataSelector) {
+  private void computeChunkGradients(GradientMatrixService gradientMatrixService,
+      float[][] gradients, List<? extends Sample> batchSamples, DataSelector dataSelector,
+      int chunkStart, int chunkEnd) {
+    gradientMatrixService.zeroFillMatrices(gradients);
+    for (var s = chunkStart; s < chunkEnd; s++) {
+      var sample = batchSamples.get(s);
+      var input = dataSelector.input(sample);
+      var target = dataSelector.target(sample,
+          activationFunctions[activationFunctions.length - 1]);
+      computeGradients(gradients, layerWeights, input, target);
+    }
+  }
+
+  public AccuracyResult computeAccuracy(ExecutorService executor,
+      List<? extends Sample> samples, DataSelector dataSelector, int maxParallelism) {
+    Objects.requireNonNull(executor, "executor");
     Objects.requireNonNull(samples, "samples");
     Objects.requireNonNull(dataSelector, "dataSelector");
+    if (maxParallelism < 1) {
+      throw new IllegalArgumentException("maxParallelism must be >= 1");
+    }
+    if (samples.isEmpty()) {
+      throw new java.util.NoSuchElementException("samples must not be empty");
+    }
 
     var outputActivationFunction = activationFunctions[activationFunctions.length - 1];
+    var chunkCount = Math.min(maxParallelism, samples.size());
 
-    return samples.stream().map(sample -> {
-      var layers = feedForward(dataSelector.input(sample), layerWeights);
-      var h = Layer.output(layers).h();
+    try {
+      // Submit N-1 chunk tasks to executor, run chunk 0 on the calling thread
+      var futures = new ArrayList<Future<AccuracyResult>>(chunkCount - 1);
+      for (var c = 1; c < chunkCount; c++) {
+        var chunkStart = c * samples.size() / chunkCount;
+        var chunkEnd = (c + 1) * samples.size() / chunkCount;
+        futures.add(executor.submit(
+            () -> computeChunkAccuracy(samples, dataSelector, outputActivationFunction,
+                chunkStart, chunkEnd)));
+      }
 
-      var target = dataSelector.target(sample, outputActivationFunction);
-      var error = lossFunction.computeNetworkError(h, target);
-      return AccuracyResult.from(h, target, error);
-    }).reduce(AccuracyResult::sum).map(AccuracyResult::average).orElseThrow();
+      // Calling thread computes chunk 0
+      var chunk0End = samples.size() / chunkCount;
+      var result = computeChunkAccuracy(samples, dataSelector, outputActivationFunction,
+          0, chunk0End);
+
+      // Collect results
+      for (var future : futures) {
+        result = AccuracyResult.sum(result, future.get());
+      }
+
+      return AccuracyResult.average(result);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new RuntimeException("Accuracy computation interrupted", e);
+    } catch (java.util.concurrent.ExecutionException e) {
+      throw new RuntimeException("Accuracy computation failed", e.getCause());
+    }
+  }
+
+  private AccuracyResult computeChunkAccuracy(List<? extends Sample> samples,
+      DataSelector dataSelector, ActivationFunction outputActivationFunction,
+      int chunkStart, int chunkEnd) {
+    var result = computeSampleAccuracy(samples.get(chunkStart), dataSelector,
+        outputActivationFunction);
+    for (var i = chunkStart + 1; i < chunkEnd; i++) {
+      result = AccuracyResult.sum(result,
+          computeSampleAccuracy(samples.get(i), dataSelector, outputActivationFunction));
+    }
+    return result;
+  }
+
+  private AccuracyResult computeSampleAccuracy(Sample sample, DataSelector dataSelector,
+      ActivationFunction outputActivationFunction) {
+    var layers = feedForward(dataSelector.input(sample), layerWeights);
+    var h = Layer.output(layers).h();
+    var target = dataSelector.target(sample, outputActivationFunction);
+    var error = lossFunction.computeNetworkError(h, target);
+    return AccuracyResult.from(h, target, error);
   }
 
   public Layer[] feedForward(Sample sample, DataSelector dataSelector) {
