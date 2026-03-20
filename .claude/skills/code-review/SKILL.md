@@ -13,8 +13,7 @@ Evaluate every file against these categories, in this order:
 1. **Cleanup**: things to clean up, compact, or simplify (dead code, redundant logic, verbose
    patterns, unused imports, naming inconsistencies)
 2. **UI handling**: bugs or issues in Swing/EDT/event handling (threading violations, resource
-   leaks,
-   missing guards, incorrect listener lifecycle)
+   leaks, missing guards, incorrect listener lifecycle)
 3. **General Java**: improvements in non-MLP application code (error handling, validation, API
    contracts, resource management, concurrency) — skip neural-network math
 
@@ -23,15 +22,16 @@ Evaluate every file against these categories, in this order:
 Write each finding to a markdown file in `.planning/` grouped by severity. Create one file per
 severity level, only if there are findings for that level:
 
-| File                              | Contents                                                         |
-|-----------------------------------|------------------------------------------------------------------|
-| `.planning/1-critical.md`         | Bugs causing incorrect behavior, data corruption, or crashes     |
-| `.planning/2-high.md`             | Correctness risks, thread-safety, reliability under load         |
-| `.planning/3-medium.md`           | Code quality, maintainability, minor improvements                |
-| `.planning/4-low.md`              | Style, naming, cleanup, nice-to-haves                            |
-| `.planning/5-performance.md`      | Performance bottlenecks, unnecessary allocations, scaling issues |
-| `.planning/6-regression.md`       | Changes that may have broken existing behavior                   |
-| `.planning/7-needs-validation.md` | Suspicious patterns that need manual verification                |
+| File                              | Contents                                                                                                           |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| `.planning/1-critical.md`         | Bugs causing incorrect behavior, data corruption, or crashes                                                       |
+| `.planning/2-high.md`             | Correctness risks, thread-safety, reliability under load                                                           |
+| `.planning/3-medium.md`           | Code quality, maintainability, minor improvements                                                                  |
+| `.planning/4-low.md`              | Style, naming, cleanup, nice-to-haves                                                                              |
+| `.planning/5-performance.md`      | Performance bottlenecks, unnecessary allocations, scaling issues                                                   |
+| `.planning/6-regression.md`       | Changes that may have broken existing behavior                                                                     |
+| `.planning/7-needs-validation.md` | Suspicious patterns that need manual verification                                                                  |
+| `.planning/8-network.md`          | Suggestions regarding MLP math/algorithm correctness (activation functions, gradient computation, loss  functions) |
 
 ### Finding format
 
@@ -48,8 +48,8 @@ Use this template for each finding within a severity file:
 **Fix**: Concrete suggestion, with code snippet if helpful.
 ```
 
-- Assign a short unique ID prefix per category: `C` for Cleanup, `U` for UI, `J` for Java,
-  `P` for Performance, `R` for Regression, `V` for Validation
+- Assign a short unique ID prefix per category: `C` for Cleanup, `U` for UI, `J` for Java,  `P` for
+  Performance, `R` for Regression, `V` for Validation
 - Number sequentially within each file (e.g., `C1`, `C2`, `U1`, `J1`)
 - Include the exact file path and line number
 - Keep the problem statement factual — no speculation
@@ -57,10 +57,17 @@ Use this template for each finding within a severity file:
 
 ## Rules
 
-- Read source files thoroughly before writing any findings. Use Explore agents for broad search.
+- Read source files thoroughly before writing any findings. Use Explore agents for broad search
 - Do **not** review generated code (MapStruct `*Impl.java`, Lombok-generated methods)
-- Do **not** review test files — only production code under `src/main/java/`
-- Do **not** flag MLP math/algorithm correctness (activation functions, gradient computation, loss
-  functions) — only review the surrounding Java code quality
 - Cross-reference with `troubleshooting/SKILL.md` to avoid documenting already-known issues
-- If a `.planning/` file already exists, overwrite it with fresh findings
+- If a `.planning/` file already exists, consolidate the existing and the fresh findings, remove
+  redundant ones
+- Code Quality:
+    - Files should not be bigger than 500 lines.
+    - Ideally, one class or record per file.
+    - Not more than 50 lines per method.
+    - Prefer lombok annotations over boilerplate code.
+    - Prefer MapStruct to complex manual mapping.
+    - Near 100% branch coverage wanted.
+    - Use concise strategic comments.
+    - Use strategic logging for debugging.
