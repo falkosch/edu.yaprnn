@@ -68,6 +68,6 @@ Use this template for each finding within a severity file:
     - Not more than 50 lines per method.
     - Prefer lombok annotations over boilerplate code.
     - Prefer MapStruct to complex manual mapping.
-    - Near 100% branch coverage wanted.
+    - Near 100% branch coverage wanted. GUI packages are exempt from this.
     - Use concise strategic comments.
     - Use strategic logging for debugging.
