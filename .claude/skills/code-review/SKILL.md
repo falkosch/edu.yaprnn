@@ -66,8 +66,15 @@ Use this template for each finding within a severity file:
     - Files should not be bigger than 500 lines.
     - Ideally, one class or record per file.
     - Not more than 50 lines per method.
+    - Prefer composition to inheritance.
+    - Prefer immutable objects, e.g. records or value objects.
+    - Avoid preemptive abstraction with only low benefit.
     - Prefer lombok annotations over boilerplate code.
     - Prefer MapStruct to complex manual mapping.
-    - Near 100% branch coverage wanted. GUI packages are exempt from this.
     - Use concise strategic comments.
     - Use strategic logging for debugging.
+- Test Quality:
+    - Near 100% branch coverage wanted. GUI packages are exempt from this.
+    - Prefer simple tests following the Arrange-Act-Assert pattern.
+    - Use Mockito for mocking, jassert for assertions.
+    - Avoid abstractions in test code.
