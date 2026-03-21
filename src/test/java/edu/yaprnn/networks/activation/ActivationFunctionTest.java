@@ -32,12 +32,11 @@ class ActivationFunctionTest {
     final LinearActivationFunction fn = new LinearActivationFunction();
 
     @Test
-    void shouldReturnCopyOfInput() {
+    void shouldReturnInputDirectly() {
       var v = new float[]{1f, -2f, 3f};
       var h = fn.apply(v);
 
-      assertThat(h).containsExactly(v);
-      assertThat(h).isNotSameAs(v);
+      assertThat(h).isSameAs(v);
     }
 
     @Test

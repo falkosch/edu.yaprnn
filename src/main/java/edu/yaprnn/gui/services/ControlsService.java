@@ -24,6 +24,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 @Singleton
 public class ControlsService {
 
+  private static final Color VALIDATION_ERROR_COLOR = new Color(255, 160, 160);
+
   @Inject
   DialogsService dialogsService;
   @Inject
@@ -36,7 +38,7 @@ public class ControlsService {
   }
 
   public Color validationColor(boolean valid) {
-    return valid ? SystemColor.text : new Color(255, 160, 160);
+    return valid ? SystemColor.text : VALIDATION_ERROR_COLOR;
   }
 
   public JMenuItem loadMenuItem(Component parent, String title,

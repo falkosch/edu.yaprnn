@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public final class ThresholdActivationFunction implements ActivationFunction {
 
-  private float threshold = 0.1f;
-  private float value = 0f;
+  private final float threshold = 0.1f;
+  private final float value = 0f;
 
   @Override
   public float[] apply(float[] v) {

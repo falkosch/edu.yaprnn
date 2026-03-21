@@ -9,7 +9,7 @@ public final class LinearActivationFunction implements ActivationFunction {
 
   @Override
   public float[] apply(float[] v) {
-    return Arrays.copyOf(v, v.length);
+    return v;
   }
 
   @Override

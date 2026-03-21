@@ -21,6 +21,8 @@ import lombok.Setter;
 @Getter
 public final class MultiLayerNetwork {
 
+  private static final int[] EMPTY_LAYER_SIZES = new int[0];
+
   private final int[] layerSizes;
   private final ActivationFunction[] activationFunctions;
   private final float bias;
@@ -140,10 +142,9 @@ public final class MultiLayerNetwork {
         nextLayerActivationFunction);
   }
 
-  public void learnMiniBatch(GradientMatrixService gradientMatrixService,
-      ExecutorService executor, List<? extends Sample> trainingSamples,
-      DataSelector dataSelector, int maxParallelism, int batchSize, float learningRate,
-      float momentum, float decayL1, float decayL2) {
+  public void learnMiniBatch(GradientMatrixService gradientMatrixService, ExecutorService executor,
+      List<? extends Sample> trainingSamples, DataSelector dataSelector, int maxParallelism,
+      int batchSize, float learningRate, float momentum, float decayL1, float decayL2) {
     Objects.requireNonNull(gradientMatrixService, "gradientMatrixService");
     Objects.requireNonNull(executor, "executor");
     Objects.requireNonNull(trainingSamples, "trainingSamples");
@@ -194,8 +195,8 @@ public final class MultiLayerNetwork {
           future.get();
         }
 
-        applyGradients(chunkGradients[0], layerWeights, batchSize, learningRate, momentum,
-            decayL1, decayL2);
+        applyGradients(chunkGradients[0], layerWeights, batchSize, learningRate, momentum, decayL1,
+            decayL2);
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
@@ -212,14 +213,13 @@ public final class MultiLayerNetwork {
     for (var s = chunkStart; s < chunkEnd; s++) {
       var sample = batchSamples.get(s);
       var input = dataSelector.input(sample);
-      var target = dataSelector.target(sample,
-          activationFunctions[activationFunctions.length - 1]);
+      var target = dataSelector.target(sample, activationFunctions[activationFunctions.length - 1]);
       computeGradients(gradients, layerWeights, input, target);
     }
   }
 
-  public AccuracyResult computeAccuracy(ExecutorService executor,
-      List<? extends Sample> samples, DataSelector dataSelector, int maxParallelism) {
+  public AccuracyResult computeAccuracy(ExecutorService executor, List<? extends Sample> samples,
+      DataSelector dataSelector, int maxParallelism) {
     Objects.requireNonNull(executor, "executor");
     Objects.requireNonNull(samples, "samples");
     Objects.requireNonNull(dataSelector, "dataSelector");
@@ -240,14 +240,14 @@ public final class MultiLayerNetwork {
         var chunkStart = c * samples.size() / chunkCount;
         var chunkEnd = (c + 1) * samples.size() / chunkCount;
         futures.add(executor.submit(
-            () -> computeChunkAccuracy(samples, dataSelector, outputActivationFunction,
-                chunkStart, chunkEnd)));
+            () -> computeChunkAccuracy(samples, dataSelector, outputActivationFunction, chunkStart,
+                chunkEnd)));
       }
 
       // Calling thread computes chunk 0
       var chunk0End = samples.size() / chunkCount;
-      var result = computeChunkAccuracy(samples, dataSelector, outputActivationFunction,
-          0, chunk0End);
+      var result = computeChunkAccuracy(samples, dataSelector, outputActivationFunction, 0,
+          chunk0End);
 
       // Collect results
       for (var future : futures) {
@@ -264,8 +264,8 @@ public final class MultiLayerNetwork {
   }
 
   private AccuracyResult computeChunkAccuracy(List<? extends Sample> samples,
-      DataSelector dataSelector, ActivationFunction outputActivationFunction,
-      int chunkStart, int chunkEnd) {
+      DataSelector dataSelector, ActivationFunction outputActivationFunction, int chunkStart,
+      int chunkEnd) {
     var result = computeSampleAccuracy(samples.get(chunkStart), dataSelector,
         outputActivationFunction);
     for (var i = chunkStart + 1; i < chunkEnd; i++) {
@@ -291,7 +291,7 @@ public final class MultiLayerNetwork {
   @Override
   public String toString() {
     return "%s (%s)".formatted(name,
-        Arrays.toString(Objects.requireNonNullElseGet(layerSizes, () -> new int[0])));
+        Arrays.toString(Objects.requireNonNullElse(layerSizes, EMPTY_LAYER_SIZES)));
   }
 
   @JsonPOJOBuilder(withPrefix = "")
