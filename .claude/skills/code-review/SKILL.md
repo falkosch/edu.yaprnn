@@ -21,8 +21,8 @@ Evaluate every file against these categories, in this order:
 
 ## Output format
 
-Write each finding to a markdown file in `.planning/` grouped by severity. Create one file per
-severity level, only if there are findings for that level:
+Write each finding to a Markdown file in `.planning/` grouped by severity. Create one file per
+severity level only if there are findings for that level:
 
 | File                              | Contents                                                                                                           |
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------------|
@@ -47,7 +47,7 @@ Use this template for each finding within a severity file:
 
 **Problem**: One-sentence description of what is wrong.
 
-**Fix**: Concrete suggestion, with code snippet if helpful.
+**Fix**: Concrete suggestion, with a code snippet if helpful.
 ```
 
 - Assign a short unique ID prefix per category: `C` for Cleanup, `U` for UI, `J` for Java,  `P` for

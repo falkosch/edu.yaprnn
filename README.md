@@ -6,7 +6,7 @@ settings, and training parameters.
 
 In the app, you create and train MLNs using MNIST digit images and vocal sound files.
 
-Our team of 5-6 students developed the original version for a machine learning course years ago. I
+Our team of 5–6 students developed the original version for a machine learning course years ago. I
 updated it to fix old issues. The original version is at
 the [yaprnn repository](https://code.google.com/archive/p/yaprnn/), and a minimally fixed version is
 on the `old-yaprnn` branch in this repository.
@@ -20,9 +20,9 @@ on the `old-yaprnn` branch in this repository.
 
 ### Load samples
 
-### Create training set
+### Create a training set
 
-### Create network template
+### Create a network template
 
 ### Create network
 
@@ -58,7 +58,7 @@ C4Component
 ## License and attributions
 
 `edu.yaprnn` is published
-under [Creative Commons 4.0 (CC BY-NC)](https://creativecommons.org/licenses/). It uses open source
+under [Creative Commons 4.0 (CC BY-NC)](https://creativecommons.org/licenses/). It uses open-source
 software published under multiple different licenses.
 
 The repository contains the [MNIST database](https://paperswithcode.com/dataset/mnist), which
