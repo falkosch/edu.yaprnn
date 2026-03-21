@@ -5,7 +5,6 @@ import edu.yaprnn.samples.model.Sample;
 import edu.yaprnn.support.Providers;
 import java.util.List;
 import java.util.function.Supplier;
-import javax.swing.Icon;
 import lombok.Getter;
 
 /**
@@ -16,9 +15,9 @@ public class SampleListNode extends DefaultNode {
 
   private final Supplier<List<Sample>> sampleListSupplier;
 
-  public SampleListNode(Supplier<Icon> iconSupplier, Supplier<String> labelSupplier,
+  public SampleListNode(Supplier<String> iconResourcePathSupplier, Supplier<String> labelSupplier,
       Supplier<List<Sample>> sampleListSupplier) {
-    super(iconSupplier, labelSupplier,
+    super(iconResourcePathSupplier, labelSupplier,
         Providers.mapped(sampleListSupplier, SampleListNode::childrenFrom));
     this.sampleListSupplier = sampleListSupplier;
   }

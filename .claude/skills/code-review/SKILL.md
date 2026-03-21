@@ -14,7 +14,7 @@ Evaluate every file against these categories, in this order:
 
 1. **Cleanup**: things to clean up, compact, or simplify (dead code, redundant logic, verbose
    patterns, unused imports, naming inconsistencies)
-2. **UI handling**: bugs or issues in Swing/EDT/event handling (threading violations, resource
+2. **UI handling**: bugs or issues in SWT/Display/event handling (threading violations, resource
    leaks, missing guards, incorrect listener lifecycle)
 3. **General Java**: improvements in non-MLP application code (error handling, validation, API
    contracts, resource management, concurrency) — skip neural-network math

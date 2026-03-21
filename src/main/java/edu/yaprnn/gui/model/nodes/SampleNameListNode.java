@@ -3,7 +3,6 @@ package edu.yaprnn.gui.model.nodes;
 import edu.yaprnn.support.Providers;
 import java.util.List;
 import java.util.function.Supplier;
-import javax.swing.Icon;
 import lombok.Getter;
 
 @Getter
@@ -11,9 +10,9 @@ public class SampleNameListNode extends DefaultNode {
 
   private final Supplier<List<String>> sampleNameListSupplier;
 
-  public SampleNameListNode(Supplier<Icon> iconSupplier, Supplier<String> labelSupplier,
-      Supplier<List<String>> sampleNameListSupplier) {
-    super(iconSupplier, labelSupplier,
+  public SampleNameListNode(Supplier<String> iconResourcePathSupplier,
+      Supplier<String> labelSupplier, Supplier<List<String>> sampleNameListSupplier) {
+    super(iconResourcePathSupplier, labelSupplier,
         Providers.mapped(sampleNameListSupplier, SampleNameListNode::childrenFrom));
     this.sampleNameListSupplier = sampleNameListSupplier;
   }

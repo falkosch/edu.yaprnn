@@ -86,6 +86,20 @@ assertThatThrownBy(() -> service.fromAiff(new File[]{file}))
 **Reason:** `applyGradients` iterates `chunkCount` separate `float[][]` buffers per weight (`chunkGradients[c][lw][w]`), causing cache-line thrashing across many arrays. The inner loop touches `chunkCount` distinct cache lines per iteration. This sequential multi-buffer scan is far slower than the pipelined merge which only reads 2 arrays at a time.
 **Resolution:** Keep the pipelined merge pattern: each chunk merges into `chunkGradients[0]` under `synchronized` as it finishes. `applyGradients` then reads a single accumulator — sequential, cache-friendly scan of 2 arrays (weights + gradients).
 
+## SWT/GUI
+
+### Widget is disposed when reading dialog values after close()
+
+**Symptom:** `SWTException: Widget is disposed` at `Text.getText()` after closing a modal dialog shell.
+**Reason:** `Shell.close()` disposes all child widgets. Code then tries to read `Text.getText()` on disposed widgets.
+**Resolution:** Use `shell.setVisible(false)` in the OK handler instead of `close()`. Loop with `while (shell.isVisible()) { if (!display.readAndDispatch()) display.sleep(); }`, read widget values, then call `shell.dispose()` in a finally block.
+
+### SWT Scale selection mapping for float ranges
+
+**Symptom:** Gamma slider always at max or doesn't map correctly to float range.
+**Reason:** SWT `Scale` is integer-only. Must map integer range to float range manually.
+**Resolution:** Map 0..1000 to -1.0..0.0: `var gamma = (scale.getSelection() - 1000) / 1000f;`. Set midpoint default with `scale.setSelection(500)`.
+
 ## Build
 
 ### Python not found on MSYS2/Windows

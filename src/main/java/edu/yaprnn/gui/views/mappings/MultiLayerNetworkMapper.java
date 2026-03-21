@@ -1,6 +1,6 @@
 package edu.yaprnn.gui.views.mappings;
 
-import edu.yaprnn.gui.views.NewMultiLayerNetworkPanel.Parameters;
+import edu.yaprnn.gui.views.mappings.NewMultiLayerNetworkParameters;
 import edu.yaprnn.networks.MultiLayerNetwork;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,5 +15,5 @@ public interface MultiLayerNetworkMapper {
   @Mapping(target = "lossFunction", expression = "java(parameters.multiLayerNetworkTemplate().getLossFunction())")
   @Mapping(target = "layerWeights", ignore = true)
   @Mapping(target = "previousLayerGradients", ignore = true)
-  MultiLayerNetwork toMultiLayerNetwork(Parameters parameters);
+  MultiLayerNetwork toMultiLayerNetwork(NewMultiLayerNetworkParameters parameters);
 }

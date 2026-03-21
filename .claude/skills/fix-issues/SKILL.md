@@ -18,7 +18,7 @@ For each issue ID in `$ARGUMENTS`:
 
 ## Finding resolution
 
-- UI findings (`U*`): fix the production code; no unit tests required (Swing EDT testing
+- UI findings (`U*`): fix the production code; no unit tests required (SWT/Display testing
   is out of scope), but add tests if the fix touches testable non-UI logic
 - Java findings (`J*`): fix and add unit tests covering the new/changed branches
 - Cleanup findings (`C*`): apply the cleanup; update or remove affected tests

@@ -3,7 +3,6 @@ package edu.yaprnn.gui.model.nodes;
 import edu.yaprnn.gui.model.NetworksTreeModel;
 import java.util.Collections;
 import java.util.List;
-import javax.swing.Icon;
 
 /**
  * Represents a node in the {@link NetworksTreeModel}.
@@ -12,7 +11,11 @@ public sealed interface ModelNode permits DefaultNode {
 
   String getLabel();
 
-  Icon getIcon();
+  String getIconResourcePath();
+
+  default ModelNode getParent() {
+    return null;
+  }
 
   default void refresh() {
     getChildren().forEach(ModelNode::refresh);

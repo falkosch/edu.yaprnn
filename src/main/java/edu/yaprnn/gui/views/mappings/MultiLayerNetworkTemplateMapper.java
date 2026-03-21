@@ -1,6 +1,6 @@
 package edu.yaprnn.gui.views.mappings;
 
-import edu.yaprnn.gui.views.NewMultiLayerNetworkTemplatePanel.Parameters;
+import edu.yaprnn.gui.views.mappings.NewMultiLayerNetworkTemplateParameters;
 import edu.yaprnn.networks.templates.LayerTemplate;
 import edu.yaprnn.networks.templates.MultiLayerNetworkTemplate;
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ import org.mapstruct.Named;
 public interface MultiLayerNetworkTemplateMapper {
 
   @Mapping(target = "layers", source = "parameters", qualifiedByName = "toLayerTemplates")
-  MultiLayerNetworkTemplate from(Parameters parameters);
+  MultiLayerNetworkTemplate from(NewMultiLayerNetworkTemplateParameters parameters);
 
   @Named("toLayerTemplates")
-  default List<LayerTemplate> toLayerTemplates(Parameters parameters) {
+  default List<LayerTemplate> toLayerTemplates(NewMultiLayerNetworkTemplateParameters parameters) {
     var layerTemplates = IntStream.range(0, parameters.layersCount())
         .mapToObj(_ -> toLayerTemplate(parameters))
         .toList();
@@ -26,5 +26,5 @@ public interface MultiLayerNetworkTemplateMapper {
   }
 
   @Mapping(target = "size", source = "layersSize")
-  LayerTemplate toLayerTemplate(Parameters parameters);
+  LayerTemplate toLayerTemplate(NewMultiLayerNetworkTemplateParameters parameters);
 }

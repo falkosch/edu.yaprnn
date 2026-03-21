@@ -3,6 +3,7 @@ package edu.yaprnn.gui.model.nodes;
 import edu.yaprnn.gui.services.IconsService;
 import edu.yaprnn.support.Providers;
 import edu.yaprnn.training.TrainingData;
+import edu.yaprnn.training.selectors.DataSelector;
 import java.util.Collections;
 import java.util.function.Supplier;
 import lombok.Getter;
@@ -17,6 +18,11 @@ public class DataSelectorNode extends DefaultNode {
         Providers.mapped(trainingDataSupplier, DataSelectorNode::labelFrom),
         Collections::emptyList);
     this.trainingDataSupplier = trainingDataSupplier;
+  }
+
+  @Override
+  public void applyValueChange(Object newValue) {
+    trainingDataSupplier.get().setDataSelector((DataSelector) newValue);
   }
 
   private static String labelFrom(TrainingData trainingData) {

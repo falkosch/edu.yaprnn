@@ -17,18 +17,13 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Stream;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
 
 /**
- * Displays a list of networks and a list samples in a {@link javax.swing.JTree}.
+ * Tree model for the networks tree. Manages repository mutations and triggers JFace tree refresh.
  *
- * <p>The tree model of the UI is as follows:
+ * <p>The tree structure is:
  * <pre>
  * RootNode (hidden)
  *   MultiLayerNetworkListNode
@@ -53,9 +48,7 @@ import javax.swing.tree.TreePath;
  * </pre>
  */
 @Singleton
-public class NetworksTreeModel implements TreeModel {
-
-  private final Collection<TreeModelListener> treeModelListeners = new HashSet<>();
+public class NetworksTreeModel {
 
   @Inject
   AllSamplesListNode allSamplesListNode;
@@ -63,6 +56,8 @@ public class NetworksTreeModel implements TreeModel {
   MultiLayerNetworkListNode multiLayerNetworkListNode;
   @Inject
   MultiLayerNetworkTemplateListNode multiLayerNetworkTemplateListNode;
+  @Inject
+  NetworksTreeRefreshService treeRefreshService;
   @Inject
   Repository repository;
   @Inject
@@ -118,12 +113,7 @@ public class NetworksTreeModel implements TreeModel {
   private void refreshNodes(ModelNode subRoot, ModelNode... nodeList) {
     subRoot.refresh();
     Arrays.stream(nodeList).forEach(ModelNode::refresh);
-    fireStructureChanged(
-        Stream.concat(Stream.of(rootNode, subRoot), Arrays.stream(nodeList)).toArray());
-  }
-
-  private void fireStructureChanged(Object[] path) {
-    treeModelListeners.forEach(x -> x.treeStructureChanged(new TreeModelEvent(this, path)));
+    treeRefreshService.asyncRefresh();
   }
 
   public void add(MultiLayerNetwork multiLayerNetwork) {
@@ -146,56 +136,6 @@ public class NetworksTreeModel implements TreeModel {
   public void removeMultiLayerNetworks(Collection<? extends MultiLayerNetwork> items) {
     repository.removeMultiLayerNetworks(items);
     refreshMultiLayerNetworkList();
-  }
-
-  @Override
-  public Object getRoot() {
-    return rootNode;
-  }
-
-  @Override
-  public Object getChild(Object parent, int index) {
-    return parent instanceof ModelNode parentModelNode ? parentModelNode.getChild(index) : null;
-  }
-
-  @Override
-  public int getChildCount(Object parent) {
-    return parent instanceof ModelNode parentModelNode ? parentModelNode.getChildCount() : 0;
-  }
-
-  @Override
-  public boolean isLeaf(Object node) {
-    return !(node instanceof ModelNode modelNode) || modelNode.isLeaf();
-  }
-
-  @Override
-  public void valueForPathChanged(TreePath path, Object newValue) {
-    var component = (DefaultNode) path.getLastPathComponent();
-    component.applyValueChange(newValue);
-    refreshNodes(path);
-  }
-
-  public void refreshNodes(TreePath path) {
-    Arrays.stream(path.getPath()).map(ModelNode.class::cast).forEach(ModelNode::refresh);
-    fireStructureChanged(path.getPath());
-  }
-
-  @Override
-  public int getIndexOfChild(Object parent, Object child) {
-    if (parent instanceof ModelNode parentModelNode && child instanceof ModelNode childModelNode) {
-      return parentModelNode.getIndexOf(childModelNode);
-    }
-    return -1;
-  }
-
-  @Override
-  public void addTreeModelListener(TreeModelListener listener) {
-    treeModelListeners.add(listener);
-  }
-
-  @Override
-  public void removeTreeModelListener(TreeModelListener listener) {
-    treeModelListeners.remove(listener);
   }
 
   public void add(TrainingData trainingData) {

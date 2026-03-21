@@ -14,7 +14,7 @@ public class AllSamplesListNode extends SampleListNode {
 
   @Inject
   public AllSamplesListNode(Repository repository, IconsService iconsService) {
-    super(Providers.constant(iconsService.sampleSetNodeIcon()),
+    super(Providers.constant(iconsService.sampleSetNodeIconResourcePath()),
         Providers.mapped(repository::getSamples, AllSamplesListNode::labelFrom),
         repository::getSamples);
   }
