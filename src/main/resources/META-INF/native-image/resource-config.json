@@ -1,0 +1,376 @@
+{
+  "resources": {
+    "includes": [
+      {
+        "pattern": "\\QMETA-INF/beans.xml\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/org.jboss.weld.enableUnsafeProxies\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/jakarta.enterprise.inject.build.compatible.spi.BuildCompatibleExtension\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/jakarta.enterprise.inject.spi.Extension\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/java.awt.im.spi.InputMethodDescriptor\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/java.lang.System$LoggerFinder\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/java.time.zone.ZoneRulesProvider\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/java.util.spi.ResourceBundleControlProvider\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/javax.sound.midi.spi.MidiFileReader\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/javax.sound.sampled.spi.AudioFileReader\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/javax.sound.sampled.spi.MixerProvider\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/javax.xml.stream.XMLInputFactory\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/javax.xml.validation.SchemaFactory\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/org.jboss.logging.LoggerProvider\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/org.jboss.weld.bootstrap.api.Service\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/org.jboss.weld.environment.deployment.discovery.DiscoveryStrategy\\E"
+      },
+      {
+        "pattern": "\\QMETA-INF/services/org.jboss.weld.module.WeldModule\\E"
+      },
+      {
+        "pattern": "\\Qbeans_1_0.xsd\\E"
+      },
+      {
+        "pattern": "\\Qbeans_1_1.xsd\\E"
+      },
+      {
+        "pattern": "\\Qbeans_2_0.xsd\\E"
+      },
+      {
+        "pattern": "\\Qdigits.idx1-ubyte\\E"
+      },
+      {
+        "pattern": "\\Qdigits.idx3-ubyte\\E"
+      },
+      {
+        "pattern": "\\Qdigits.yaprnn-mln-template\\E"
+      },
+      {
+        "pattern": "\\Qdigits.yaprnn-training-data\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/buandesign-randomize.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-add.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-classify.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-edit.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-import-audio.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-import-images.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-open.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-remove.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-reset.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-save.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-sub-sample.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-train.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/action/srip-visit.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/old/activation-function.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/old/dev-test-set-node.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/old/layer-size.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/old/sample-set-node.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/old/sample.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/old/training-data-node.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/old/training-set-node.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/symbols/afif-fudin-layer.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/symbols/mayor-icons-layer-template.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/symbols/mayor-icons-network-template.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/symbols/srip-node.png\\E"
+      },
+      {
+        "pattern": "\\Qedu/yaprnn/gui/views/symbols/vectorslab-network.png\\E"
+      },
+      {
+        "pattern": "\\Qjcommon.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg.jboss.weld.bootstrap.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg.jboss.weld.executor.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/base/jcommon.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/chart/LocalizationBundle.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/chart/LocalizationBundle_de.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/chart/LocalizationBundle_de_DE.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/chart/plot/LocalizationBundle.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/chart/plot/LocalizationBundle_de.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/chart/plot/LocalizationBundle_de_DE.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/chart/resources/JFreeChartResources_de.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/chart/resources/JFreeChartResources_de_DE.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/resources/JCommonResources_de.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/resources/JCommonResources_de_DE.properties\\E"
+      },
+      {
+        "pattern": "\\Qorg/jfree/ui/about/lgpl-2.1.txt\\E"
+      },
+      {
+        "pattern": "\\Qweld-build.properties\\E"
+      },
+      {
+        "pattern": "\\Qweld.properties\\E"
+      },
+      {
+        "pattern": "\\Qweld_1_1.xsd\\E"
+      },
+      {
+        "pattern": "java.base:\\Qjava/util/currency.data\\E"
+      },
+      {
+        "pattern": "java.base:\\Qsun/net/www/content-types.properties\\E"
+      },
+      {
+        "pattern": "java.base:\\Qsun/text/resources/LineBreakIteratorData\\E"
+      },
+      {
+        "pattern": "java.base:\\Qsun/text/resources/WordBreakIteratorData\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qcom/sun/swing/internal/plaf/basic/resources/basic_de_DE.properties\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qcom/sun/swing/internal/plaf/metal/resources/metal_de_DE.properties\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/collapsed-rtl.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/collapsed.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/computer.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/directory.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/expanded.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/file.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/floppy.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/hardDrive.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/homeFolder.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/newFolder.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/question.png\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/plaf/metal/icons/ocean/upFolder.gif\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/text/html/default.css\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qjavax/swing/text/html/parser/html32.bdtd\\E"
+      },
+      {
+        "pattern": "java.desktop:\\Qsun/awt/resources/awt_de_DE.properties\\E"
+      },
+      {
+        "pattern": "java.logging:\\Qsun/util/logging/resources/logging_de_DE.properties\\E"
+      },
+      {
+        "pattern": "java.xml:\\Qcom/sun/org/apache/xerces/internal/impl/xpath/regex/message.properties\\E"
+      },
+      {
+        "pattern": "java.xml:\\Qcom/sun/org/apache/xerces/internal/impl/xpath/regex/message_de.properties\\E"
+      },
+      {
+        "pattern": "java.xml:\\Qcom/sun/org/apache/xerces/internal/impl/xpath/regex/message_de_DE.properties\\E"
+      },
+      {
+        "pattern": "java.xml:\\Qjdk/xml/internal/jdkcatalog/JDKCatalog.xml\\E"
+      }
+    ]
+  },
+  "bundles": [
+    {
+      "name": "com.sun.org.apache.xerces.internal.impl.xpath.regex.message",
+      "locales": [
+        "de-DE"
+      ]
+    },
+    {
+      "name": "com.sun.swing.internal.plaf.basic.resources.basic",
+      "locales": [
+        "de-DE"
+      ]
+    },
+    {
+      "name": "com.sun.swing.internal.plaf.metal.resources.metal",
+      "locales": [
+        "de-DE"
+      ]
+    },
+    {
+      "name": "org.jfree.chart.LocalizationBundle",
+      "locales": [
+        "de-DE"
+      ]
+    },
+    {
+      "name": "org.jfree.chart.plot.LocalizationBundle",
+      "locales": [
+        "de-DE"
+      ]
+    },
+    {
+      "name": "org.jfree.chart.resources.JFreeChartResources",
+      "locales": [
+        "de-DE"
+      ]
+    },
+    {
+      "name": "org.jfree.resources.JCommonResources",
+      "locales": [
+        "de-DE"
+      ]
+    },
+    {
+      "name": "sun.awt.resources.awt",
+      "locales": [
+        "de-DE"
+      ]
+    },
+    {
+      "name": "sun.text.resources.BreakIteratorInfo",
+      "locales": [
+        "und"
+      ]
+    },
+    {
+      "name": "sun.text.resources.BreakIteratorResources",
+      "locales": [
+        "de",
+        "de-DE",
+        "und"
+      ]
+    },
+    {
+      "name": "sun.text.resources.cldr.FormatData",
+      "locales": [
+        "de",
+        "de-DE",
+        "en",
+        "en-US",
+        "und"
+      ]
+    },
+    {
+      "name": "sun.util.resources.cldr.CalendarData",
+      "locales": [
+        "und"
+      ]
+    },
+    {
+      "name": "sun.util.resources.cldr.CurrencyNames",
+      "locales": [
+        "de",
+        "de-DE",
+        "und"
+      ]
+    }
+  ]
+}
